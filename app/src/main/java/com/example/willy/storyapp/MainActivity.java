@@ -10,7 +10,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
 
-    //HÄR HAR JAG KOMMENTERAT NÅGOT
+    //HÄR HAR JAG KOMMENTERAT NÅGOT, EXTRA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
