@@ -7,6 +7,14 @@
     tools:context="com.example.willy.storyapp2.StoryMode"
     android:background="@android:color/holo_blue_dark">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/theStory"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -19,5 +27,17 @@
         android:layout_marginTop="179dp"
         android:id="@+id/storyEditText"
         android:maxLength="150"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send"
+        android:id="@+id/sendStoryButton"
+        android:layout_marginTop="45dp"
+        android:layout_below="@+id/storyEditText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+
 
 </RelativeLayout>
