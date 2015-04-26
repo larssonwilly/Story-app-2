@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.StringTokenizer;
+
 public class StoryMode extends ActionBarActivity {
 
     //The elements of the activity
@@ -16,6 +18,7 @@ public class StoryMode extends ActionBarActivity {
     private TextView mEndOfStory;
     //Stringbuilder is a tool for handling strings, we use it for the append method
     private StringBuilder storyText = new StringBuilder("");
+    public static int MAX_LENGTH_VISIBLE = 60;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,7 @@ public class StoryMode extends ActionBarActivity {
                 String inputText = mEditStoryField.getText().toString();
                 Toast.makeText(StoryMode.this, "Send successful", Toast.LENGTH_LONG).show();
                 updateStory(inputText); //updates story
-                setStoryView(storyText); //set the "story view", which is the text field containing the last xx characters of the story
+                setStoryView(storyText); //set the "story view", which is the text field containing the last 60 characters of the story, checks if whole word
                 clearText(); //clears the text for new input
             }
         });
@@ -46,8 +49,26 @@ public class StoryMode extends ActionBarActivity {
     }
 
     public void setStoryView(StringBuilder storyText)  {
-        String lastWords = storyText.substring(Math.max(0, storyText.length() - 60));
-        mEndOfStory.setText(lastWords);
+        String lastCharsOfStory = storyText.substring(Math.max(0, storyText.length() - (MAX_LENGTH_VISIBLE + 1))); // we take the last 61 characters of the story
+
+        if(storyText.length() < 60) { //if the story is shorter than the max number of characters we want to show, show it
+            mEndOfStory.setText(lastCharsOfStory);
+        } else  {
+            String lastWordsOfStory = fixOnlyWords(lastCharsOfStory);
+            mEndOfStory.setText(lastWordsOfStory);
+        }
+
+    }
+
+    public String fixOnlyWords(String lastCharsOfStory) {
+        if(lastCharsOfStory.charAt(0) != ' ')   {
+            int iterator = 0;
+            while(lastCharsOfStory.charAt(iterator) != ' ')    {
+                iterator++;
+            }   return lastCharsOfStory.substring(iterator + 1, lastCharsOfStory.length());
+        }   else    {
+            return lastCharsOfStory;
+        }
     }
 
     public void clearText() {
