@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import java.util.StringTokenizer;
 
-// Yeay nu är jag också med och leker!
+// Yeay nu är jag också med och leker!!
 
 public class StoryMode extends ActionBarActivity {
 
