@@ -1,6 +1,7 @@
 package com.example.willy.storyapp2;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -21,6 +22,10 @@ public class MainActivity extends ActionBarActivity {
                 newActivity();
             }
         });
+
+        // The start screen music
+        final MediaPlayer startMusic = MediaPlayer.create(this, R.raw.luna_blanca_sunset);
+        startMusic.start();
     }
 
     // Tar oss från startskärmen till nästa skärm när startknappen klickas
