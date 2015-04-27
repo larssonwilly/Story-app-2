@@ -15,11 +15,11 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Objekt för att starta appens funktionalitet
+        // Start the functionality of the app
         Button start_button = (Button) findViewById(R.id.Start_button);
         start_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                newActivity();
+                startStory();
             }
         });
 
@@ -28,8 +28,8 @@ public class MainActivity extends ActionBarActivity {
         startMusic.start();
     }
 
-    // Tar oss från startskärmen till nästa skärm när startknappen klickas
-    public void newActivity() {
+    // Enters the StoryMode activity
+    public void startStory() {
 
         Intent intent = new Intent(this, StoryMode.class);
         startActivity(intent);

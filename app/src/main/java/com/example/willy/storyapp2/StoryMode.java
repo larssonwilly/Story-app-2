@@ -18,6 +18,7 @@ public class StoryMode extends ActionBarActivity {
     private EditText mEditStoryField;
     private Button mButton;
     private TextView mEndOfStory;
+
     //Stringbuilder is a tool for handling strings, we use it for the append method
     private StringBuilder storyText = new StringBuilder("");
     public static int MAX_LENGTH_VISIBLE = 60;
