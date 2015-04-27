@@ -57,7 +57,7 @@ public class StoryMode extends ActionBarActivity {
             String lastWordsOfStory = fixOnlyWords(lastCharsOfStory);
             mEndOfStory.setText(lastWordsOfStory);
         }
-
+// hej
     }
 
     public String fixOnlyWords(String lastCharsOfStory) {
