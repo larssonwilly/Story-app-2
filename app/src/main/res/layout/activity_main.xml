@@ -29,6 +29,7 @@
         android:layout_alignLeft="@+id/Start_button"
         android:layout_alignStart="@+id/Start_button" />
 
+    <!-- Minaretbilden -->
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
