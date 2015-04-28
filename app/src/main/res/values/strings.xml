@@ -1,10 +1,11 @@
 <resources>
-    <string name="app_name">Story App 2</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">Story Telling</string>
     <string name="action_settings">Settings</string>
     <string name="start_button">Start</string>
     <string name="title_activity_story_mode">StoryMode</string>
     <string name="edit_text">Write the story...</string> <!-- Textruta man skriver i när man är i skärm 2 -->
     <string name="About_button">ABOUT</string>
     <string name="picturM">Minaret</string>
+    <string name="ab_logout">Log out</string>
+    <string name="title_activity_authenticate">AuthenticateActivity</string>
 </resources>

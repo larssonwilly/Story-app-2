@@ -2,7 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.willy.storyapp2" >
 
+    <uses-sdk android:minSdkVersion="11" />
+
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <android:uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
 
     <application
         android:allowBackup="true"
@@ -20,7 +31,11 @@
         </activity>
         <activity
             android:name=".StoryMode"
-            android:label="@string/title_activity_story_mode" />
+            android:label="@string/app_name" />
+        <activity
+            android:name=".AuthenticateActivity"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>

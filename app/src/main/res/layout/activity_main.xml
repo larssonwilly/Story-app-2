@@ -9,38 +9,21 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/Start_button"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Start"
-        android:textColor="#ff000000" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="The Creators of the app"
-        android:id="@+id/Settings_button"
-        android:layout_below="@+id/Start_button"
-        android:layout_alignRight="@+id/Start_button"
-        android:layout_alignEnd="@+id/Start_button"
-        android:layout_alignLeft="@+id/Start_button"
-        android:layout_alignStart="@+id/Start_button" />
-
     <!-- Minaretbilden -->
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:layout_above="@+id/Start_button"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/p250px_minaret"
-        android:layout_alignParentTop="true"
-        android:contentDescription="@string/picturM"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log in"
+        android:id="@+id/Login"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign up"
+        android:id="@+id/Signup"
+        android:layout_below="@+id/Login"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>
