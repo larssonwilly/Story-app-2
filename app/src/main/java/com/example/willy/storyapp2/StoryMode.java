@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.Parse;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.StringTokenizer;
@@ -26,6 +27,7 @@ public class StoryMode extends ActionBarActivity {
 
     //Stringbuilder is a tool for handling strings, we use it for the append method
     private StringBuilder storyText = new StringBuilder("");
+    ParseObject storyTextServer = new ParseObject("Story");
     public static int MAX_LENGTH_VISIBLE = 60;
 
     @Override
@@ -37,6 +39,13 @@ public class StoryMode extends ActionBarActivity {
         mEditStoryField = (EditText) findViewById(R.id.storyEditText);
         mButton = (Button) findViewById(R.id.sendStoryButton);
         mEndOfStory = (TextView) findViewById(R.id.theStory);
+
+        /*
+
+        LOAD THE STORY
+         */
+
+
 
         //when the "send" button is clicked, we need to update the story, display the last bit of the story, clear the text for new input
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +63,8 @@ public class StoryMode extends ActionBarActivity {
 
     public void updateStory(String inputText)   {
         storyText.append(inputText + " ");
+        storyTextServer.put("story", storyText.toString());
+        storyTextServer.saveInBackground();
     }
 
     public void setStoryView(StringBuilder storyText)  {
