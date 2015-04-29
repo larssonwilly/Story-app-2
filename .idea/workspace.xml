@@ -15,10 +15,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2856dbb4-67b1-4bd9-9963-5ff65927847d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Dokumentation/Requirements/Functional Requirements" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/backend.iml" afterPath="$PROJECT_DIR$/backend/backend.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Story app.iws" />
@@ -2362,7 +2358,11 @@
       <created>1430047244075</created>
       <updated>1430047244075</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Funtional Requrements, mapp">
+      <created>1430291939637</created>
+      <updated>1430291939637</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -2420,7 +2420,8 @@
     <MESSAGE value="changed layout" />
     <MESSAGE value="changed some functionality" />
     <MESSAGE value="commented the code, made a clear text method" />
-    <option name="LAST_COMMIT_MESSAGE" value="commented the code, made a clear text method" />
+    <MESSAGE value="Funtional Requrements, mapp" />
+    <option name="LAST_COMMIT_MESSAGE" value="Funtional Requrements, mapp" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
