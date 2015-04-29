@@ -43,4 +43,28 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New ToggleButton"
+        android:id="@+id/music_button"
+        android:layout_below="@+id/Settings_button"
+        android:layout_alignRight="@+id/Settings_button"
+        android:layout_alignEnd="@+id/Settings_button" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Inspiring Music"
+        android:id="@+id/musicSettingsText"
+        android:layout_alignBottom="@+id/music_button"
+        android:layout_alignLeft="@+id/Settings_button"
+        android:layout_alignStart="@+id/Settings_button"
+        android:layout_alignTop="@+id/music_button"
+        android:layout_toLeftOf="@+id/music_button"
+        android:layout_toStartOf="@+id/music_button"
+        android:textColor="#fffcfffd" />
+
 </RelativeLayout>
