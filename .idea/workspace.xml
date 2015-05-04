@@ -14,8 +14,7 @@
     </shared>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2856dbb4-67b1-4bd9-9963-5ff65927847d" name="Default" comment="Mappar för dokumetation">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dokumentation/Sprint/Sprint 2" afterPath="$PROJECT_DIR$/Dokumentation/Sprint/Sprint 2" />
+    <list default="true" id="2856dbb4-67b1-4bd9-9963-5ff65927847d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Story app.iws" />
@@ -105,8 +104,8 @@
       <file leaf-file-name="Sprint 2" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Dokumentation/Sprint/Sprint 2">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.26243567" vertical-offset="0" max-vertical-offset="583">
-              <caret line="9" column="35" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
+            <state vertical-scroll-proportion="0.087478556" vertical-offset="0" max-vertical-offset="583">
+              <caret line="3" column="105" selection-start-line="3" selection-start-column="105" selection-end-line="3" selection-end-column="105" />
               <folding />
             </state>
           </provider>
@@ -2536,7 +2535,11 @@
       <created>1430725463253</created>
       <updated>1430725463253</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Mappar för dokumetation">
+      <created>1430725908607</created>
+      <updated>1430725908607</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -3045,8 +3048,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Dokumentation/Sprint/Sprint 2">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.26243567" vertical-offset="0" max-vertical-offset="583">
-          <caret line="9" column="35" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
+        <state vertical-scroll-proportion="0.087478556" vertical-offset="0" max-vertical-offset="583">
+          <caret line="3" column="105" selection-start-line="3" selection-start-column="105" selection-end-line="3" selection-end-column="105" />
           <folding />
         </state>
       </provider>

@@ -9,26 +9,34 @@ $db = new PDO('mysql:host=localhost;dbname=storytelling;charset=utf8', 'root',  
 
 
 switch ($_GET['action']) {
+
 	case 'createuser': 
+
 		$stmt = $db->query('INSERT INTO users () VALUES ()');
 		$stmt = $db->query('SELECT id FROM users ORDER BY id DESC LIMIT 1');
 		while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 		    echo $row['id'];
 		}
 		break;
+
 	case 'joincreate': //Checka om det finns en story att joina, annars skapas en ny. Appen får reda på om det finns någon eller inte och sen exekverar appen ett nytt kommando, join eller create.
 		$userid = $_GET['userid'];
 		
 		//Om join return true; (echo "true";)
 		//Om create return false; (echo "false";)
 		break;	
+
 	case 'createstory': //Create a new story
+
 		$name = $_GET['name'];
 		$stmt = $db->prepare("INSERT INTO stories (name) VALUES (:name)");
 		$stmt->bindValue(':name', $name, PDO::PARAM_STR);
 		$stmt->execute(); //execute is to update or change in a table
+
 		break;
+
 	case 'getstory': //Get the last post in a story
+
 		$storyid=$_GET['storyid'];
 		$stmt = $db->prepare("SELECT * FROM posts WHERE storyid=:id ORDER BY date DESC LIMIT 1 ");
 		$stmt->bindValue(':id', $storyid, PDO::PARAM_INT);
@@ -39,7 +47,9 @@ switch ($_GET['action']) {
 		}
 		
 		break;
+
 	case 'getfullstory': //Get a full story of your choice
+
 		$storyid=$_GET['storyid'];
 		$stmt = $db->prepare("SELECT * FROM posts WHERE storyid=:id ORDER BY date");
 		$stmt->bindValue(':id', $storyid, PDO::PARAM_INT);
@@ -48,8 +58,11 @@ switch ($_GET['action']) {
 		while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 		    echo $row['text'].'$$$';
 		}
+
 		break;
+
 	case 'getallstoriesbyuser': //Get all stories that user has been involved in
+
 		$userid=$_GET['userid'];
 		$stmt = $db->prepare("SELECT storyid FROM story_user WHERE userid=:id");
 		$stmt->bindValue(':id', $userid, PDO::PARAM_INT);
@@ -58,8 +71,10 @@ switch ($_GET['action']) {
 		while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 		    echo $row['storyid'].',';
 		}
+		break;
 
 	case 'postinastory': //Make a new post in a story 
+
 		$userid=$_GET['userid'];
 		$storyid=$_GET['storyid'];
 		$text=$_GET['text'];
@@ -68,6 +83,7 @@ switch ($_GET['action']) {
 		$stmt->bindValue(':userid', $userid, PDO::PARAM_INT);
 		$stmt->bindValue(':storyid', $storyid, PDO::PARAM_INT);
 		$stmt->execute(); //execute är till för att uppdatera eller ändra i databasen
+		
 		break;
 	default:
 		# code...
