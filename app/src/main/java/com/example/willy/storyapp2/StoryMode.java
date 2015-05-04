@@ -3,6 +3,7 @@ package com.example.willy.storyapp2;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,10 +13,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.text.ParseException;
 import java.util.StringTokenizer;
 
 public class StoryMode extends ActionBarActivity {
@@ -27,6 +31,7 @@ public class StoryMode extends ActionBarActivity {
 
     //Stringbuilder is a tool for handling strings, we use it for the append method
     private StringBuilder storyText = new StringBuilder("");
+    private String theStory = "";
     ParseObject storyTextServer = new ParseObject("Story");
     public static int MAX_LENGTH_VISIBLE = 60;
 
@@ -40,12 +45,7 @@ public class StoryMode extends ActionBarActivity {
         mButton = (Button) findViewById(R.id.sendStoryButton);
         mEndOfStory = (TextView) findViewById(R.id.theStory);
 
-        /*
-
-        LOAD THE STORY
-         */
-
-
+        getStory();
 
         //when the "send" button is clicked, we need to update the story, display the last bit of the story, clear the text for new input
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -54,21 +54,52 @@ public class StoryMode extends ActionBarActivity {
                 String inputText = mEditStoryField.getText().toString();
                 Toast.makeText(StoryMode.this, "Send successful", Toast.LENGTH_LONG).show();
                 updateStory(inputText); //updates story
-                setStoryView(storyText); //set the "story view", which is the text field containing the last 60 characters of the story, checks if whole word
                 clearText(); //clears the text for new input
             }
         });
 
     }
 
-    public void updateStory(String inputText)   {
-        storyText.append(inputText + " ");
-        storyTextServer.put("story", storyText.toString());
-        storyTextServer.saveInBackground();
+    public void getStory()  {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
+
+        // Retrieve the object by id
+        query.getInBackground("7QaY0rG71I", new GetCallback<ParseObject>() {
+            public void done(ParseObject storyTextServer, com.parse.ParseException e) {
+                if (e == null) {
+                    storyText.append(storyTextServer.getString("story")).toString();
+                    setStoryView(storyText); //set the "story view", which is the text field containing the last 60 characters of the story, checks if whole word
+                }
+            }
+
+        });
+
     }
 
-    public void setStoryView(StringBuilder storyText)  {
-        String lastCharsOfStory = storyText.substring(Math.max(0, storyText.length() - (MAX_LENGTH_VISIBLE + 1))); // we take the last 61 characters of the story
+    public void updateStory(final String inputText)  {
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
+
+        // Retrieve the object by id
+        query.getInBackground("7QaY0rG71I", new GetCallback<ParseObject>() {
+            public void done(ParseObject storyTextServer, com.parse.ParseException e) {
+                if (e == null) {
+
+                    // Now let's update it with some new data. In this case, only cheatMode and score
+                    // will get sent to the Parse Cloud. playerName hasn't changed.
+                    storyText.append(inputText + " ");
+                    storyTextServer.put("story", storyText.toString());
+                    storyTextServer.saveInBackground();
+
+                }
+            }
+
+        });
+
+    }
+
+    public void setStoryView(StringBuilder theStory)  {
+        String lastCharsOfStory = theStory.substring(Math.max(0, storyText.length() - (MAX_LENGTH_VISIBLE + 1))); // we take the last 61 characters of the story
 
         if(storyText.length() < 60) { //if the story is shorter than the max number of characters we want to show, show it
             mEndOfStory.setText(lastCharsOfStory);
