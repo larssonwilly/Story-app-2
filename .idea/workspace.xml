@@ -2225,7 +2225,11 @@
       <created>1430751762260</created>
       <updated>1430751762260</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="fixade hämtning/ändring av storyn för flera användare, pushar igen">
+      <created>1430752481397</created>
+      <updated>1430752481397</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
