@@ -1,0 +1,13 @@
+Vad ska göras?
+
+Bransches behöver struktureras upp då vi fick feedback om detta av Håkan förra veckan.
+Bugfix:
+    *Om bakåtpilen används från Story Mode så gfungerar inte knapparna i startskärmen utan man måste logga ut först. Detta behöver fixas.
+Vi skall konstruera test för att kunna testa appen för eventuella buggar.
+En logga för appen kommer att göras under veckan och koden som är skriven skall kommenteras klart.
+Vidare skall en screen göras där hela texten finns.
+Vad gäller server och databas så skall gruppen tillsammans med Håkan bestämma tillsammans
+vilken serverlösning gruppen skall gå vidare med.
+
+Hur gick det?
+
