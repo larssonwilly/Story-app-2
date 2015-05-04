@@ -1,0 +1,43 @@
+﻿<?php
+
+//Anslutningen till databasen
+//------------------------Server(localhost om du kör xampp)------username----password--------------------------------------//
+$db = new PDO('mysql:host=localhost;dbname=gustav;charset=utf8', 'root',        '', array(PDO::ATTR_EMULATE_PREPARES => false,
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+
+
+//------Hämtar alla rader i tabellen stories och skriver ut dom på sidan---------//
+$stmt = $db->query('SELECT * FROM stories');
+while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    echo 'ID:'.$row['id'].' TEXT:'.$row['text'].'<br/>';
+    //kolumnerna 'id' och 'text' används//
+}
+$stmt=null;
+//----------------------------------//
+
+//------Hämtar en specifik rad  i tabellen stories och skriver ut den på sidan---------//
+$id=1; //'id' används som key i tabellen, raden med 'id=1' hämtas
+$stmt = $db->prepare("SELECT * FROM stories WHERE id=?");
+$stmt->bindValue(1, $id, PDO::PARAM_INT);
+$stmt->execute();
+$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+echo 'ID:'.$rows[0]['id'].' TEXT:'.$rows[0]['text'];
+$stmt=null;
+//----------------------------------//
+
+//------Uppdaterar en rad i tabellen---------//
+$id=1;//ID att uppdatera
+$text="EXEMPEL"; //TEXT att uppdatera till
+$stmt = $db->prepare("UPDATE stories SET text=? WHERE id=?");
+$stmt->bindValue(2, $id, PDO::PARAM_INT);
+$stmt->bindValue(1, $text, PDO::PARAM_STR);
+$stmt->execute();
+//----------------------------------//
+
+
+
+
+
+
+
+?>
