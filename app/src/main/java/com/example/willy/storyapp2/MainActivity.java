@@ -29,17 +29,24 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         // Enable Local Datastore.
-//        Parse.enableLocalDatastore(this);
         Parse.initialize(this, "kis8UPt0FJqm7CTURn5FozaYh1gPbCC6tNtEt0dP", "sNqbugJaRddwJmpA5WBSsJQVFT5JbZddBawtfEI8");
 
         mLoginButton = (Button) findViewById(R.id.Login);
         mSignupButton = (Button) findViewById(R.id.Signup);
+
+        /*
+            if the user is logged in, go straight to the storyMode activity
+         */
 
         if (ParseUser.getCurrentUser() != null) {
             Intent intent = new Intent(this, StoryMode.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
+        /*
+            if the user is not logged in, we need to check if the sign up or log in button is pressed. Depending on what button is pressed
+            we will put LOGIN or SIGNUP with the intent, this will show on the button in the authenticate activity
+         */
         else {
             mLoginButton.setOnClickListener(new View.OnClickListener() {
                 @Override

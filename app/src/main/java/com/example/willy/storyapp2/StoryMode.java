@@ -45,15 +45,16 @@ public class StoryMode extends ActionBarActivity {
         mButton = (Button) findViewById(R.id.sendStoryButton);
         mEndOfStory = (TextView) findViewById(R.id.theStory);
 
+        //gets the story from the database so that it is possible to see what the last person wrote
         getStory();
 
         //when the "send" button is clicked, we need to update the story, display the last bit of the story, clear the text for new input
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String inputText = mEditStoryField.getText().toString();
+                String inputText = mEditStoryField.getText().toString(); //the text that the user writes
                 Toast.makeText(StoryMode.this, "Send successful", Toast.LENGTH_LONG).show();
-                updateStory(inputText); //updates story
+                updateStory(inputText); // updates story and sends to the database
                 clearText(); //clears the text for new input
             }
         });
@@ -63,11 +64,11 @@ public class StoryMode extends ActionBarActivity {
     public void getStory()  {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
 
-        // Retrieve the object by id
+        // Retrieve the object by id, at the moment the same story is loaded from the database for all users, but we want it to connect a story for particular users
         query.getInBackground("7QaY0rG71I", new GetCallback<ParseObject>() {
             public void done(ParseObject storyTextServer, com.parse.ParseException e) {
                 if (e == null) {
-                    storyText.append(storyTextServer.getString("story")).toString();
+                    storyText.append(storyTextServer.getString("story")).toString(); //load the story from the database and save it in local variable storyText
                     setStoryView(storyText); //set the "story view", which is the text field containing the last 60 characters of the story, checks if whole word
                 }
             }
@@ -80,14 +81,14 @@ public class StoryMode extends ActionBarActivity {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
 
-        // Retrieve the object by id
+        // Retrieve the story by id and update it, same problem as with getstory
         query.getInBackground("7QaY0rG71I", new GetCallback<ParseObject>() {
             public void done(ParseObject storyTextServer, com.parse.ParseException e) {
                 if (e == null) {
 
                     // Now let's update it with some new data. In this case, only cheatMode and score
                     // will get sent to the Parse Cloud. playerName hasn't changed.
-                    storyText.append(inputText + " ");
+                    storyText.append(inputText + " "); //update local variable storyText with input text from user
                     storyTextServer.put("story", storyText.toString());
                     storyTextServer.saveInBackground();
 
@@ -99,16 +100,22 @@ public class StoryMode extends ActionBarActivity {
     }
 
     public void setStoryView(StringBuilder theStory)  {
-        String lastCharsOfStory = theStory.substring(Math.max(0, storyText.length() - (MAX_LENGTH_VISIBLE + 1))); // we take the last 61 characters of the story
+        String lastCharsOfStory = theStory.substring(Math.max(0, storyText.length() - (MAX_LENGTH_VISIBLE + 1))); // we take the last 61 characters of the story, if the first character is a space then it will be only words
 
-        if(storyText.length() < 60) { //if the story is shorter than the max number of characters we want to show, show it
+        if(storyText.length() < 60) { //if the story is shorter than the max number of characters we want to show, show entire story
             mEndOfStory.setText(lastCharsOfStory);
-        } else  {
-            String lastWordsOfStory = fixOnlyWords(lastCharsOfStory);
+        } else  { //if the story is longer than 60 characters, we want to only show the last 60 characters
+            String lastWordsOfStory = fixOnlyWords(lastCharsOfStory); // if we "break" a word, we will need to fix the text so its only words, so we call the fixOnlyWords method
             mEndOfStory.setText(lastWordsOfStory);
         }
 
     }
+
+    /*
+        if the first character is a space, we know the lastCharsOfStory is only words, so we return it
+        but if the first character is not a space, this means that we will not include the first characters, which is not an entire word
+        so we iterate until a space is found, which means a new word is found and then we return the rest
+     */
 
     public String fixOnlyWords(String lastCharsOfStory) {
         if(lastCharsOfStory.charAt(0) != ' ')   {
