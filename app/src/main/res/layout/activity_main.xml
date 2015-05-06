@@ -17,6 +17,24 @@
         android:layout_centerVertical="true"
         android:text="Start"
         android:textColor="#ff000000" />
+    
+    <Button
+        android:id="@+id/Login"
+        android:text="Login"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        />
+
+    <Button
+        android:id="@+id/Signup"
+        android:text="@string/Signup"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Start_button"
+        android:layout_alignLeft="@+id/Start_button"
+        android:layout_alignStart="@+id/Start_button" />
 
     <Button
         android:layout_width="wrap_content"
@@ -24,10 +42,11 @@
         android:text="The Creators of the app"
         android:id="@+id/Settings_button"
         android:layout_below="@+id/Start_button"
-        android:layout_alignRight="@+id/Start_button"
-        android:layout_alignEnd="@+id/Start_button"
         android:layout_alignLeft="@+id/Start_button"
-        android:layout_alignStart="@+id/Start_button" />
+        android:layout_alignStart="@+id/Start_button"
+        android:layout_marginTop="46dp"
+        android:layout_alignRight="@+id/Signup"
+        android:layout_alignEnd="@+id/Signup" />
 
     <!-- Minaretbilden -->
     <ImageView
