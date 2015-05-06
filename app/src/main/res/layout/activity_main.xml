@@ -11,16 +11,17 @@
 
     <Button
         android:id="@+id/Start_button"
+        android:text="@string/start_button"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Start"
+
         android:textColor="#ff000000" />
     
     <Button
         android:id="@+id/Login"
-        android:text="Login"
+        android:text="@string/Login"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -39,7 +40,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="The Creators of the app"
+        android:text="@string/About_button"
         android:id="@+id/Settings_button"
         android:layout_below="@+id/Start_button"
         android:layout_alignLeft="@+id/Start_button"
