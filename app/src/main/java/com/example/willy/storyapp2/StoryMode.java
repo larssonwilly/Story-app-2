@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -20,6 +21,10 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 import java.util.StringTokenizer;
 
 public class StoryMode extends ActionBarActivity {
@@ -33,7 +38,8 @@ public class StoryMode extends ActionBarActivity {
     private StringBuilder storyText = new StringBuilder("");
     private String theStory = "";
     ParseObject storyTextServer = new ParseObject("Story");
-    public static int MAX_LENGTH_VISIBLE = 60;
+    public static int MAX_LENGTH_VISIBLE = 40;
+    public List<ParseObject> storyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +52,8 @@ public class StoryMode extends ActionBarActivity {
         mEndOfStory = (TextView) findViewById(R.id.theStory);
 
         //gets the story from the database so that it is possible to see what the last person wrote
-        getStory();
+
+       getRandomStory();
 
         //when the "send" button is clicked, we need to update the story, display the last bit of the story, clear the text for new input
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +65,51 @@ public class StoryMode extends ActionBarActivity {
                 clearText(); //clears the text for new input
             }
         });
+    }
+
+
+    //Loads all the stories as objects into storyList
+    public void loadAllStories() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
+        try {
+            storyList = query.find();
+        } catch (com.parse.ParseException e) {
+            e.printStackTrace();
+        } //TODO AsyncTask this. This code is ineffective and may slow down application.
+
+    }
+
+    public void getRandomStory() {
+
+
+
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
+        loadAllStories();
+        Random rng = new Random();
+        String storyID = "7QaY0rG71I"; //Default story
+
+
+        if (storyList != null){
+
+            int thisRng = rng.nextInt(storyList.size()-1);
+            storyID = storyList.get(thisRng).getObjectId();
+
+        }
+
+
+
+        // Retrieve the object by id, at the moment the same story is loaded from the database for all users, but we want it to connect a story for particular users
+        query.getInBackground(storyID, new GetCallback<ParseObject>() {
+            public void done(ParseObject storyTextServer, com.parse.ParseException e) {
+                if (e == null) {
+                    storyText.append(storyTextServer.getString("story")).toString(); //load the story from the database and save it in local variable storyText
+                    setStoryView(storyText); //set the "story view", which is the text field containing the last 60 characters of the story, checks if whole word
+                }
+            }
+
+        });
+
 
     }
 
