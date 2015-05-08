@@ -2341,7 +2341,11 @@
       <created>1431124310931</created>
       <updated>1431124310931</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Fixed some bugs regarding it not choosing the correct story">
+      <created>1431124338207</created>
+      <updated>1431124338207</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
