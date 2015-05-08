@@ -1,12 +1,14 @@
 package com.example.willy.storyapp2;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,6 +49,26 @@ public class StoryMode extends ActionBarActivity {
 
         //gets the story from the database so that it is possible to see what the last person wrote
         getStory();
+
+        // Indicates for the user that they have marked the textfield
+        // ToDo: Could use some improvement, for an example should the hint text continously blink until the user clicks somewhere else on the screen
+        mEditStoryField.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event){
+
+                // Renders the text white when its marked
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    mEditStoryField.setHintTextColor(Color.WHITE);
+                }
+
+                // Renders the text black when the user no longer presses the cursor onto the textfield
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    mEditStoryField.setHintTextColor(Color.BLACK);
+                }
+                return false;
+            }
+
+        });
 
         //when the "send" button is clicked, we need to update the story, display the last bit of the story, clear the text for new input
         mButton.setOnClickListener(new View.OnClickListener() {
