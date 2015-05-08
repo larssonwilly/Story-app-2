@@ -39,7 +39,8 @@ public class StoryMode extends ActionBarActivity {
     private String theStory = "";
     ParseObject storyTextServer = new ParseObject("Story");
     public static int MAX_LENGTH_VISIBLE = 40;
-    public List<ParseObject> storyList;
+    private List<ParseObject> storyList;
+    private String randStoryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,14 +94,14 @@ public class StoryMode extends ActionBarActivity {
         if (storyList != null){
 
             int thisRng = rng.nextInt(storyList.size()-1);
-            storyID = storyList.get(thisRng).getObjectId();
+            randStoryId = storyList.get(thisRng).getObjectId();
 
         }
 
 
 
         // Retrieve the object by id, at the moment the same story is loaded from the database for all users, but we want it to connect a story for particular users
-        query.getInBackground(storyID, new GetCallback<ParseObject>() {
+        query.getInBackground(randStoryId, new GetCallback<ParseObject>() {
             public void done(ParseObject storyTextServer, com.parse.ParseException e) {
                 if (e == null) {
                     storyText.append(storyTextServer.getString("story")).toString(); //load the story from the database and save it in local variable storyText
@@ -134,7 +135,7 @@ public class StoryMode extends ActionBarActivity {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
 
         // Retrieve the story by id and update it, same problem as with getstory
-        query.getInBackground("7QaY0rG71I", new GetCallback<ParseObject>() {
+        query.getInBackground(randStoryId, new GetCallback<ParseObject>() {
             public void done(ParseObject storyTextServer, com.parse.ParseException e) {
                 if (e == null) {
 
