@@ -114,7 +114,7 @@ public class StoryMode extends ActionBarActivity {
 
     }
 
-    public void getStory()  {
+    public void getDefaultStory()  {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
 
         // Retrieve the object by id, at the moment the same story is loaded from the database for all users, but we want it to connect a story for particular users
