@@ -20,9 +20,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile project(path: ':backend', configuration: 'android-endpoints')
     compile 'com.parse.bolts:bolts-android:1.+'
-    compile fileTree(dir: 'libs', include: 'Parse-*.jar')
+    compile fileTree(include: 'Parse-*.jar', dir: 'libs')
+    compile files('build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/libs/Parse-1.9.1.jar')
 }

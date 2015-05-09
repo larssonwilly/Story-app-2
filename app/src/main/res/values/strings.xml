@@ -6,6 +6,9 @@
     <string name="edit_text">Write the story...</string> <!-- Textruta man skriver i när man är i skärm 2 -->
     <string name="About_button">ABOUT</string>
     <string name="picturM">Minaret</string>
+    <string name="login">Login</string>
     <string name="ab_logout">Log out</string>
     <string name="title_activity_authenticate">AuthenticateActivity</string>
+    <string name="Login">Login</string>
+    <string name="Signup">Sign up</string>
 </resources>

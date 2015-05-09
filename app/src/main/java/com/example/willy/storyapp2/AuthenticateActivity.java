@@ -10,9 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.example.willy.storyapp2.R;
 import com.parse.LogInCallback;
+import com.parse.Parse;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import com.parse.ParseException;
