@@ -159,6 +159,8 @@ public class StoryMode extends ActionBarActivity {
 
         updateStory(inputText);
 
+        //TODO fix numbering!
+
     }
 
     public void setStoryView(StringBuilder theStory)  {
