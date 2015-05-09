@@ -11,16 +11,17 @@
 
     <Button
         android:id="@+id/Start_button"
+        android:text="@string/start_button"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Start"
+
         android:textColor="#ff000000" />
     
     <Button
         android:id="@+id/Login"
-        android:text="Login"
+        android:text="@string/Login"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -39,7 +40,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="The Creators of the app"
+        android:text="@string/About_button"
         android:id="@+id/Settings_button"
         android:layout_below="@+id/Start_button"
         android:layout_alignLeft="@+id/Start_button"
@@ -61,5 +62,26 @@
         android:contentDescription="@string/picturM"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Off"
+        android:id="@+id/music_button"
+        android:layout_below="@+id/Settings_button"
+        android:layout_alignRight="@+id/Settings_button"
+        android:layout_alignEnd="@+id/Settings_button" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Inspiring music"
+        android:id="@+id/textView"
+        android:layout_below="@+id/Settings_button"
+        android:layout_toLeftOf="@+id/music_button"
+        android:layout_toStartOf="@+id/music_button"
+        android:layout_alignBottom="@+id/music_button"
+        android:gravity="center_vertical|center" />
 
 </RelativeLayout>

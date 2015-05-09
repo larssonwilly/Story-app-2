@@ -33,7 +33,11 @@ public class AuthenticateActivity extends ActionBarActivity {
         mEmailField = (EditText) findViewById(R.id.emailEdit);
         mPasswordField = (EditText) findViewById(R.id.passwordEdit);
         mButton = (Button) findViewById(R.id.button1);
+
+        // Initializes the  progressbar for loading/waiting for the user of the app
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar1);
+        // Makes the progressbar invisible (We don't want it to show directly when the app screen shows)
+        mProgressBar.setVisibility(View.INVISIBLE);
 
         Bundle bundle = getIntent().getExtras();
         mAction = bundle.getString(MainActivity.TYPE);
@@ -42,13 +46,13 @@ public class AuthenticateActivity extends ActionBarActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mProgressBar.setVisibility(View.VISIBLE);
+
 
                 String username = mEmailField.getText().toString();
                 String password = mPasswordField.getText().toString();
 
                 if (mAction.equals(MainActivity.SIGNUP)) {
-
+                    mProgressBar.setVisibility(View.VISIBLE);
 					/*
 					 * Sign up using ParseUser
 					 */
@@ -56,21 +60,29 @@ public class AuthenticateActivity extends ActionBarActivity {
                     user.setUsername(username);
                     user.setPassword(password);
 
+                    // ToDO: Förklara vad nedanstående kod-stycket gör
                     user.signUpInBackground(new SignUpCallback() {
                         public void done(ParseException e) {
-                            mProgressBar.setVisibility(View.INVISIBLE);
+                            // Starts progressbar
+
                             if (e == null) {
                                 // Hooray! Let them use the app now.
                                 startActivity(new Intent(
                                         AuthenticateActivity.this,
                                         StoryMode.class));
+
                             } else {
                                 // Sign up didn't succeed. Look at the
                                 // ParseException to figure out what went wrong
+
                                 Toast.makeText(AuthenticateActivity.this,
                                         "Sign up failed! Try again.",
                                         Toast.LENGTH_LONG).show();
+                                // Sets progressbar invisible
+                                mProgressBar.setVisibility(View.INVISIBLE);
+
                             }
+
                         }
 
                     });
@@ -78,23 +90,30 @@ public class AuthenticateActivity extends ActionBarActivity {
 					/*
 					 * Login using ParseUser
 					 */
+
+
                     ParseUser.logInInBackground(username, password,
                             new LogInCallback() {
                                 public void done(ParseUser user,
                                                  ParseException e) {
-                                    mProgressBar.setVisibility(View.INVISIBLE);
+                                    // Shows progressbar
+                                    mProgressBar.setVisibility(View.VISIBLE);
                                     if (user != null) {
                                         // Hooray! The user is logged in.
                                         startActivity(new Intent(
                                                 AuthenticateActivity.this,
                                                 StoryMode.class));
                                     } else {
+                                        // Shows progressbar
+                                        mProgressBar.setVisibility(View.VISIBLE);
                                         // Login failed. Look at the
                                         // ParseException to see what happened.
                                         Toast.makeText(
                                                 AuthenticateActivity.this,
                                                 "Login failed! Try again.",
                                                 Toast.LENGTH_LONG).show();
+                                        // Sets progressbar invisible
+                                        mProgressBar.setVisibility(View.INVISIBLE);
                                     }
                                 }
                             });
