@@ -25,3 +25,7 @@ proguard/
 
 # Log Files
 *.log
+
+.idea
+backend/backend.iml
+app/app.iml
