@@ -15,17 +15,12 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
-import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.StringTokenizer;
 
 public class StoryMode extends ActionBarActivity {
 
@@ -55,7 +50,7 @@ public class StoryMode extends ActionBarActivity {
 
         //gets the story from the database so that it is possible to see what the last person wrote
 
-       getRandomStory();
+        getRandomStory();
 
         //when the "send" button is clicked, we need to update the story, display the last bit of the story, clear the text for new input
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +58,8 @@ public class StoryMode extends ActionBarActivity {
             public void onClick(View v) {
                 String inputText = mEditStoryField.getText().toString(); //the text that the user writes
                 Toast.makeText(StoryMode.this, "Send successful", Toast.LENGTH_LONG).show();
-                updateWrites(inputText); // updates story and sends to the database
+                postStory(inputText); // updates story and sends to the database
+                addTextToView(inputText);
                 clearText(); //clears the text for new input
             }
         });
@@ -88,13 +84,10 @@ public class StoryMode extends ActionBarActivity {
         String storyID = "7QaY0rG71I"; //Default story
 
 
-        if (storyList != null){
-
-            int thisRng = rng.nextInt(storyList.size()-1);
+        if (storyList != null) {
+            int thisRng = rng.nextInt(storyList.size() - 1);
             randStoryId = storyList.get(thisRng).getObjectId();
-
         }
-
 
 
         // Retrieve the object by id, at the moment the same story is loaded from the database for all users, but we want it to connect a story for particular users
@@ -111,7 +104,7 @@ public class StoryMode extends ActionBarActivity {
 
     }
 
-    public void getDefaultStory()  {
+    public void getDefaultStory() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
 
         // Retrieve the object by id, at the moment the same story is loaded from the database for all users, but we want it to connect a story for particular users
@@ -127,7 +120,7 @@ public class StoryMode extends ActionBarActivity {
 
     }
 
-    public void updateStory(final String inputText)  {
+    public void updateStory(final String inputText) {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
 
@@ -149,7 +142,7 @@ public class StoryMode extends ActionBarActivity {
 
     }
 
-    public void updateWrites(final String inputText)  {
+    public void postStory(final String inputText) {
 
         final ParseObject newPost = new ParseObject("Writes");
         newPost.put("storyPart", inputText);
@@ -159,14 +152,13 @@ public class StoryMode extends ActionBarActivity {
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("Writes");
         query.whereEqualTo("inStory", randStoryId);
 
-
-
+        //Creates a super awesome query!
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> retrievedList, com.parse.ParseException e) {
 
                 if (e == null) {
 
-                    if (retrievedList.size() > MAX_NUM_POSTS_IN_STORY){
+                    if (retrievedList.size() > MAX_NUM_POSTS_IN_STORY) {
                         Log.d("TooLong", "NÄ NU BLEV DET FAN FÖR MYCKET, LUGNA NER DIG!!!!");
                         //TODO Insert logic for too long story!
 
@@ -177,16 +169,16 @@ public class StoryMode extends ActionBarActivity {
                     for (ParseObject object : retrievedList) {
                         int numberInStory = object.getInt("numberInStory");
 
-                        if (maxNumber <= numberInStory){
+                        if (maxNumber <= numberInStory) {
                             maxNumber = numberInStory;
+                            maxNumber++;
                         }
 
-                        maxNumber++;
                         newPost.put("numberInStory", maxNumber);
                         newPost.saveInBackground();
 
 
-                    }//TODO make this solution more elegant
+                    }//TODO make this solution more elegant.
 
                 } else {
 
@@ -196,19 +188,24 @@ public class StoryMode extends ActionBarActivity {
 
 
         newPost.saveInBackground();
-
         updateStory(inputText);
-
-        //TODO fix numbering!
 
     }
 
-    public void setStoryView(StringBuilder theStory)  {
+    public void addTextToView(final String inputText) {
+
+        mEndOfStory.setText(mEndOfStory.getText() + " " + inputText);
+
+
+
+    }
+
+    public void setStoryView(StringBuilder theStory) {
         String lastCharsOfStory = theStory.substring(Math.max(0, storyText.length() - (MAX_LENGTH_VISIBLE + 1))); // we take the last 61 characters of the story, if the first character is a space then it will be only words
 
-        if(storyText.length() < MAX_LENGTH_VISIBLE) { //if the story is shorter than the max number of characters we want to show, show entire story
+        if (storyText.length() < MAX_LENGTH_VISIBLE) { //if the story is shorter than the max number of characters we want to show, show entire story
             mEndOfStory.setText(lastCharsOfStory);
-        } else  { //if the story is longer than 60 characters, we want to only show the last 60 characters
+        } else { //if the story is longer than 60 characters, we want to only show the last 60 characters
             String lastWordsOfStory = fixOnlyWords(lastCharsOfStory); // if we "break" a word, we will need to fix the text so its only words, so we call the fixOnlyWords method
             mEndOfStory.setText(lastWordsOfStory);
         }
@@ -222,12 +219,13 @@ public class StoryMode extends ActionBarActivity {
      */
 
     public String fixOnlyWords(String lastCharsOfStory) {
-        if(lastCharsOfStory.charAt(0) != ' ')   {
+        if (lastCharsOfStory.charAt(0) != ' ') {
             int iterator = 0;
-            while(lastCharsOfStory.charAt(iterator) != ' ')    {
+            while (lastCharsOfStory.charAt(iterator) != ' ') {
                 iterator++;
-            }   return lastCharsOfStory.substring(iterator + 1, lastCharsOfStory.length());
-        }   else    {
+            }
+            return lastCharsOfStory.substring(iterator + 1, lastCharsOfStory.length());
+        } else {
             return lastCharsOfStory;
         }
     }
@@ -247,7 +245,7 @@ public class StoryMode extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logoutButton:
-			/*
+            /*
 			 * Log current user out using ParseUser.logOut()
 			 */
                 ParseUser.logOut();
