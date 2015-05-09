@@ -62,12 +62,11 @@ public class StoryMode extends ActionBarActivity {
             public void onClick(View v) {
                 String inputText = mEditStoryField.getText().toString(); //the text that the user writes
                 Toast.makeText(StoryMode.this, "Send successful", Toast.LENGTH_LONG).show();
-                updateStory(inputText); // updates story and sends to the database
+                updateWrites(inputText); // updates story and sends to the database
                 clearText(); //clears the text for new input
             }
         });
     }
-
 
     //Loads all the stories as objects into storyList
     public void loadAllStories() {
@@ -81,9 +80,6 @@ public class StoryMode extends ActionBarActivity {
     }
 
     public void getRandomStory() {
-
-
-
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
         loadAllStories();
@@ -104,7 +100,7 @@ public class StoryMode extends ActionBarActivity {
         query.getInBackground(randStoryId, new GetCallback<ParseObject>() {
             public void done(ParseObject storyTextServer, com.parse.ParseException e) {
                 if (e == null) {
-                    storyText.append(storyTextServer.getString("story")).toString(); //load the story from the database and save it in local variable storyText
+                    storyText.append(storyTextServer.getString("story")); //load the story from the database and save it in local variable storyText
                     setStoryView(storyText); //set the "story view", which is the text field containing the last 60 characters of the story, checks if whole word
                 }
             }
@@ -121,7 +117,7 @@ public class StoryMode extends ActionBarActivity {
         query.getInBackground("7QaY0rG71I", new GetCallback<ParseObject>() {
             public void done(ParseObject storyTextServer, com.parse.ParseException e) {
                 if (e == null) {
-                    storyText.append(storyTextServer.getString("story")).toString(); //load the story from the database and save it in local variable storyText
+                    storyText.append(storyTextServer.getString("story")); //load the story from the database and save it in local variable storyText
                     setStoryView(storyText); //set the "story view", which is the text field containing the last 60 characters of the story, checks if whole word
                 }
             }
@@ -152,10 +148,21 @@ public class StoryMode extends ActionBarActivity {
 
     }
 
+    public void updateWrites(final String inputText)  {
+
+        ParseObject newPost = new ParseObject("Writes");
+        newPost.put("storyPart", inputText);
+        newPost.put("author", ParseUser.getCurrentUser().toString());
+        newPost.put("inStory", randStoryId);
+
+        newPost.saveInBackground();
+
+    }
+
     public void setStoryView(StringBuilder theStory)  {
         String lastCharsOfStory = theStory.substring(Math.max(0, storyText.length() - (MAX_LENGTH_VISIBLE + 1))); // we take the last 61 characters of the story, if the first character is a space then it will be only words
 
-        if(storyText.length() < 60) { //if the story is shorter than the max number of characters we want to show, show entire story
+        if(storyText.length() < MAX_LENGTH_VISIBLE) { //if the story is shorter than the max number of characters we want to show, show entire story
             mEndOfStory.setText(lastCharsOfStory);
         } else  { //if the story is longer than 60 characters, we want to only show the last 60 characters
             String lastWordsOfStory = fixOnlyWords(lastCharsOfStory); // if we "break" a word, we will need to fix the text so its only words, so we call the fixOnlyWords method
