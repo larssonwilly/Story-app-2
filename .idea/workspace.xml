@@ -60,13 +60,15 @@
       <file leaf-file-name="StoryMode.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/willy/storyapp2/StoryMode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.55314535" vertical-offset="1365" max-vertical-offset="2100">
-              <caret line="161" column="29" selection-start-line="161" selection-start-column="29" selection-end-line="161" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.62472886" vertical-offset="1662" max-vertical-offset="2700">
+              <caret line="183" column="36" selection-start-line="183" selection-start-column="36" selection-end-line="183" selection-end-column="36" />
               <folding>
                 <element signature="method#loadAllStories#0;class#StoryMode#0" expanded="false" />
                 <element signature="method#getDefaultStory#0;class#StoryMode#0" expanded="false" />
-                <element signature="e#5066#5693#0" expanded="true" />
-                <element signature="e#5681#5682#0" expanded="true" />
+                <element signature="e#5117#5744#0" expanded="true" />
+                <element signature="e#5732#5733#0" expanded="true" />
+                <element signature="e#6202#7220#0" expanded="true" />
+                <element signature="e#7209#7210#0" expanded="true" />
                 <element signature="method#setStoryView#0;class#StoryMode#0" expanded="false" />
                 <element signature="method#fixOnlyWords#0;class#StoryMode#0" expanded="false" />
                 <element signature="method#onOptionsItemSelected#0;class#StoryMode#0" expanded="false" />
@@ -2306,7 +2308,11 @@
       <created>1431131692610</created>
       <updated>1431131692610</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Added ToDo">
+      <created>1431131729322</created>
+      <updated>1431131729322</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2391,11 +2397,12 @@
     <MESSAGE value="Fixed some bugs regarding it not choosing the correct story" />
     <MESSAGE value="App now pushes all the posts to the cloud" />
     <MESSAGE value="App now pushes both to story and writes, yay! :D" />
-    <option name="LAST_COMMIT_MESSAGE" value="App now pushes both to story and writes, yay! :D" />
+    <MESSAGE value="Added ToDo" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added ToDo" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="31" />
+      <option name="time" value="36" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -2422,8 +2429,10 @@
           <folding>
             <element signature="method#loadAllStories#0;class#StoryMode#0" expanded="false" />
             <element signature="method#getDefaultStory#0;class#StoryMode#0" expanded="false" />
-            <element signature="e#5066#5693#0" expanded="true" />
-            <element signature="e#5681#5682#0" expanded="true" />
+            <element signature="e#5117#5744#0" expanded="true" />
+            <element signature="e#5732#5733#0" expanded="true" />
+            <element signature="e#6202#7220#0" expanded="true" />
+            <element signature="e#7209#7210#0" expanded="true" />
             <element signature="method#setStoryView#0;class#StoryMode#0" expanded="false" />
             <element signature="method#fixOnlyWords#0;class#StoryMode#0" expanded="false" />
             <element signature="method#onOptionsItemSelected#0;class#StoryMode#0" expanded="false" />
@@ -2511,8 +2520,10 @@
           <folding>
             <element signature="method#loadAllStories#0;class#StoryMode#0" expanded="false" />
             <element signature="method#getDefaultStory#0;class#StoryMode#0" expanded="false" />
-            <element signature="e#5066#5693#0" expanded="true" />
-            <element signature="e#5681#5682#0" expanded="true" />
+            <element signature="e#5117#5744#0" expanded="true" />
+            <element signature="e#5732#5733#0" expanded="true" />
+            <element signature="e#6202#7220#0" expanded="true" />
+            <element signature="e#7209#7210#0" expanded="true" />
             <element signature="method#setStoryView#0;class#StoryMode#0" expanded="false" />
             <element signature="method#fixOnlyWords#0;class#StoryMode#0" expanded="false" />
             <element signature="method#onOptionsItemSelected#0;class#StoryMode#0" expanded="false" />
@@ -2855,13 +2866,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/willy/storyapp2/StoryMode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.55314535" vertical-offset="1365" max-vertical-offset="2100">
-          <caret line="161" column="29" selection-start-line="161" selection-start-column="29" selection-end-line="161" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.62472886" vertical-offset="1662" max-vertical-offset="2700">
+          <caret line="183" column="36" selection-start-line="183" selection-start-column="36" selection-end-line="183" selection-end-column="36" />
           <folding>
             <element signature="method#loadAllStories#0;class#StoryMode#0" expanded="false" />
             <element signature="method#getDefaultStory#0;class#StoryMode#0" expanded="false" />
-            <element signature="e#5066#5693#0" expanded="true" />
-            <element signature="e#5681#5682#0" expanded="true" />
+            <element signature="e#5117#5744#0" expanded="true" />
+            <element signature="e#5732#5733#0" expanded="true" />
+            <element signature="e#6202#7220#0" expanded="true" />
+            <element signature="e#7209#7210#0" expanded="true" />
             <element signature="method#setStoryView#0;class#StoryMode#0" expanded="false" />
             <element signature="method#fixOnlyWords#0;class#StoryMode#0" expanded="false" />
             <element signature="method#onOptionsItemSelected#0;class#StoryMode#0" expanded="false" />

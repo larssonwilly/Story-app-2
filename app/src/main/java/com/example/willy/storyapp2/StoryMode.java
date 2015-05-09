@@ -39,6 +39,7 @@ public class StoryMode extends ActionBarActivity {
     private String theStory = "";
     ParseObject storyTextServer = new ParseObject("Story");
     public static int MAX_LENGTH_VISIBLE = 40;
+    public static int MAX_NUM_POSTS_IN_STORY = 10;
     private List<ParseObject> storyList;
     private String randStoryId;
 
@@ -150,10 +151,49 @@ public class StoryMode extends ActionBarActivity {
 
     public void updateWrites(final String inputText)  {
 
-        ParseObject newPost = new ParseObject("Writes");
+        final ParseObject newPost = new ParseObject("Writes");
         newPost.put("storyPart", inputText);
         newPost.put("author", ParseUser.getCurrentUser().getUsername());
         newPost.put("inStory", randStoryId);
+
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery("Writes");
+        query.whereEqualTo("inStory", randStoryId);
+
+
+
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> retrievedList, com.parse.ParseException e) {
+
+                if (e == null) {
+
+                    if (retrievedList.size() > MAX_NUM_POSTS_IN_STORY){
+                        Log.d("TooLong", "NÄ NU BLEV DET FAN FÖR MYCKET, LUGNA NER DIG!!!!");
+                        //TODO Insert logic for too long story!
+
+                    }
+
+                    int maxNumber = 0;
+
+                    for (ParseObject object : retrievedList) {
+                        int numberInStory = object.getInt("numberInStory");
+
+                        if (maxNumber <= numberInStory){
+                            maxNumber = numberInStory;
+                        }
+
+                        maxNumber++;
+                        newPost.put("numberInStory", maxNumber);
+                        newPost.saveInBackground();
+
+
+                    }//TODO make this solution more elegant
+
+                } else {
+
+                }
+            }
+        });
+
 
         newPost.saveInBackground();
 
