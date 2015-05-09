@@ -152,10 +152,12 @@ public class StoryMode extends ActionBarActivity {
 
         ParseObject newPost = new ParseObject("Writes");
         newPost.put("storyPart", inputText);
-        newPost.put("author", ParseUser.getCurrentUser().toString());
+        newPost.put("author", ParseUser.getCurrentUser().getUsername());
         newPost.put("inStory", randStoryId);
 
         newPost.saveInBackground();
+
+        updateStory(inputText);
 
     }
 

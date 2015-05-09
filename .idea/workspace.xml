@@ -19,7 +19,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2856dbb4-67b1-4bd9-9963-5ff65927847d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/willy/storyapp2/StoryMode.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/willy/storyapp2/StoryMode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Story app.iws" />
@@ -61,8 +60,8 @@
       <file leaf-file-name="StoryMode.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/willy/storyapp2/StoryMode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.48806942" vertical-offset="1395" max-vertical-offset="2040">
-              <caret line="171" column="5" selection-start-line="171" selection-start-column="5" selection-end-line="171" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.52060735" vertical-offset="1350" max-vertical-offset="2070">
+              <caret line="159" column="29" selection-start-line="159" selection-start-column="29" selection-end-line="159" selection-end-column="29" />
               <folding>
                 <element signature="method#loadAllStories#0;class#StoryMode#0" expanded="false" />
                 <element signature="method#getDefaultStory#0;class#StoryMode#0" expanded="false" />
@@ -2299,7 +2298,11 @@
       <created>1431124338207</created>
       <updated>1431124338207</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="App now pushes all the posts to the cloud">
+      <created>1431131495363</created>
+      <updated>1431131495363</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2382,7 +2385,8 @@
     <MESSAGE value="la in lite kommentarer i StoryMode" />
     <MESSAGE value="App now chooses a random story." />
     <MESSAGE value="Fixed some bugs regarding it not choosing the correct story" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed some bugs regarding it not choosing the correct story" />
+    <MESSAGE value="App now pushes all the posts to the cloud" />
+    <option name="LAST_COMMIT_MESSAGE" value="App now pushes all the posts to the cloud" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2846,8 +2850,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/willy/storyapp2/StoryMode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.48806942" vertical-offset="1395" max-vertical-offset="2040">
-          <caret line="171" column="5" selection-start-line="171" selection-start-column="5" selection-end-line="171" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.52060735" vertical-offset="1350" max-vertical-offset="2070">
+          <caret line="159" column="29" selection-start-line="159" selection-start-column="29" selection-end-line="159" selection-end-column="29" />
           <folding>
             <element signature="method#loadAllStories#0;class#StoryMode#0" expanded="false" />
             <element signature="method#getDefaultStory#0;class#StoryMode#0" expanded="false" />
