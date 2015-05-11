@@ -67,6 +67,7 @@ public class MainActivity extends ActionBarActivity {
 
         // The start screen music
         final MediaPlayer startMusic = MediaPlayer.create(this, R.raw.sunaslancasunset);
+        startMusic.setLooping(true);
         startMusic.start();
 
         //Creates button for turning start screen music on or off and defines its functionality
