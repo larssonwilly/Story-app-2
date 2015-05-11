@@ -3,16 +3,13 @@ package com.example.willy.storyapp2;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import com.example.willy.storyapp2.R;
+
 import com.parse.LogInCallback;
-import com.parse.Parse;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import com.parse.ParseException;
@@ -20,7 +17,7 @@ import com.parse.ParseException;
 public class AuthenticateActivity extends ActionBarActivity {
 
     protected String mAction;
-    protected EditText mEmailField;
+    protected EditText mUserField;
     protected EditText mPasswordField;
     protected Button mButton;
     protected ProgressBar mProgressBar;
@@ -30,7 +27,7 @@ public class AuthenticateActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authenticate);
 
-        mEmailField = (EditText) findViewById(R.id.emailEdit);
+        mUserField = (EditText) findViewById(R.id.userEdit);
         mPasswordField = (EditText) findViewById(R.id.passwordEdit);
         mButton = (Button) findViewById(R.id.button1);
 
@@ -48,7 +45,7 @@ public class AuthenticateActivity extends ActionBarActivity {
             public void onClick(View v) {
 
 
-                String username = mEmailField.getText().toString();
+                String username = mUserField.getText().toString();
                 String password = mPasswordField.getText().toString();
 
                 if (mAction.equals(MainActivity.SIGNUP)) {
@@ -60,7 +57,7 @@ public class AuthenticateActivity extends ActionBarActivity {
                     user.setUsername(username);
                     user.setPassword(password);
 
-                    // ToDO: Förklara vad nedanstående kod-stycket gör
+                    // TODO: Förklara vad nedanstående kod-stycket gör
                     user.signUpInBackground(new SignUpCallback() {
                         public void done(ParseException e) {
                             // Starts progressbar

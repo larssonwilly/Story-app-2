@@ -13,10 +13,10 @@
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
-        android:id="@+id/emailEdit"
+        android:id="@+id/userEdit"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:hint="email"/>
+        android:hint="User"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -24,9 +24,9 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/passwordEdit"
-        android:layout_below="@+id/emailEdit"
+        android:layout_below="@+id/userEdit"
         android:layout_centerHorizontal="true"
-        android:hint="password"/>
+        android:hint="Password"/>
 
     <Button
         android:layout_width="match_parent"
