@@ -70,7 +70,8 @@
         android:id="@+id/music_button"
         android:layout_below="@+id/Settings_button"
         android:layout_alignRight="@+id/Settings_button"
-        android:layout_alignEnd="@+id/Settings_button" />
+        android:layout_alignEnd="@+id/Settings_button"
+        android:layout_marginTop="48dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -78,10 +79,20 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Inspiring music"
         android:id="@+id/textView"
-        android:layout_below="@+id/Settings_button"
-        android:layout_toLeftOf="@+id/music_button"
-        android:layout_toStartOf="@+id/music_button"
+        android:gravity="center_vertical|center"
         android:layout_alignBottom="@+id/music_button"
-        android:gravity="center_vertical|center" />
+        android:layout_alignLeft="@+id/storyShowcaseButton"
+        android:layout_alignStart="@+id/storyShowcaseButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Story Showcase"
+        android:id="@+id/storyShowcaseButton"
+        android:layout_below="@+id/Settings_button"
+        android:layout_alignLeft="@+id/Settings_button"
+        android:layout_alignStart="@+id/Settings_button"
+        android:layout_alignRight="@+id/music_button"
+        android:layout_alignEnd="@+id/music_button" />
 
 </RelativeLayout>

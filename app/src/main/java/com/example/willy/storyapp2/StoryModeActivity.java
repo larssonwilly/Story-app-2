@@ -24,7 +24,7 @@ import com.parse.ParseUser;
 import java.util.List;
 import java.util.Random;
 
-public class StoryMode extends ActionBarActivity {
+public class StoryModeActivity extends ActionBarActivity {
 
     //The elements of the activity
     private EditText mEditStoryField;
@@ -79,7 +79,7 @@ public class StoryMode extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 String inputText = mEditStoryField.getText().toString(); //the text that the user writes
-                Toast.makeText(StoryMode.this, "Send successful", Toast.LENGTH_LONG).show();
+                Toast.makeText(StoryModeActivity.this, "Send successful", Toast.LENGTH_LONG).show();
                 postStory(inputText); // updates story and sends to the database
                 addTextToView(inputText);
                 clearText(); //clears the text for new input
