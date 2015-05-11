@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -74,6 +76,26 @@ public class StoryMode extends ActionBarActivity {
 
         });
 
+        // Initially the Send-button can't be pressed because there is no text to send
+        mButton.setEnabled(false);
+
+        // Adds a TextChangedListener to the the text field mEditStoryField that enables or disables the Send-button using the method enableSendIfReady().
+        mEditStoryField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                enableSendIfReady();
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                enableSendIfReady();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });
+
+
         //when the "send" button is clicked, we need to update the story, display the last bit of the story, clear the text for new input
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +107,13 @@ public class StoryMode extends ActionBarActivity {
                 clearText(); //clears the text for new input
             }
         });
+    }
+
+    // Enables the mButton if if the length of the text exceeds 15 characters.
+    public void enableSendIfReady() {
+
+        boolean isReady =mEditStoryField.getText().toString().length()>15;
+        mButton.setEnabled(isReady);
     }
 
     //Loads all the stories as objects into storyList
