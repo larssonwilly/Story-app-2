@@ -30,7 +30,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".StoryShowcase"
+            android:name=".storyShowcase"
             android:label="@string/title_activity_story_showcase" >
         </activity>
     </application>

@@ -121,7 +121,7 @@ public class MainActivity extends ActionBarActivity {
     // Enter the StoryShowcase activity
     public void startShowcase(){
 
-        Intent intent = new Intent(this, StoryShowcase.class);
+        Intent intent = new Intent(this, storyShowcase.class);
         startActivity(intent);
 
     }
