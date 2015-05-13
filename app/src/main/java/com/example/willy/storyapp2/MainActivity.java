@@ -12,13 +12,17 @@ import com.parse.ParseUser;
 
 public class MainActivity extends ActionBarActivity {
 
-
+    /** Publika skall kommenteras */
     public static final String TYPE = "type";
     public static final String LOGIN = "Log In";
     public static final String SIGNUP = "Sign Up";
 
     protected Button mLoginButton;
     protected Button mSignupButton;
+    protected Button start_button;
+    protected Button music_button;
+
+    public MediaPlayer startMusic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +62,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         // Start the functionality of the app
-        Button start_button = (Button) findViewById(R.id.Start_button);
+        start_button = (Button) findViewById(R.id.Start_button);
         start_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startStory();
@@ -66,15 +70,37 @@ public class MainActivity extends ActionBarActivity {
         });
 
         // The start screen music
-        final MediaPlayer startMusic = MediaPlayer.create(this, R.raw.sunaslancasunset);
+        startMusic =  MediaPlayer.create(this, R.raw.sunaslancasunset);
         startMusic.setLooping(true);
         startMusic.start();
 
+        // ToDo: knappen funkar inte ordentligt om man loggar ut och in
         //Creates button for turning start screen music on or off and defines its functionality
-        final Button music_button = (Button) findViewById(R.id.music_button); // Creates the music button
+        music_button = (Button) findViewById(R.id.music_button); // Creates the music button
         music_button.setTag(1); // Gives the button a tag which later on is used to give the button the functionality to pause and restart the music
         music_button.setText("Off"); // Sets the text that is shown on the button
+        runningMusic();
+    }
+
+    // Enters the StoryMode activity
+    public void startStory() {
+
+        Intent intent = new Intent(this, StoryMode.class);
+        startActivity(intent);
+
+    }
+
+    public void runningMusic (){
+
+        if(music_button.getTag().equals(1)) {
+            music_button.setText("Off");
+        }
+        else
+        {
+            music_button.setText("On");
+        }
         music_button.setOnClickListener(new View.OnClickListener() {
+
 
             public void onClick(View v) {
                 final int status = (Integer) v.getTag(); // Integer used to determine what will happen when the button is pressed
@@ -95,14 +121,5 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-    }
+    }}
 
-    // Enters the StoryMode activity
-    public void startStory() {
-
-        Intent intent = new Intent(this, StoryMode.class);
-        startActivity(intent);
-
-    }
-
-}

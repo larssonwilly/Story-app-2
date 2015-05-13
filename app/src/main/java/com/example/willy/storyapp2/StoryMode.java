@@ -306,6 +306,7 @@ public class StoryMode extends ActionBarActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+
         }
     }
 
