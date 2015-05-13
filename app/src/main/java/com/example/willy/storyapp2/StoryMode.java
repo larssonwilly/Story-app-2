@@ -50,13 +50,19 @@ public class StoryMode extends ActionBarActivity {
         mButton = (Button) findViewById(R.id.sendStoryButton);
         mEndOfStory = (TextView) findViewById(R.id.theStory);
 
-        //gets the story from the database so that it is possible to see what the last person wrote
 
+        /**
+         *  See the method down below
+         */
         getRandomStory();
 
         // Indicates for the user that they have marked the textfield
         // ToDo: Could use some improvement, for an example should the hint text continously blink until the user clicks somewhere else on the screen
         mEditStoryField.setOnTouchListener(new View.OnTouchListener() {
+            /**
+             * On touch
+             */
+            //ToDo: Should there really be a public boolean inside a protected void? <-- Just asking coz I don't know.
             @Override
             public boolean onTouch(View v, MotionEvent event){
 
@@ -74,7 +80,9 @@ public class StoryMode extends ActionBarActivity {
 
         });
 
-        //when the "send" button is clicked, we need to update the story, display the last bit of the story, clear the text for new input
+        /**
+         *when the "send" button is clicked, we need to update the story, display the last bit of the story, clear the text for new input
+         */
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,7 +95,9 @@ public class StoryMode extends ActionBarActivity {
         });
     }
 
-    //Loads all the stories as objects into storyList
+    /**
+     * Loads all the sotries as objexts into storylist
+     */
     public void loadAllStories() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
         try {
@@ -97,7 +107,10 @@ public class StoryMode extends ActionBarActivity {
         } //TODO AsyncTask this. This code is ineffective and may slow down application.
 
     }
-
+    /**
+     * Gets the story from the database so that it is possible to see what the last person wrote
+     * //ToDo: This method isn't really good since it just gets one random story.
+     * */
     public void getRandomStory() {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
@@ -125,7 +138,9 @@ public class StoryMode extends ActionBarActivity {
 
 
     }
-
+    /**
+    * Get the default story
+    */
     public void getDefaultStory() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
 
@@ -141,7 +156,9 @@ public class StoryMode extends ActionBarActivity {
         });
 
     }
-
+    /**
+     * update Story
+     */
     public void updateStory(final String inputText) {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
@@ -163,7 +180,9 @@ public class StoryMode extends ActionBarActivity {
         });
 
     }
-
+    /**
+     * Post story
+     */
     public void postStory(final String inputText) {
 
         final ParseObject newPost = new ParseObject("Writes");
@@ -213,7 +232,9 @@ public class StoryMode extends ActionBarActivity {
         updateStory(inputText);
 
     }
-
+    /**
+     * Add the text to View
+     */
     public void addTextToView(final String inputText) {
 
         mEndOfStory.setText(mEndOfStory.getText() + " " + inputText);
@@ -221,7 +242,9 @@ public class StoryMode extends ActionBarActivity {
 
 
     }
-
+    /**
+     * Set story View
+     */
     public void setStoryView(StringBuilder theStory) {
         String lastCharsOfStory = theStory.substring(Math.max(0, storyText.length() - (MAX_LENGTH_VISIBLE + 1))); // we take the last 61 characters of the story, if the first character is a space then it will be only words
 
@@ -235,11 +258,15 @@ public class StoryMode extends ActionBarActivity {
     }
 
     /*
-        if the first character is a space, we know the lastCharsOfStory is only words, so we return it
-        but if the first character is not a space, this means that we will not include the first characters, which is not an entire word
-        so we iterate until a space is found, which means a new word is found and then we return the rest
+       * If the first character is a space, we know the lastCharsOfStory is only words, so we return it
+       *but if the first character is not a space, this means that we will not include the first characters, which is not an entire word
+        *so we iterate until a space is found, which means a new word is found and then we return the rest
+        *This also makes sure that if someone hit the send button with an unfinished last word this is shown to the next writer so he/she can continue and make the story right
      */
 
+    /**
+     * The method fixes so the text has only words
+     */
     public String fixOnlyWords(String lastCharsOfStory) {
         if (lastCharsOfStory.charAt(0) != ' ') {
             int iterator = 0;
@@ -251,18 +278,33 @@ public class StoryMode extends ActionBarActivity {
             return lastCharsOfStory;
         }
     }
-
+    /**
+     * Clear text
+     */
     public void clearText() {
         mEditStoryField.setText("");
     }
 
+    /**
+     *  The method checks if the story is finished
+     *  The method is used
+     *  */
+    public void setStoryFinished (StringBuilder theStory) {
+
+    }
+
+    /**
+     * on Create Options menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
+    /**
+     * on Options Item Selected Menu
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
