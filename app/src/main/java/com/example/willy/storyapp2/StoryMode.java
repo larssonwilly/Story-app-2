@@ -286,7 +286,7 @@ public class StoryMode extends ActionBarActivity {
     }
 
     /**
-     *  The method checks if the story is finished
+     *  The method checks if the story is finished.
      *  The method is used .... , ... , ... and ...
      *  */
     public void setStoryFinished (List<ParseObject> storyList) {
