@@ -31,7 +31,7 @@ public class StoryMode extends ActionBarActivity {
     private Button mButton;
     private TextView mEndOfStory;
 
-    //Stringbuilder is a tool for handling strings, we use it for the append method.
+    //Stringbuilder is a tool for handling strings, we use it for the append method
     private StringBuilder storyText = new StringBuilder("");
     private String theStory = "";
     ParseObject storyTextServer = new ParseObject("Story");
