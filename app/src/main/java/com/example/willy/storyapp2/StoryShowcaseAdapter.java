@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * Created by Quaxi on 15-05-18.
- */
+
+
+
 class StoryShowcaseAdapter extends ArrayAdapter<String> {
 
     public StoryShowcaseAdapter(Context context, List stories) {
@@ -24,10 +24,12 @@ class StoryShowcaseAdapter extends ArrayAdapter<String> {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View customView = inflater.inflate(R.layout.story_showcase_list_layout, parent, false);
 
-        String singleStory = getItem(position);
-        String singleStoryId = getItem(position);
+        String storyIdAndContent = getItem(position);
+        String singleStoryId = storyIdAndContent.substring(0, 9);
+        String singleStory = storyIdAndContent.substring(9);
 
         TextView storyIdTextView = (TextView) customView.findViewById(R.id.storyIdTextView);
+
         TextView storyContentTextView = (TextView) customView.findViewById(R.id.storyContentTextView);
         ImageView storyTellerLogoView = (ImageView) customView.findViewById(R.id.storyTellerLogoView);
 

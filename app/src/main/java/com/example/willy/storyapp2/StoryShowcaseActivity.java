@@ -1,6 +1,7 @@
 package com.example.willy.storyapp2;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
@@ -21,8 +22,9 @@ import com.parse.ParseQuery;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class StoryShowcaseActivity extends ActionBarActivity {
+public class StoryShowcaseActivity extends Activity {
 
     private List<ParseObject> storyList = new ArrayList<>();
 
@@ -34,14 +36,22 @@ public class StoryShowcaseActivity extends ActionBarActivity {
 
         loadAllStories();
 
-        final ArrayList<String> list = new ArrayList<String>();
+        final ArrayList<String> storyListArray = new ArrayList<String>();
+
+
 
         for (ParseObject parseObject : storyList) {
-            list.add(parseObject.getString("story"));
+
+            String id = parseObject.getObjectId();
+            String story = parseObject.getString("story");
+
+            storyListArray.add(id + story);
         }
 
+
+
         ListView storyListView = (ListView) findViewById(R.id.storyListView);
-        ListAdapter storyAdapter = new StoryShowcaseAdapter(this, list);
+        ListAdapter storyAdapter = new StoryShowcaseAdapter(this, storyListArray);
         storyListView.setAdapter(storyAdapter);
 
 
