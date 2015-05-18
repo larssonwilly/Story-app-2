@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class storyShowcase extends ActionBarActivity {
+public class StoryShowcaseActivity extends ActionBarActivity {
 
     private List<ParseObject> storyList = new ArrayList<>();
 
@@ -30,7 +31,6 @@ public class storyShowcase extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_showcase);
 
-        final ListView listview = (ListView) findViewById(R.id.listView);
 
         loadAllStories();
 
@@ -40,11 +40,12 @@ public class storyShowcase extends ActionBarActivity {
             list.add(parseObject.getString("story"));
         }
 
+        ListView storyListView = (ListView) findViewById(R.id.storyListView);
+        ListAdapter storyAdapter = new StoryShowcaseAdapter(this, list);
+        storyListView.setAdapter(storyAdapter);
 
-        final StableArrayAdapter adapter = new StableArrayAdapter(this, android.R.layout.simple_list_item_1, list);
-        listview.setAdapter(adapter);
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      /*  listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
             @Override
@@ -66,7 +67,7 @@ public class storyShowcase extends ActionBarActivity {
                         });
             }
 
-        });
+        });*/
     }
 
 
@@ -83,7 +84,9 @@ public class storyShowcase extends ActionBarActivity {
 
     private class StableArrayAdapter extends ArrayAdapter<String> {
 
-        HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
+        private HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
+        private Context context;
+        
 
         public StableArrayAdapter(Context context, int textViewResourceId, List<String> objects) {
 
