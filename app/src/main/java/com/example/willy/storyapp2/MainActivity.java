@@ -12,15 +12,19 @@ import com.parse.ParseUser;
 
 public class MainActivity extends ActionBarActivity {
 
-
+    /**
+     * Publika skall kommenteras
+     */
     public static final String TYPE = "type";
     public static final String LOGIN = "Log In";
     public static final String SIGNUP = "Sign Up";
 
     protected Button mLoginButton;
     protected Button mSignupButton;
-    private Button storyShowcaseButton;
+    protected Button start_button;
+    protected Button music_button;
 
+    public MediaPlayer startMusic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,30 +32,17 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         // Enable Local Datastore.
-        // Parse.enableLocalDatastore(this);
+//        Parse.enableLocalDatastore(this);
         Parse.initialize(this, "kis8UPt0FJqm7CTURn5FozaYh1gPbCC6tNtEt0dP", "sNqbugJaRddwJmpA5WBSsJQVFT5JbZddBawtfEI8");
 
         mLoginButton = (Button) findViewById(R.id.Login);
         mSignupButton = (Button) findViewById(R.id.Signup);
-        storyShowcaseButton = (Button) findViewById(R.id.storyShowcaseButton);
 
-
-        //storyShowcaseButton functionality
-        storyShowcaseButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startShowcase();
-            }
-        });
-
-
-
-        //TODO describe what this method does
         if (ParseUser.getCurrentUser() != null) {
             Intent intent = new Intent(this, StoryModeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-        }
-        else {
+        } else {
             mLoginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -72,7 +63,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         // Start the functionality of the app
-        Button start_button = (Button) findViewById(R.id.Start_button);
+        start_button = (Button) findViewById(R.id.Start_button);
         start_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startStory();
@@ -80,15 +71,35 @@ public class MainActivity extends ActionBarActivity {
         });
 
         // The start screen music
-        final MediaPlayer startMusic = MediaPlayer.create(this, R.raw.sunaslancasunset);
+        startMusic = MediaPlayer.create(this, R.raw.sunaslancasunset);
         startMusic.setLooping(true);
         startMusic.start();
 
+        // ToDo: knappen funkar inte ordentligt om man loggar ut och in
         //Creates button for turning start screen music on or off and defines its functionality
-        final Button music_button = (Button) findViewById(R.id.music_button); // Creates the music button
+        music_button = (Button) findViewById(R.id.music_button); // Creates the music button
         music_button.setTag(1); // Gives the button a tag which later on is used to give the button the functionality to pause and restart the music
         music_button.setText("Off"); // Sets the text that is shown on the button
+        runningMusic();
+    }
+
+    // Enters the StoryMode activity
+    public void startStory() {
+
+        Intent intent = new Intent(this, StoryModeActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void runningMusic() {
+
+        if (music_button.getTag().equals(1)) {
+            music_button.setText("Off");
+        } else {
+            music_button.setText("On");
+        }
         music_button.setOnClickListener(new View.OnClickListener() {
+
 
             public void onClick(View v) {
                 final int status = (Integer) v.getTag(); // Integer used to determine what will happen when the button is pressed
@@ -111,21 +122,5 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    // Enters the StoryMode activity
-    public void startStory() {
-
-        Intent intent = new Intent(this, StoryModeActivity.class);
-        startActivity(intent);
-
-    }
-
-    // Enter the StoryShowcase activity
-    public void startShowcase(){
-
-        Intent intent = new Intent(this, StoryShowcaseActivity.class);
-        startActivity(intent);
-
-    }
-
-
 }
+
