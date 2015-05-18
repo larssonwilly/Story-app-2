@@ -23,6 +23,7 @@ public class MainActivity extends ActionBarActivity {
     protected Button mSignupButton;
     protected Button startStoryButton;
     protected Button musicToggleButton;
+    protected Button startShowcaseButton;
 
     public MediaPlayer startMusic;
 
@@ -37,6 +38,7 @@ public class MainActivity extends ActionBarActivity {
 
         mLoginButton = (Button) findViewById(R.id.Login);
         mSignupButton = (Button) findViewById(R.id.Signup);
+
 
         if (ParseUser.getCurrentUser() != null) {
             Intent intent = new Intent(this, StoryModeActivity.class);
@@ -70,6 +72,15 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        // Start the Story Showcase
+        startShowcaseButton = (Button) findViewById(R.id.storyShowcaseButton);
+        startShowcaseButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                startStoryShowcase();
+            }
+
+        });
+
         // The start screen music
         startMusic = MediaPlayer.create(this, R.raw.sunaslancasunset);
         startMusic.setLooping(true);
@@ -91,8 +102,11 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    // Enters the story showcase
     public void startStoryShowcase(){
 
+        Intent intent = new Intent(this, StoryShowcaseActivity.class);
+        startActivity(intent);
 
     }
 
