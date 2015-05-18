@@ -66,7 +66,7 @@ public class AuthenticateActivity extends ActionBarActivity {
                                 // Hooray! Let them use the app now.
                                 startActivity(new Intent(
                                         AuthenticateActivity.this,
-                                        StoryMode.class));
+                                        StoryModeActivity.class));
 
                             } else {
                                 // Sign up didn't succeed. Look at the
@@ -99,7 +99,7 @@ public class AuthenticateActivity extends ActionBarActivity {
                                         // Hooray! The user is logged in.
                                         startActivity(new Intent(
                                                 AuthenticateActivity.this,
-                                                StoryMode.class));
+                                                StoryModeActivity.class));
                                     } else {
                                         // Shows progressbar
                                         mProgressBar.setVisibility(View.VISIBLE);

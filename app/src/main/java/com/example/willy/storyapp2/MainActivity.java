@@ -19,6 +19,8 @@ public class MainActivity extends ActionBarActivity {
 
     protected Button mLoginButton;
     protected Button mSignupButton;
+    private Button storyShowcaseButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +28,26 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         // Enable Local Datastore.
-//        Parse.enableLocalDatastore(this);
+        // Parse.enableLocalDatastore(this);
         Parse.initialize(this, "kis8UPt0FJqm7CTURn5FozaYh1gPbCC6tNtEt0dP", "sNqbugJaRddwJmpA5WBSsJQVFT5JbZddBawtfEI8");
 
         mLoginButton = (Button) findViewById(R.id.Login);
         mSignupButton = (Button) findViewById(R.id.Signup);
+        storyShowcaseButton = (Button) findViewById(R.id.storyShowcaseButton);
 
+
+        //storyShowcaseButton functionality
+        storyShowcaseButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startShowcase();
+            }
+        });
+
+
+
+        //TODO describe what this method does
         if (ParseUser.getCurrentUser() != null) {
-            Intent intent = new Intent(this, StoryMode.class);
+            Intent intent = new Intent(this, StoryModeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
@@ -100,9 +114,18 @@ public class MainActivity extends ActionBarActivity {
     // Enters the StoryMode activity
     public void startStory() {
 
-        Intent intent = new Intent(this, StoryMode.class);
+        Intent intent = new Intent(this, StoryModeActivity.class);
         startActivity(intent);
 
     }
+
+    // Enter the StoryShowcase activity
+    public void startShowcase(){
+
+        Intent intent = new Intent(this, StoryShowcaseActivity.class);
+        startActivity(intent);
+
+    }
+
 
 }
