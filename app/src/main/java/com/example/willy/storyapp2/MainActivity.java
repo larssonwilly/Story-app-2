@@ -21,8 +21,8 @@ public class MainActivity extends ActionBarActivity {
 
     protected Button mLoginButton;
     protected Button mSignupButton;
-    protected Button start_button;
-    protected Button music_button;
+    protected Button startStoryButton;
+    protected Button musicToggleButton;
 
     public MediaPlayer startMusic;
 
@@ -63,8 +63,8 @@ public class MainActivity extends ActionBarActivity {
         }
 
         // Start the functionality of the app
-        start_button = (Button) findViewById(R.id.Start_button);
-        start_button.setOnClickListener(new View.OnClickListener() {
+        startStoryButton = (Button) findViewById(R.id.Start_button);
+        startStoryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startStory();
             }
@@ -77,9 +77,9 @@ public class MainActivity extends ActionBarActivity {
 
         // ToDo: knappen funkar inte ordentligt om man loggar ut och in
         //Creates button for turning start screen music on or off and defines its functionality
-        music_button = (Button) findViewById(R.id.music_button); // Creates the music button
-        music_button.setTag(1); // Gives the button a tag which later on is used to give the button the functionality to pause and restart the music
-        music_button.setText("Off"); // Sets the text that is shown on the button
+        musicToggleButton = (Button) findViewById(R.id.music_button); // Creates the music button
+        musicToggleButton.setTag(1); // Gives the button a tag which later on is used to give the button the functionality to pause and restart the music
+        musicToggleButton.setText("Off"); // Sets the text that is shown on the button
         runningMusic();
     }
 
@@ -91,14 +91,19 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    public void startStoryShowcase(){
+
+
+    }
+
     public void runningMusic() {
 
-        if (music_button.getTag().equals(1)) {
-            music_button.setText("Off");
+        if (musicToggleButton.getTag().equals(1)) {
+            musicToggleButton.setText("Off");
         } else {
-            music_button.setText("On");
+            musicToggleButton.setText("On");
         }
-        music_button.setOnClickListener(new View.OnClickListener() {
+        musicToggleButton.setOnClickListener(new View.OnClickListener() {
 
 
             public void onClick(View v) {
@@ -107,14 +112,14 @@ public class MainActivity extends ActionBarActivity {
                     // Turns the music off and change button text from "Off" to "On"
                     case 1:
                         startMusic.pause(); // Pauses the music
-                        music_button.setText("On"); // Change button text to "On"
-                        music_button.setTag(0); // Gives button new tag 0
+                        musicToggleButton.setText("On"); // Change button text to "On"
+                        musicToggleButton.setTag(0); // Gives button new tag 0
                         break;
                     // Turns the music back on where it was paused and change the button text to "Off"
                     case 0:
                         startMusic.start(); // Restarts the music
-                        music_button.setText("Off"); // Change button the text to "Off"
-                        music_button.setTag(1); // Gives the button the original tag 1
+                        musicToggleButton.setText("Off"); // Change button the text to "Off"
+                        musicToggleButton.setTag(1); // Gives the button the original tag 1
                         break;
                 }
             }
