@@ -83,9 +83,9 @@ public class MainActivity extends ActionBarActivity {
         });
 
         // The start screen music
-        startMusic = MediaPlayer.create(this, R.raw.sunaslancasunset);
-        startMusic.setLooping(true);
-        startMusic.start();
+     //   startMusic = MediaPlayer.create(this, R.raw.sunaslancasunset);
+     //   startMusic.setLooping(true);
+     //   startMusic.start();
 
         // ToDo: knappen funkar inte ordentligt om man loggar ut och in
         //Creates button for turning start screen music on or off and defines its functionality

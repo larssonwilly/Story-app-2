@@ -6,7 +6,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,11 +18,12 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
-import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -39,15 +39,20 @@ public class StoryModeActivity extends ActionBarActivity {
     private String theStory = "";
     public static int MAX_LENGTH_VISIBLE = 40;
     public static int MAX_NUM_POSTS_IN_STORY = 10;
+
+    //storyLists
     private List<ParseObject> storyList;
-    private String randStoryId;
+    private List<ParseObject> unfinishedStoryList;
+
+    //story Variables
+    private String currentStoryID;
+    private boolean creatingNewStory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Standard Oncreate stuff
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_mode);
-
-
 
         //initiate the elements
         mEditStoryField = (EditText) findViewById(R.id.storyEditText);
@@ -55,11 +60,18 @@ public class StoryModeActivity extends ActionBarActivity {
         mEndOfStory = (TextView) findViewById(R.id.theStory);
 
         //gets the story from the database so that it is possible to see what the last person wrote
+        loadAllStories();
+        if (unfinishedStoryList.size() > 0){
+            getRandomUnfinishedStory();
+        }
 
-
-        getRandomUnfinishedStory();
-        if (randStoryId == null){
-            Toast.makeText(StoryModeActivity.this, "No unfinished stories found - creating a new one!", Toast.LENGTH_SHORT).show();
+        if (currentStoryID == null){
+            Toast.makeText(StoryModeActivity.this, "No unfinished stories found - creating a new one!", Toast.LENGTH_LONG).show();
+            creatingNewStory = true;
+        }
+        else {
+            displayStoryText();
+            creatingNewStory = false;
         }
 
 
@@ -105,15 +117,18 @@ public class StoryModeActivity extends ActionBarActivity {
 
         //when the "send" button is clicked, we need to update the story, display the last bit of the story, clear the text for new input
         mButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
                 String inputText = mEditStoryField.getText().toString(); //the text that the user writes
-                Toast.makeText(StoryModeActivity.this, "Send successful", Toast.LENGTH_LONG).show();
 
-                postStory(inputText); // updates story and sends to the database
+                pushStory(inputText); // updates story and sends to the database
                 addTextToView(inputText);
                 clearText(); //clears the text for new input
+
+                //TODO this should really check if the send actually was successful
+                Toast.makeText(StoryModeActivity.this, "Send successful", Toast.LENGTH_LONG).show();
 
 
             }
@@ -128,8 +143,11 @@ public class StoryModeActivity extends ActionBarActivity {
         mButton.setEnabled(isReady);
     }
 
-    //Loads all the stories as objects into storyList
+    //Loads all the stories as objects into storyList and unfinishedStoryList
     public void loadAllStories() {
+
+        unfinishedStoryList = new ArrayList<>();
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
         try {
             storyList = query.find();
@@ -137,73 +155,36 @@ public class StoryModeActivity extends ActionBarActivity {
             e.printStackTrace();
         } //TODO AsyncTask this. This code is ineffective and may slow down application.
 
-    }
 
-    public void getRandomStory() {
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
-        loadAllStories();
-        Random rng = new Random();
-        String storyID = "7QaY0rG71I"; //Default story
-
-
-        if (storyList != null) {
-            int thisRng = rng.nextInt(storyList.size() - 1);
-            randStoryId = storyList.get(thisRng).getObjectId();
-        }
-
-
-        // Retrieve the object by id, at the moment the same story is loaded from the database for all users, but we want it to connect a story for particular users
-        query.getInBackground(randStoryId, new GetCallback<ParseObject>() {
-            public void done(ParseObject storyTextServer, com.parse.ParseException e) {
-                if (e == null) {
-                    storyText.append(storyTextServer.getString("story")); //load the story from the database and save it in local variable storyText
-                    setStoryView(storyText); //set the "story view", which is the text field containing the last 60 characters of the story, checks if whole word
-                }
+        for (ParseObject story : storyList) {
+            if (!story.getBoolean("isCompleted")){
+                unfinishedStoryList.add(story);
+                System.out.println("test");
             }
-
-        });
-
-
+        }
     }
 
+
+    //Changes currentStoryId to a random one
     public void getRandomUnfinishedStory() {
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
-        loadAllStories();
         Random rng = new Random();
-        String storyID = "7QaY0rG71I"; //Default story
-
-
-        //Generate the random storyID
-        if (storyList != null) {
-            int thisRng = rng.nextInt(storyList.size() - 1);
-            randStoryId = storyList.get(thisRng).getObjectId();
+        if (unfinishedStoryList.size() > 1) {
+            int thisRng = rng.nextInt(unfinishedStoryList.size() - 1);
+            currentStoryID = unfinishedStoryList.get(thisRng).getObjectId();
+        }
+        else{
+            currentStoryID = unfinishedStoryList.get(0).getObjectId();
         }
 
-
-        // Retrieve the object by id, at the moment the same story is loaded from the database for all users, but we want it to connect a story for particular users
-
-        query.whereEqualTo("isComplete", "false");
-        query.getInBackground(randStoryId, new GetCallback<ParseObject>() {
-            public void done(ParseObject storyTextServer, com.parse.ParseException e) {
-                if (e == null) {
-                    storyText.append(storyTextServer.getString("story")); //load the story from the database and save it in local variable storyText
-                    setStoryView(storyText); //set the "story view", which is the text field containing the last 60 characters of the story, checks if whole word
-                }
-            }
-
-        });
-
-
     }
 
+    //Changes currentStoryId to a random one
+    public void displayStoryText() {
 
-    public void getDefaultStory() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
 
-        // Retrieve the object by id, at the moment the same story is loaded from the database for all users, but we want it to connect a story for particular users
-        query.getInBackground("7QaY0rG71I", new GetCallback<ParseObject>() {
+        query.getInBackground(currentStoryID, new GetCallback<ParseObject>() {
             public void done(ParseObject storyTextServer, com.parse.ParseException e) {
                 if (e == null) {
                     storyText.append(storyTextServer.getString("story")); //load the story from the database and save it in local variable storyText
@@ -213,14 +194,14 @@ public class StoryModeActivity extends ActionBarActivity {
 
         });
 
-    }
 
+    }
     public void updateStory(final String inputText) {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
 
         // Retrieve the story by id and update it, same problem as with getstory
-        query.getInBackground(randStoryId, new GetCallback<ParseObject>() {
+        query.getInBackground(currentStoryID, new GetCallback<ParseObject>() {
             public void done(ParseObject storyTextServer, com.parse.ParseException e) {
                 if (e == null) {
                     // Now let's update it with some new data. In this case, only cheatMode and score
@@ -236,16 +217,22 @@ public class StoryModeActivity extends ActionBarActivity {
 
     }
 
-    public void postStory(final String inputText) {
+    public void pushStory(final String inputText) {
 
+        if (creatingNewStory){
+            createNewStory(inputText);
+        }
 
+        //Posts the story to the Writes class at Parse
         final ParseObject newPost = new ParseObject("Writes");
         newPost.put("storyPart", inputText);
         newPost.put("author", ParseUser.getCurrentUser().getUsername());
-        newPost.put("inStory", randStoryId);
+        newPost.put("inStory", currentStoryID);
 
+
+        //Queries "Writes" for the current story
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("Writes");
-        query.whereEqualTo("inStory", randStoryId);
+        query.whereEqualTo("inStory", currentStoryID);
 
         //Creates a super awesome query!
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -253,13 +240,26 @@ public class StoryModeActivity extends ActionBarActivity {
 
                 if (e == null) {
 
-                    if (retrievedList.size() >= MAX_NUM_POSTS_IN_STORY) {
-                        setStoryComplete(randStoryId);
+                    // Set the story completed if the posts are too many
+                    if (retrievedList.size() >= MAX_NUM_POSTS_IN_STORY-1) {
+                        setCurrentStoryComplete();
                     }
-                    int maxNumber = 0;
-                    newPost.put("numberInStory", retrievedList.size());
+
+                    // Sets the story's number in the queue
+                    if (retrievedList.size() > 0) {
+                        newPost.put("numberInStory", retrievedList.size());
+                    }
+                    else {
+                        newPost.put("numberInStory", 0);
+                    }
+                    try {
+                        newPost.save();
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                    }//TODO ASyncTask
 
                 } else {
+                    e.printStackTrace();
 
                 }
             }
@@ -278,15 +278,15 @@ public class StoryModeActivity extends ActionBarActivity {
 
     }
 
-    public void setStoryComplete(String storyID){
+    public void setCurrentStoryComplete(){
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
 
         // Retrieve the story by id and update it, same problem as with getstory
-        query.getInBackground(randStoryId, new GetCallback<ParseObject>() {
+        query.getInBackground(currentStoryID, new GetCallback<ParseObject>() {
             public void done(ParseObject storyTextServer, com.parse.ParseException e) {
                 if (e == null) {
-                    storyTextServer.put("isComplete", true);
+                    storyTextServer.put("isCompleted", true);
                     storyTextServer.saveInBackground();
 
                 }
@@ -303,13 +303,24 @@ public class StoryModeActivity extends ActionBarActivity {
         newStory.put("creator", ParseUser.getCurrentUser().getUsername());
         newStory.put("score", 0);
         newStory.put("isCompleted", false);
-        newStory.saveInBackground();
+        try {
+            newStory.save(); //TODO this should be done by AsyncTask, not in the main thread! FIX!!!
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        currentStoryID = newStory.getObjectId();
 
     }
 
     public void addTextToView(final String inputText) {
 
-        mEndOfStory.setText(mEndOfStory.getText() + " " + inputText);
+
+        if (mEndOfStory.getText() == null){
+            mEndOfStory.setText(mEndOfStory.getText() + " " + inputText);
+        }
+        else {
+            mEndOfStory.setText(inputText);
+        }
 
 
 
