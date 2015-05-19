@@ -40,6 +40,7 @@ public class MainActivity extends ActionBarActivity {
         mSignupButton = (Button) findViewById(R.id.Signup);
 
 
+        // If you're logged in - you'll get to
         if (ParseUser.getCurrentUser() != null) {
             Intent intent = new Intent(this, StoryModeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
