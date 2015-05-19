@@ -130,6 +130,8 @@ public class StoryModeActivity extends ActionBarActivity {
                 //TODO this should really check if the send actually was successful
                 Toast.makeText(StoryModeActivity.this, "Send successful", Toast.LENGTH_LONG).show();
 
+                finish();
+                startActivity(getIntent());
 
             }
         });
@@ -265,7 +267,6 @@ public class StoryModeActivity extends ActionBarActivity {
             }
         });
 
-
         newPost.saveInBackground();
         updateStory(inputText);
 
@@ -314,15 +315,12 @@ public class StoryModeActivity extends ActionBarActivity {
 
     public void addTextToView(final String inputText) {
 
-
         if (mEndOfStory.getText() == null){
             mEndOfStory.setText(mEndOfStory.getText() + " " + inputText);
         }
         else {
             mEndOfStory.setText(inputText);
         }
-
-
 
     }
 
