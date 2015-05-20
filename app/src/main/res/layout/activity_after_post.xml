@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.willy.storyapp2.AfterPostActivity">
+
+    <TextView android:text="Send succesful!" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sendSuccesfulTextID"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="69dp"
+        android:textSize="30dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/textView2ID"
+        android:layout_below="@+id/sendSuccesfulTextID"
+        android:layout_alignRight="@+id/sendSuccesfulTextID"
+        android:layout_alignEnd="@+id/sendSuccesfulTextID" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create new story!"
+        android:id="@+id/createNewStoryButton_ID"
+        android:layout_above="@+id/storyShowcaseAP_ID"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="See finished story"
+        android:id="@+id/storyShowcaseAP_ID"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/createNewStoryButton_ID"
+        android:layout_alignStart="@+id/createNewStoryButton_ID" />
+
+</RelativeLayout>

@@ -12,5 +12,8 @@
     <string name="Signup">Sign up</string>
     <string name="title_activity_story_showcase">storyShowcase</string>
     <string name="music_button">Music off</string>
+    <string name="title_activity_after_post">AfterPostActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>

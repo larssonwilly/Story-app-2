@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         // Enable Local Datastore.
-//        Parse.enableLocalDatastore(this);
+        // Parse.enableLocalDatastore(this);
         Parse.initialize(this, "kis8UPt0FJqm7CTURn5FozaYh1gPbCC6tNtEt0dP", "sNqbugJaRddwJmpA5WBSsJQVFT5JbZddBawtfEI8");
 
         mLoginButton = (Button) findViewById(R.id.Login);

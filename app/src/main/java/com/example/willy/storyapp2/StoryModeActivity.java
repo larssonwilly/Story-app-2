@@ -130,11 +130,19 @@ public class StoryModeActivity extends ActionBarActivity {
                 //TODO this should really check if the send actually was successful
                 Toast.makeText(StoryModeActivity.this, "Send successful", Toast.LENGTH_LONG).show();
 
-                finish();
-                startActivity(getIntent());
+
+                //Starts afterpostactivity
+                startAfterPostActivity();
+
 
             }
         });
+    }
+
+    public void startAfterPostActivity(){
+        Intent intent = new Intent(this, AfterPostActivity.class);
+        startActivity(intent);
+
     }
 
     // Enables the mButton if if the length of the text exceeds 15 characters.
@@ -155,6 +163,7 @@ public class StoryModeActivity extends ActionBarActivity {
             storyList = query.find();
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
+
         } //TODO AsyncTask this. This code is ineffective and may slow down application.
 
 
