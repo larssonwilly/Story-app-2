@@ -1,22 +1,61 @@
 package com.example.willy.storyapp2;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
 
 
-class StoryShowcaseAdapter extends ArrayAdapter<String> {
+class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
 
-    public StoryShowcaseAdapter(Context context, List stories) {
-        super(context, R.layout.story_showcase_list_layout, stories);
+    TextView storyIdTextView;
+    TextView storyContentTextView;
+    ImageView storyTellerLogoView;
+    List<ParseObject> storyList;
+    String user;
+
+
+
+
+    public StoryShowcaseAdapter(Context context, List storyObjects) {
+        super(context, R.layout.story_showcase_list_layout, storyObjects);
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery("Writes");
+        user = "quaxi";
+
+
+        query.whereEqualTo("author", user);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> retrievedList, com.parse.ParseException e) {
+
+                if (e == null) {
+
+                    storyList = retrievedList;
+                    System.out.println();
+
+                } else {
+                    e.printStackTrace();
+
+                }
+            }
+        });
     }
 
     @Override
@@ -24,22 +63,35 @@ class StoryShowcaseAdapter extends ArrayAdapter<String> {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View customView = inflater.inflate(R.layout.story_showcase_list_layout, parent, false);
 
-        String storyIdAndContent = getItem(position);
-        String singleStoryId = storyIdAndContent.substring(0, 9);
-        String singleStory = storyIdAndContent.substring(9);
 
-        TextView storyIdTextView = (TextView) customView.findViewById(R.id.storyIdTextView);
+        final ParseObject parseObject = getItem(position);
 
-        TextView storyContentTextView = (TextView) customView.findViewById(R.id.storyContentTextView);
-        ImageView storyTellerLogoView = (ImageView) customView.findViewById(R.id.storyTellerLogoView);
+        storyIdTextView = (TextView) customView.findViewById(R.id.storyIdTextView);
+        storyContentTextView = (TextView) customView.findViewById(R.id.storyContentTextView);
+        storyTellerLogoView = (ImageView) customView.findViewById(R.id.storyTellerLogoView);
 
-        storyIdTextView.setText(singleStoryId);
-        storyContentTextView.setText(singleStory);
+        storyIdTextView.setText(parseObject.getObjectId());
+        storyContentTextView.setText(parseObject.getString("story"));
         storyTellerLogoView.setImageResource(R.drawable.storyteller_logo_alpha);
 
 
+        if (storyList != null){
+
+            for (ParseObject object : storyList) {
+                if (object.getString("inStory").equals(parseObject.getObjectId())){
+                    invertText();
+                }
+            }
+        }
+
         return customView;
 
+
+    }
+
+    public void invertText() {
+        storyContentTextView.setBackgroundColor(Color.BLUE);
+        storyContentTextView.setTextColor(Color.WHITE);
 
     }
 }

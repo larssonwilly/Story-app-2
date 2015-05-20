@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_dark"
+    android:background="@android:color/background_light"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -26,28 +26,19 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        />
+        android:background="#ff0c90cf"
+        android:layout_marginTop="15dp" />
 
     <Button
         android:id="@+id/Signup"
         android:text="@string/Signup"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/Start_button"
-        android:layout_alignLeft="@+id/Start_button"
-        android:layout_alignStart="@+id/Start_button" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/About_button"
-        android:id="@+id/Settings_button"
+        android:background="#ff0c90cf"
         android:layout_below="@+id/Start_button"
         android:layout_alignLeft="@+id/Start_button"
         android:layout_alignStart="@+id/Start_button"
-        android:layout_marginTop="46dp"
-        android:layout_alignRight="@+id/Signup"
-        android:layout_alignEnd="@+id/Signup" />
+        android:layout_marginTop="15dp" />
 
     <!-- Minaretbilden -->
     <ImageView
@@ -57,7 +48,7 @@
         android:layout_above="@+id/Start_button"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/p250px_minaret"
+        android:src="@drawable/storyteller_logo_alpha"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/picturM"
         android:layout_alignParentLeft="true"
@@ -66,33 +57,14 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Off"
-        android:id="@+id/music_button"
-        android:layout_below="@+id/Settings_button"
-        android:layout_alignRight="@+id/Settings_button"
-        android:layout_alignEnd="@+id/Settings_button"
-        android:layout_marginTop="48dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Inspiring music"
-        android:id="@+id/textView"
-        android:gravity="center_vertical|center"
-        android:layout_alignBottom="@+id/music_button"
-        android:layout_alignLeft="@+id/storyShowcaseButton"
-        android:layout_alignStart="@+id/storyShowcaseButton" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Story Showcase"
         android:id="@+id/storyShowcaseButton"
-        android:layout_below="@+id/Settings_button"
-        android:layout_alignLeft="@+id/Settings_button"
-        android:layout_alignStart="@+id/Settings_button"
-        android:layout_alignRight="@+id/music_button"
-        android:layout_alignEnd="@+id/music_button" />
+        android:layout_below="@+id/Signup"
+        android:layout_alignLeft="@+id/Signup"
+        android:layout_alignStart="@+id/Signup"
+        android:background="#ff1495d0"
+        android:layout_alignRight="@+id/Signup"
+        android:layout_alignEnd="@+id/Signup"
+        android:layout_marginTop="15dp" />
 
 </RelativeLayout>

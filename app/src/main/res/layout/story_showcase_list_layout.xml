@@ -31,5 +31,7 @@
         android:id="@+id/storyContentTextView"
         android:layout_below="@+id/storyIdTextView"
         android:layout_alignLeft="@+id/storyIdTextView"
-        android:layout_alignStart="@+id/storyIdTextView" />
+        android:layout_alignStart="@+id/storyIdTextView"
+        android:autoText="false" />
+
 </RelativeLayout>

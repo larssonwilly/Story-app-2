@@ -89,10 +89,11 @@ public class MainActivity extends ActionBarActivity {
 
         // ToDo: knappen funkar inte ordentligt om man loggar ut och in
         //Creates button for turning start screen music on or off and defines its functionality
-        musicToggleButton = (Button) findViewById(R.id.music_button); // Creates the music button
+
+       /* musicToggleButton = (Button) findViewById(R.id.music_button); // Creates the music button
         musicToggleButton.setTag(1); // Gives the button a tag which later on is used to give the button the functionality to pause and restart the music
         musicToggleButton.setText("Off"); // Sets the text that is shown on the button
-        runningMusic();
+        runningMusic();*/
     }
 
     // Enters the StoryMode activity
@@ -111,7 +112,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    public void runningMusic() {
+    /*public void runningMusic() {
 
         if (musicToggleButton.getTag().equals(1)) {
             musicToggleButton.setText("Off");
@@ -140,7 +141,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-    }
+    }*/
 
 }
 
