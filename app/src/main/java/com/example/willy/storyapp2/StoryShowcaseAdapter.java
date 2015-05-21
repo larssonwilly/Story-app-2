@@ -38,7 +38,7 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
     public StoryShowcaseAdapter(Context context, List storyObjects) {
         super(context, R.layout.story_showcase_list_layout, storyObjects);
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("Writes");
-        user = "quaxi";
+        user = ParseUser.getCurrentUser().getUsername();
 
 
         query.whereEqualTo("author", user);
