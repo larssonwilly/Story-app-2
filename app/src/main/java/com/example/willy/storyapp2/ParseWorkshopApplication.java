@@ -15,7 +15,6 @@ public class ParseWorkshopApplication extends Application {
 		 * Add Parse initialization code here
 		 */
 
-
         ParseACL defaultACL = new ParseACL();
 
         // If you would like all objects to be private by default, remove this
