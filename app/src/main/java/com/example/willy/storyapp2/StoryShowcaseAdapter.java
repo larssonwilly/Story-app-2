@@ -30,7 +30,8 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
     TextView storyContentTextView;
     ImageView storyTellerLogoView;
     List<ParseObject> storyList;
-    String user;
+    String user = null;
+    ParseUser currentUser;
 
 
 
@@ -38,17 +39,20 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
     public StoryShowcaseAdapter(Context context, List storyObjects) {
         super(context, R.layout.story_showcase_list_layout, storyObjects);
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("Writes");
-        user = ParseUser.getCurrentUser().getUsername();
+
+        currentUser = ParseUser.getCurrentUser();
+
+        if (currentUser != null) {
+            user = currentUser.getUsername();
+        }
 
 
-        query.whereEqualTo("author", user);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> retrievedList, com.parse.ParseException e) {
 
                 if (e == null) {
 
                     storyList = retrievedList;
-                    System.out.println();
 
                 } else {
                     e.printStackTrace();
@@ -72,12 +76,12 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
         storyIdTextView.setText(parseObject.getString("storyName"));
         storyContentTextView.setText(parseObject.getString("story"));
 
-
-        if (storyList != null){
-
-            for (ParseObject object : storyList) {
-                if (object.getString("inStory").equals(parseObject.getObjectId())){
-                    invertText();
+        if (currentUser != null){
+            if (storyList != null && user != null) {
+                for (ParseObject object : storyList) {
+                    if (object.getString("inStory").equals(parseObject.getObjectId())) {
+                        invertText();
+                    }
                 }
             }
         }
