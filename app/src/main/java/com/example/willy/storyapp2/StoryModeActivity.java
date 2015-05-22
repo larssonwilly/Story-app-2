@@ -1,28 +1,21 @@
 package com.example.willy.storyapp2;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +36,7 @@ public class StoryModeActivity extends Activity {
     //The elements of the activity
     private EditText mEditStoryField;
     private EditText editStoryName;
+    private TextView storyNameView;
 
     private Button mButton;
     private TextView mEndOfStory;
@@ -61,7 +55,9 @@ public class StoryModeActivity extends Activity {
     private String currentStoryID;
     private boolean creatingNewStory;
 
-    private String storyNameFromEdit;
+    private ParseObject currentStoryObj;
+
+    private String storyName;
     private Dialog d;
 
 
@@ -79,6 +75,7 @@ public class StoryModeActivity extends Activity {
 
         //gets the story from the database so that it is possible to see what the last person wrote
         new DownloadFilesTask().execute();
+
 
 
 
@@ -193,6 +190,8 @@ public class StoryModeActivity extends Activity {
             currentStoryID = unfinishedStoryList.get(0).getObjectId();
         }
 
+
+
     }
 
     //Changes currentStoryId to a random one
@@ -205,10 +204,23 @@ public class StoryModeActivity extends Activity {
                 if (e == null) {
                     storyText.append(storyTextServer.getString("story")); //load the story from the database and save it in local variable storyText
                     setStoryView(storyText); //set the "story view", which is the text field containing the last 60 characters of the story, checks if whole word
+                    setStoryNameView(storyTextServer.getString("storyName"));
+
+
                 }
             }
 
         });
+
+
+
+
+    }
+
+    public void setStoryNameView(String input){
+
+        storyNameView = (TextView) findViewById(R.id.storyNameView);
+        storyNameView.setText(input);
 
 
     }
@@ -237,11 +249,7 @@ public class StoryModeActivity extends Activity {
     public void pushStory(final String inputText) {
 
         if (creatingNewStory){
-
-
-            createNewStory(inputText, storyNameFromEdit);
-
-
+            createNewStory(inputText, storyName);
 
         }
 
@@ -404,7 +412,6 @@ public class StoryModeActivity extends Activity {
         protected Long doInBackground(URL... urls) {
 
             loadAllStories();
-
             return null;
         }
 
@@ -428,6 +435,8 @@ public class StoryModeActivity extends Activity {
                 Button send = new Button(StoryModeActivity.this);
                 send.setText("Done!");
 
+
+
                 editStoryName.setHint("What's the name of your story?");
                 editStoryName.setPadding(50, 0, 50, 50);
 
@@ -445,10 +454,9 @@ public class StoryModeActivity extends Activity {
 
                     @Override
                     public void onClick(View v) {
-                        storyNameFromEdit = editStoryName.getText().toString();
+                        storyName = editStoryName.getText().toString();
+                        setStoryNameView(storyName);
                         d.dismiss();
-
-
                     }
                 });
 
@@ -458,6 +466,7 @@ public class StoryModeActivity extends Activity {
             else {
                 displayStoryText();
                 creatingNewStory = false;
+
             }
 
         }
