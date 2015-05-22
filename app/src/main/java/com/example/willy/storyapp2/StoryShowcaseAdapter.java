@@ -29,7 +29,6 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
     TextView storyIdTextView;
     TextView storyContentTextView;
     List<ParseObject> storyList;
-    String user = null;
     ParseUser currentUser;
 
 
@@ -41,18 +40,13 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
 
         currentUser = ParseUser.getCurrentUser();
 
-        if (currentUser != null) {
-            user = currentUser.getUsername();
-        }
 
 
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> retrievedList, com.parse.ParseException e) {
 
                 if (e == null) {
-
                     storyList = retrievedList;
-
                 } else {
                     e.printStackTrace();
 
@@ -75,8 +69,9 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
         storyIdTextView.setText(parseObject.getString("storyName"));
         storyContentTextView.setText(parseObject.getString("story"));
 
+        // If the current user is logged in - invert the text of all the stories the user has contributed to
         if (currentUser != null){
-            if (storyList != null && user != null) {
+            if (storyList != null) {
                 for (ParseObject object : storyList) {
                     if (object.getString("inStory").equals(parseObject.getObjectId())) {
                         invertText();
