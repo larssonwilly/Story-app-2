@@ -31,15 +31,11 @@ public class AfterPostActivity extends Activity {
                 createNewStory();
             }
         });
-
         storyShowcaseButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startNewStoryshowcase();
             }
         });
-
-
-
 
 
     }

@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StoryShowcaseActivity extends ActionBarActivity {
+public class StoryShowcaseActivity extends Activity {
 
     private List<ParseObject> storyList = new ArrayList<ParseObject>();
 
