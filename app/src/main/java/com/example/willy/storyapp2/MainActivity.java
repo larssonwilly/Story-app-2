@@ -1,5 +1,6 @@
 package com.example.willy.storyapp2;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -23,7 +24,7 @@ import com.parse.ParseUser;
  * @version 1.0?
  * @since   2015-03-15
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     /**
      * TYPE: Can have the value of LOGIN or SIGNUP depending on what button the user presses. This value is sent to AuthenticateActivity

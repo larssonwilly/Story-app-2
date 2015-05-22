@@ -1,5 +1,6 @@
 package com.example.willy.storyapp2;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -36,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class StoryModeActivity extends ActionBarActivity {
+public class StoryModeActivity extends Activity {
 
     //The elements of the activity
     private EditText mEditStoryField;
@@ -156,7 +158,8 @@ public class StoryModeActivity extends ActionBarActivity {
         mButton.setEnabled(isReady);
     }
 
-    //Loads all the stories as objects into storyList and unfinishedStoryList
+    // Loads all the stories as objects into storyList and unfinishedStoryList.
+    // This should only be loaded in conjunction with an AsyncTask
     public void loadAllStories() {
 
         unfinishedStoryList = new ArrayList<>();
@@ -168,8 +171,7 @@ public class StoryModeActivity extends ActionBarActivity {
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
 
-        } //TODO AsyncTask this. This code is ineffective and may slow down application.
-
+        }
 
         //Adds all non-completed stories in "unfinishedStoryList"
         for (ParseObject story : storyList) {

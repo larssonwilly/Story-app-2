@@ -40,8 +40,6 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
 
         currentUser = ParseUser.getCurrentUser();
 
-
-
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> retrievedList, com.parse.ParseException e) {
 

@@ -2,24 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.willy.storyapp2" >
 
-    <uses-sdk android:minSdkVersion="14" />
+    <uses-sdk android:minSdkVersion="21" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <android:uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
+        android:maxSdkVersion="22" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/storyteller_logo_alpha"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/MyTheme" >
+
+
+
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -44,14 +44,7 @@
             android:name=".AfterPostActivity"
             android:label="@string/title_activity_after_post" >
         </activity>
-        <activity
-            android:name="com.example.willy.storyapp.ShowPopUp"
-            android:label="@string/title_activity_show_pop_up" >
-        </activity>
-        <activity
-            android:name=".ShowPopUp"
-            android:label="@string/title_activity_show_pop_up" >
-        </activity>
+
     </application>
 
 </manifest>

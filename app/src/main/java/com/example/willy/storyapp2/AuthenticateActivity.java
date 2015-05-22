@@ -1,5 +1,6 @@
 package com.example.willy.storyapp2;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -22,7 +23,7 @@ import com.parse.ParseException;
  * @version 1.0?
  * @since   2015-03-15
  */
-public class AuthenticateActivity extends ActionBarActivity {
+public class AuthenticateActivity extends Activity {
 
     /**
      * action: used to set the text on mButton.

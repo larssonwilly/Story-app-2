@@ -1,5 +1,6 @@
 package com.example.willy.storyapp2;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -8,7 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class AfterPostActivity extends ActionBarActivity {
+public class AfterPostActivity extends Activity {
 
     private Button createNewStoryButton;
     private Button storyShowcaseButton;
