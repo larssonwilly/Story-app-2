@@ -3,6 +3,7 @@ package com.example.willy.storyapp2;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -18,13 +19,14 @@ import android.widget.SimpleAdapter;
 import com.example.willy.storyapp2.R;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StoryShowcaseActivity extends Activity {
+public class StoryShowcaseActivity extends ActionBarActivity {
 
     private List<ParseObject> storyList = new ArrayList<ParseObject>();
 
@@ -33,17 +35,11 @@ public class StoryShowcaseActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_showcase);
 
-
         loadAllStories();
 
         ListView storyListView = (ListView) findViewById(R.id.storyListView);
         ListAdapter storyAdapter = new StoryShowcaseAdapter(this, storyList);
         storyListView.setAdapter(storyAdapter);
-
-
-
-
-
 
       /*  listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -70,8 +66,6 @@ public class StoryShowcaseActivity extends Activity {
         });*/
     }
 
-
-
     public void loadAllStories() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
         try {
@@ -80,6 +74,31 @@ public class StoryShowcaseActivity extends Activity {
             e.printStackTrace();
         } //TODO AsyncTask this. This code is ineffective and may slow down application.
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_after_post, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logoutButton:
+            /*
+			 * Log current user out using ParseUser.logOut()
+			 */
+                ParseUser.logOut();
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 }
 
