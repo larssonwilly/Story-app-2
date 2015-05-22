@@ -28,7 +28,6 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
 
     TextView storyIdTextView;
     TextView storyContentTextView;
-    ImageView storyTellerLogoView;
     List<ParseObject> storyList;
     String user = null;
     ParseUser currentUser;
