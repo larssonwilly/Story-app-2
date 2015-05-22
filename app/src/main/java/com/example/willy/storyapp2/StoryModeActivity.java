@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -73,53 +76,8 @@ public class StoryModeActivity extends ActionBarActivity {
         mEndOfStory = (TextView) findViewById(R.id.theStory);
 
         //gets the story from the database so that it is possible to see what the last person wrote
-        loadAllStories();
-        if (unfinishedStoryList.size() > 0){
-            getRandomUnfinishedStory();
-        }
+        new DownloadFilesTask().execute();
 
-        if (currentStoryID == null){
-            Toast.makeText(StoryModeActivity.this, "No unfinished stories found - creating a new one!", Toast.LENGTH_LONG).show();
-            creatingNewStory = true;
-
-            d = new Dialog(this);
-
-            //Creating dialog for creating new story
-            editStoryName = new EditText(this);
-            Button send = new Button(this);
-            send.setText("Done!");
-
-            editStoryName.setHint("What's the name of your story?");
-            editStoryName.setPadding(50, 0, 50, 50);
-
-            LinearLayout layout = new LinearLayout(this);
-            layout.setOrientation(LinearLayout.VERTICAL);
-
-            layout.addView(editStoryName);
-            layout.addView(send);
-
-            d.setContentView(layout);
-            d.show();
-
-
-            send.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    storyNameFromEdit = editStoryName.getText().toString();
-                    d.dismiss();
-
-
-                }
-            });
-
-
-
-        }
-        else {
-            displayStoryText();
-            creatingNewStory = false;
-        }
 
 
         // Indicates for the user that they have marked the textfield
@@ -202,8 +160,9 @@ public class StoryModeActivity extends ActionBarActivity {
     public void loadAllStories() {
 
         unfinishedStoryList = new ArrayList<>();
-
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
+
+
         try {
             storyList = query.find();
         } catch (com.parse.ParseException e) {
@@ -212,10 +171,10 @@ public class StoryModeActivity extends ActionBarActivity {
         } //TODO AsyncTask this. This code is ineffective and may slow down application.
 
 
+        //Adds all non-completed stories in "unfinishedStoryList"
         for (ParseObject story : storyList) {
             if (!story.getBoolean("isCompleted")){
                 unfinishedStoryList.add(story);
-                System.out.println("test");
             }
         }
     }
@@ -435,5 +394,72 @@ public class StoryModeActivity extends ActionBarActivity {
 
         }
     }
+
+    //AsyncTask to load all stories
+    private class DownloadFilesTask extends AsyncTask<URL, Integer, Long> {
+
+
+        protected Long doInBackground(URL... urls) {
+
+            loadAllStories();
+
+            return null;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+            //ProgressBar progressBar = new ProgressBar(this.getClass().);
+        }
+
+        protected void onPostExecute(Long result) {
+            if (unfinishedStoryList.size() > 0){
+                getRandomUnfinishedStory();
+            }
+
+            if (currentStoryID == null){
+                Toast.makeText(StoryModeActivity.this, "No unfinished stories found - creating a new one!", Toast.LENGTH_LONG).show();
+                creatingNewStory = true;
+
+                d = new Dialog(StoryModeActivity.this);
+
+                //Creating dialog for creating new story
+                editStoryName = new EditText(StoryModeActivity.this);
+                Button send = new Button(StoryModeActivity.this);
+                send.setText("Done!");
+
+                editStoryName.setHint("What's the name of your story?");
+                editStoryName.setPadding(50, 0, 50, 50);
+
+                LinearLayout layout = new LinearLayout(StoryModeActivity.this);
+                layout.setOrientation(LinearLayout.VERTICAL);
+
+                layout.addView(editStoryName);
+                layout.addView(send);
+
+                d.setContentView(layout);
+                d.show();
+
+
+                send.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        storyNameFromEdit = editStoryName.getText().toString();
+                        d.dismiss();
+
+
+                    }
+                });
+
+
+
+            }
+            else {
+                displayStoryText();
+                creatingNewStory = false;
+            }
+
+        }
+    }
+
 
 }
