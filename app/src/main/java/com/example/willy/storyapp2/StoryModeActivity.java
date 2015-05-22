@@ -270,7 +270,7 @@ public class StoryModeActivity extends Activity {
                     // Sets the story's number in the queue
                     if (retrievedList.size() > 0) {
                         newPost.put("numberInStory", retrievedList.size());
-                    }
+                    } //TODO this sometimes bugs. Fix plz
                     else {
                         newPost.put("numberInStory", 0);
                     }
