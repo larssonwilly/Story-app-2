@@ -1,10 +1,17 @@
 package com.example.willy.storyapp2;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.parse.Parse;
 import com.parse.ParseUser;
 
@@ -95,7 +102,7 @@ public class MainActivity extends ActionBarActivity {
     /**
      *  Starts the activity Story showcase
      */
-    public void startStoryShowcase(){
+    private void startStoryShowcase(){
 
         Intent intent = new Intent(this, StoryShowcaseActivity.class);
         startActivity(intent);

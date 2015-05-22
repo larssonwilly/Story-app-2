@@ -1,18 +1,24 @@
 package com.example.willy.storyapp2;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +37,8 @@ public class StoryModeActivity extends ActionBarActivity {
 
     //The elements of the activity
     private EditText mEditStoryField;
+    private EditText editStoryName;
+
     private Button mButton;
     private TextView mEndOfStory;
 
@@ -47,6 +55,11 @@ public class StoryModeActivity extends ActionBarActivity {
     //story Variables
     private String currentStoryID;
     private boolean creatingNewStory;
+
+    private String storyNameFromEdit;
+    private Dialog d;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +81,40 @@ public class StoryModeActivity extends ActionBarActivity {
         if (currentStoryID == null){
             Toast.makeText(StoryModeActivity.this, "No unfinished stories found - creating a new one!", Toast.LENGTH_LONG).show();
             creatingNewStory = true;
+
+            d = new Dialog(this);
+
+            //Creating dialog for creating new story
+            editStoryName = new EditText(this);
+            Button send = new Button(this);
+            send.setText("Done!");
+
+            editStoryName.setHint("What's the name of your story?");
+            editStoryName.setPadding(50, 0, 50, 50);
+
+            LinearLayout layout = new LinearLayout(this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+
+            layout.addView(editStoryName);
+            layout.addView(send);
+
+            d.setContentView(layout);
+            d.show();
+
+
+            send.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    storyNameFromEdit = editStoryName.getText().toString();
+                    d.dismiss();
+
+
+                }
+            });
+
+
+
         }
         else {
             displayStoryText();
@@ -128,8 +175,6 @@ public class StoryModeActivity extends ActionBarActivity {
                 clearText(); //clears the text for new input
 
                 //TODO this should really check if the send actually was successful
-                Toast.makeText(StoryModeActivity.this, "Send successful", Toast.LENGTH_LONG).show();
-
 
                 //Starts afterpostactivity
                 startAfterPostActivity();
@@ -231,7 +276,12 @@ public class StoryModeActivity extends ActionBarActivity {
     public void pushStory(final String inputText) {
 
         if (creatingNewStory){
-            createNewStory(inputText);
+
+
+            createNewStory(inputText, storyNameFromEdit);
+
+
+
         }
 
         //Posts the story to the Writes class at Parse
@@ -281,13 +331,6 @@ public class StoryModeActivity extends ActionBarActivity {
 
     }
 
-    public boolean checkIfStoryComplete(final String storyID){
-
-        ParseObject stories = new ParseObject("Story");
-        return stories.getBoolean(storyID);
-
-    }
-
     public void setCurrentStoryComplete(){
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
@@ -306,13 +349,14 @@ public class StoryModeActivity extends ActionBarActivity {
 
     }
 
-    public void createNewStory(String inputText) {
+    public void createNewStory(String inputText, String storyName) {
 
         final ParseObject newStory = new ParseObject("Story");
         newStory.put("story", inputText);
         newStory.put("creator", ParseUser.getCurrentUser().getUsername());
         newStory.put("score", 0);
         newStory.put("isCompleted", false);
+        newStory.put("storyName", storyName);
         try {
             newStory.save(); //TODO this should be done by AsyncTask, not in the main thread! FIX!!!
         } catch (ParseException e) {

@@ -68,11 +68,9 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
 
         storyIdTextView = (TextView) customView.findViewById(R.id.storyIdTextView);
         storyContentTextView = (TextView) customView.findViewById(R.id.storyContentTextView);
-        storyTellerLogoView = (ImageView) customView.findViewById(R.id.storyTellerLogoView);
 
-        storyIdTextView.setText(parseObject.getObjectId());
+        storyIdTextView.setText(parseObject.getString("storyName"));
         storyContentTextView.setText(parseObject.getString("story"));
-        storyTellerLogoView.setImageResource(R.drawable.storyteller_logo_alpha);
 
 
         if (storyList != null){
@@ -90,7 +88,7 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
     }
 
     public void invertText() {
-        storyContentTextView.setBackgroundColor(Color.BLUE);
+        storyContentTextView.setBackgroundColor(Color.argb(255, 18, 149, 209));
         storyContentTextView.setTextColor(Color.WHITE);
 
     }

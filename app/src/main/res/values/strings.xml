@@ -15,5 +15,6 @@
     <string name="title_activity_after_post">AfterPostActivity</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_show_pop_up">ShowPopUp</string>
 
 </resources>

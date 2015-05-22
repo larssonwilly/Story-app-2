@@ -1,37 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_width="fill_parent" android:layout_height="fill_parent"
     android:id="@+id/storyShowcaseLayout">
 
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:id="@+id/storyTellerLogoView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:src="@drawable/storyteller_logo_alpha" />
-
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="1000dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Text ID Placeholder"
         android:id="@+id/storyIdTextView"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/storyTellerLogoView"
-        android:layout_toEndOf="@+id/storyTellerLogoView"
-        android:layout_margin="5dp" />
+        android:layout_margin="7dp" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="1000dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Text Content Placeholder"
         android:id="@+id/storyContentTextView"
+        android:autoText="false"
         android:layout_below="@+id/storyIdTextView"
-        android:layout_alignLeft="@+id/storyIdTextView"
-        android:layout_alignStart="@+id/storyIdTextView"
-        android:autoText="false" />
+        android:layout_alignRight="@+id/storyIdTextView"
+        android:layout_alignEnd="@+id/storyIdTextView"
+        android:layout_margin="5dp"
+        android:minWidth="500dp"
+        android:padding="10dp" />
 
 </RelativeLayout>
