@@ -57,13 +57,26 @@ public class AfterPostActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_after_post, menu);
+        getMenuInflater().inflate(R.menu.main_activity_actions, menu);
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
+            case R.id.view_stories:
+                Intent intentView = new Intent(this, StoryShowcaseActivity.class);
+                startActivity(intentView);
+                return true;
+
+            case R.id.create_story:
+                Intent intentStory = new Intent(this, StoryModeActivity.class);
+                startActivity(intentStory);
+                return true;
+
             case R.id.logoutButton:
             /*
 			 * Log current user out using ParseUser.logOut()
@@ -77,6 +90,6 @@ public class AfterPostActivity extends Activity {
                 return super.onOptionsItemSelected(item);
 
         }
-
     }
+
 }

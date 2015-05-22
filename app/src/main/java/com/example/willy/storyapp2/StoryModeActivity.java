@@ -379,17 +379,27 @@ public class StoryModeActivity extends Activity {
     public void clearText() {
         mEditStoryField.setText("");
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_activity_actions, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
+            case R.id.view_stories:
+                Intent intentView = new Intent(this, StoryShowcaseActivity.class);
+                startActivity(intentView);
+                return true;
+
+            case R.id.create_story:
+                Intent intentStory = new Intent(this, StoryModeActivity.class);
+                startActivity(intentStory);
+                return true;
+
             case R.id.logoutButton:
             /*
 			 * Log current user out using ParseUser.logOut()
@@ -404,6 +414,7 @@ public class StoryModeActivity extends Activity {
 
         }
     }
+
 
     //AsyncTask to load all stories
     private class DownloadFilesTask extends AsyncTask<URL, Integer, Long> {
