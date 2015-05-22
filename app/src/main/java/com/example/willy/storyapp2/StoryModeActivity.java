@@ -179,7 +179,6 @@ public class StoryModeActivity extends ActionBarActivity {
         }
     }
 
-
     //Changes currentStoryId to a random one
     public void getRandomUnfinishedStory() {
 
@@ -211,6 +210,7 @@ public class StoryModeActivity extends ActionBarActivity {
 
 
     }
+
     public void updateStory(final String inputText) {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
