@@ -36,6 +36,7 @@
         android:id="@+id/sendStoryButton"
         android:elevation="5dp"
         android:layout_below="@+id/storyEditText"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -50,6 +51,18 @@
         android:background="#75ABBC"
         android:padding="7dp"
         android:textSize="25dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="You need 15 more characters"
+        android:id="@+id/textMinLength_ID"
+        android:layout_above="@+id/storyEditText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="10dp"
+        android:layout_margin="3dp" />
 
 
 </RelativeLayout>

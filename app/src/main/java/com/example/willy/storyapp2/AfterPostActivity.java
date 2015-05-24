@@ -1,5 +1,6 @@
 package com.example.willy.storyapp2;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -20,6 +21,10 @@ public class AfterPostActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_after_post);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setTitle(ParseUser.getCurrentUser().getUsername());
+
 
         //Initialize buttons
         createNewStoryButton = (Button) findViewById(R.id.createNewStoryButton_ID);

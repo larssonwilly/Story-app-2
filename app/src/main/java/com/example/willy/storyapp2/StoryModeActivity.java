@@ -1,5 +1,6 @@
 package com.example.willy.storyapp2;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -9,7 +10,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -37,29 +37,33 @@ public class StoryModeActivity extends Activity {
     private EditText mEditStoryField;
     private EditText editStoryName;
     private TextView storyNameView;
+    private TextView lengthLabel;
 
     private Button mButton;
     private TextView mEndOfStory;
 
+
+
+
     //Stringbuilder is a tool for handling strings, we use it for the append method
     private StringBuilder storyText = new StringBuilder("");
-    private String theStory = "";
     public static int MAX_LENGTH_VISIBLE = 40;
     public static int MAX_NUM_POSTS_IN_STORY = 10;
+    public static int MIN_POST_LENGTH = 15;
 
     //storyLists
     private List<ParseObject> storyList;
     private List<ParseObject> unfinishedStoryList;
 
+
     //story Variables
     private String currentStoryID;
     private boolean creatingNewStory;
 
-    private ParseObject currentStoryObj;
-
     private String storyName;
     private Dialog d;
 
+    private ParseObject currentStory;
 
 
     @Override
@@ -72,11 +76,14 @@ public class StoryModeActivity extends Activity {
         mEditStoryField = (EditText) findViewById(R.id.storyEditText);
         mButton = (Button) findViewById(R.id.sendStoryButton);
         mEndOfStory = (TextView) findViewById(R.id.theStory);
+        lengthLabel = (TextView) findViewById(R.id.textMinLength_ID);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setTitle(ParseUser.getCurrentUser().getUsername());
+
 
         //gets the story from the database so that it is possible to see what the last person wrote
         new DownloadFilesTask().execute();
-
-
 
 
         // Indicates for the user that they have marked the textfield
@@ -102,15 +109,16 @@ public class StoryModeActivity extends Activity {
         // Initially the Send-button can't be pressed because there is no text to send
         mButton.setEnabled(false);
 
-        // Adds a TextChangedListener to the the text field mEditStoryField that enables or disables the Send-button using the method enableSendIfReady().
+        // Adds a TextChangedListener to the the text field mEditStoryField that enables or disables the Send-button using the method updateSendAvailability().
         mEditStoryField.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable arg0) {
-                enableSendIfReady();
+                updateSendAvailability();
+
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                enableSendIfReady();
+                updateSendAvailability();
             }
 
             @Override
@@ -148,12 +156,23 @@ public class StoryModeActivity extends Activity {
     }
 
     // Enables the mButton if if the length of the text exceeds 15 characters.
-    // TODO make this more clear for the user
-    public void enableSendIfReady() {
+    public void updateSendAvailability() {
 
-        boolean isReady = mEditStoryField.getText().toString().length()>15;
+        boolean isReady = mEditStoryField.getText().toString().length()>=MIN_POST_LENGTH;
+        int length = 0;
+        length = mEditStoryField.getText().length();
+
+        if (!isReady){
+            int lengthLeft = MIN_POST_LENGTH - length;
+            lengthLabel.setText("You need " + lengthLeft + " more characters" );
+        }
+        else {
+            lengthLabel.setText("");
+
+        }
         mButton.setEnabled(isReady);
     }
+
 
     // Loads all the stories as objects into storyList and unfinishedStoryList.
     // This should only be loaded in conjunction with an AsyncTask
@@ -184,10 +203,12 @@ public class StoryModeActivity extends Activity {
         Random rng = new Random();
         if (unfinishedStoryList.size() > 1) {
             int thisRng = rng.nextInt(unfinishedStoryList.size() - 1);
-            currentStoryID = unfinishedStoryList.get(thisRng).getObjectId();
+            currentStory = unfinishedStoryList.get(thisRng);
+            currentStoryID = currentStory.getObjectId();
         }
         else{
-            currentStoryID = unfinishedStoryList.get(0).getObjectId();
+            currentStory = unfinishedStoryList.get(0);
+            currentStoryID = currentStory.getObjectId();
         }
 
 
@@ -237,6 +258,7 @@ public class StoryModeActivity extends Activity {
                     // will get sent to the Parse Cloud. playerName hasn't changed.
                     storyText.append(inputText + " "); //update local variable storyText with input text from user
                     storyTextServer.put("story", storyText.toString());
+                    storyTextServer.put("lastUser", ParseUser.getCurrentUser().getUsername());
                     storyTextServer.saveInBackground();
 
                 }
@@ -415,6 +437,43 @@ public class StoryModeActivity extends Activity {
         }
     }
 
+    private void prepareNewStory(){
+
+
+
+        d = new Dialog(StoryModeActivity.this);
+
+        //Creating dialog for creating new story
+        //TODO make this in XML instead
+        editStoryName = new EditText(StoryModeActivity.this);
+        Button send = new Button(StoryModeActivity.this);
+        send.setText("Start new story!");
+        send.setTextColor(Color.BLACK);
+        TextView textView = new TextView(StoryModeActivity.this);
+        editStoryName.setHint("What's the name of your story?");
+        editStoryName.setPadding(50, 0, 50, 50);
+        LinearLayout layout = new LinearLayout(StoryModeActivity.this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.addView(textView);
+        layout.addView(editStoryName);
+        layout.addView(send);
+        d.setContentView(layout);
+        d.show();
+
+
+        send.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                storyName = editStoryName.getText().toString();
+                setStoryNameView(storyName);
+                d.dismiss();
+            }
+        });
+
+
+
+    }
 
     //AsyncTask to load all stories
     private class DownloadFilesTask extends AsyncTask<URL, Integer, Long> {
@@ -438,43 +497,22 @@ public class StoryModeActivity extends Activity {
             if (currentStoryID == null){
                 Toast.makeText(StoryModeActivity.this, "No unfinished stories found - creating a new one!", Toast.LENGTH_LONG).show();
                 creatingNewStory = true;
-
-                d = new Dialog(StoryModeActivity.this);
-
-                //Creating dialog for creating new story
-                editStoryName = new EditText(StoryModeActivity.this);
-                Button send = new Button(StoryModeActivity.this);
-                send.setText("Done!");
-
-
-
-                editStoryName.setHint("What's the name of your story?");
-                editStoryName.setPadding(50, 0, 50, 50);
-
-                LinearLayout layout = new LinearLayout(StoryModeActivity.this);
-                layout.setOrientation(LinearLayout.VERTICAL);
-
-                layout.addView(editStoryName);
-                layout.addView(send);
-
-                d.setContentView(layout);
-                d.show();
-
-
-                send.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        storyName = editStoryName.getText().toString();
-                        setStoryNameView(storyName);
-                        d.dismiss();
-                    }
-                });
-
-
+                prepareNewStory();
 
             }
             else {
+
+                String currentUser = ParseUser.getCurrentUser().getUsername();
+                String lastUser = currentStory.getString("lastUser");
+
+                if (currentStory.getString("lastUser").equals(currentUser)){
+                    creatingNewStory = true;
+                    Toast.makeText(StoryModeActivity.this,
+                            "Cannot continue your own story - creating new!",
+                            Toast.LENGTH_LONG).show();
+                    prepareNewStory();
+                }
+
                 displayStoryText();
                 creatingNewStory = false;
 

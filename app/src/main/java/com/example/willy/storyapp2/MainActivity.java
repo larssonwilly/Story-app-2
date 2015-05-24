@@ -51,7 +51,6 @@ public class MainActivity extends Activity {
 
         loginButton = (Button) findViewById(R.id.Login);
         signupButton = (Button) findViewById(R.id.Signup);
-        startShowcaseButton = (Button) findViewById(R.id.storyShowcaseButton);
 
         //if the user is already signed in, go directly to StoryModeActivity
         if (ParseUser.getCurrentUser() != null) {
@@ -85,32 +84,10 @@ public class MainActivity extends Activity {
                     startActivity(intent);
                 }
             });
-
-            // Start the Story Showcase activity if the button is pressed
-            startShowcaseButton.setOnClickListener(new View.OnClickListener(){
-                @Override
-                /**
-                 *  When the story show case button is clicked, call the startStoryShowcase method
-                 *  @param v    the View that was clicked
-                 */
-                public void onClick(View v){
-                    startStoryShowcase();
-                }
-
-            });
         }
 
     }
 
 
-    /**
-     *  Starts the activity Story showcase
-     */
-    private void startStoryShowcase(){
-
-        Intent intent = new Intent(this, StoryShowcaseActivity.class);
-        startActivity(intent);
-
-    }
 
 }
