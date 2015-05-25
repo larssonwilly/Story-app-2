@@ -94,13 +94,18 @@ public class AuthenticateActivity extends Activity {
                         public void done(ParseException e) {
 
                             if (e == null) { //Sign up succeeded
+
+                                Toast.makeText(AuthenticateActivity.this, "Welcome, " +
+                                        ParseUser.getCurrentUser().getUsername(),
+                                        Toast.LENGTH_SHORT).show();
+
                                 startActivity(new Intent(
                                         AuthenticateActivity.this,
                                         StoryModeActivity.class));
                             } else { //Sign up didn't succeed. Look at the ParseException to figure out what went wrong
                                 Toast.makeText(AuthenticateActivity.this,
                                         "Sign up failed! Try again.",
-                                        Toast.LENGTH_LONG).show();
+                                        Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.INVISIBLE);// Sets progressbar invisible
 
                             }

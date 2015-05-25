@@ -35,22 +35,32 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
 
 
     public StoryShowcaseAdapter(Context context, List storyObjects) {
+
         super(context, R.layout.story_showcase_list_layout, storyObjects);
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("Writes");
 
         currentUser = ParseUser.getCurrentUser();
 
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> retrievedList, com.parse.ParseException e) {
+        if (currentUser != null){
 
-                if (e == null) {
-                    storyList = retrievedList;
-                } else {
-                    e.printStackTrace();
+            //queries all the users stories so we can check them later against existing stories.
+            query.whereEqualTo("author", ParseUser.getCurrentUser().getUsername());
+            query.findInBackground(new FindCallback<ParseObject>() {
+                public void done(List<ParseObject> retrievedList, com.parse.ParseException e) {
 
+                    if (e == null) {
+                        storyList = retrievedList;
+                    } else {
+                        e.printStackTrace();
+
+                    }
                 }
-            }
-        });
+            });
+
+        }
+
+
+
     }
 
     @Override
