@@ -348,6 +348,7 @@ public class StoryModeActivity extends Activity {
         newStory.put("score", 0);
         newStory.put("isCompleted", false);
         newStory.put("storyName", storyName);
+        newStory.put("lastUser", ParseUser.getCurrentUser().getUsername());
         try {
             newStory.save(); //TODO this should be done by AsyncTask, not in the main thread! FIX!!!
         } catch (ParseException e) {
@@ -482,6 +483,9 @@ public class StoryModeActivity extends Activity {
         protected Long doInBackground(URL... urls) {
 
             loadAllStories();
+            if (unfinishedStoryList.size() > 0){
+                getRandomUnfinishedStory();
+            }
             return null;
         }
 
@@ -490,31 +494,36 @@ public class StoryModeActivity extends Activity {
         }
 
         protected void onPostExecute(Long result) {
-            if (unfinishedStoryList.size() > 0){
-                getRandomUnfinishedStory();
-            }
+
 
             if (currentStoryID == null){
-                Toast.makeText(StoryModeActivity.this, "No unfinished stories found - creating a new one!", Toast.LENGTH_LONG).show();
+                Toast.makeText(StoryModeActivity.this, "No unfinished stories - creating new!", Toast.LENGTH_LONG).show();
                 creatingNewStory = true;
                 prepareNewStory();
 
             }
+
+
             else {
 
                 String currentUser = ParseUser.getCurrentUser().getUsername();
                 String lastUser = currentStory.getString("lastUser");
 
+
                 if (currentStory.getString("lastUser").equals(currentUser)){
                     creatingNewStory = true;
                     Toast.makeText(StoryModeActivity.this,
-                            "Cannot continue your own story - creating new!",
+                            "Can't continue own story - creating new!",
                             Toast.LENGTH_LONG).show();
                     prepareNewStory();
                 }
 
-                displayStoryText();
-                creatingNewStory = false;
+                else {
+                    displayStoryText();
+                    creatingNewStory = false;
+
+                }
+
 
             }
 
