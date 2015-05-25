@@ -39,7 +39,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="See finished story"
+        android:text="See finished stories"
         android:id="@+id/storyShowcaseAP_ID"
         android:background="#75ABBC"
         android:layout_below="@+id/createNewStoryButton_ID"

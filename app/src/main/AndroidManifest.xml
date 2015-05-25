@@ -29,6 +29,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".EasterEggActivity"
+            android:label="Fest i Hammarö!" />
+
         <activity
             android:name=".StoryModeActivity"
             android:label="@string/app_name" />

@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:text="Send"
         android:id="@+id/sendStoryButton"
-        android:elevation="5dp"
+        android:elevation="7dp"
         android:layout_below="@+id/storyEditText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"

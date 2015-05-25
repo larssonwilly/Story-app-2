@@ -87,7 +87,6 @@ public class StoryModeActivity extends Activity {
 
 
         // Indicates for the user that they have marked the textfield
-        // ToDo: Could use some improvement, for an example should the hint text continously blink until the user clicks somewhere else on the screen
         mEditStoryField.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event){
@@ -121,6 +120,8 @@ public class StoryModeActivity extends Activity {
                 updateSendAvailability();
             }
 
+
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
@@ -135,18 +136,35 @@ public class StoryModeActivity extends Activity {
 
                 String inputText = mEditStoryField.getText().toString(); //the text that the user writes
 
-                pushStory(inputText); // updates story and sends to the database
-                addTextToView(inputText);
-                clearText(); //clears the text for new input
+                if (inputText.contains("fest") && inputText.contains("Hammaro")){
+                    startEasterEgg();
+                }
 
-                //TODO this should really check if the send actually was successful
+                else {
 
-                //Starts afterpostactivity
-                startAfterPostActivity();
+                    pushStory(inputText); // updates story and sends to the database
+                    addTextToView(inputText);
+                    clearText(); //clears the text for new input
+
+                    //TODO this should really check if the send actually was successful
+
+                    //Starts afterpostactivity
+                    startAfterPostActivity();
+
+                }
+
 
 
             }
         });
+    }
+
+    public void startEasterEgg(){
+
+        Intent intentEEA = new Intent(this, EasterEggActivity.class);
+        startActivity(intentEEA);
+
+
     }
 
     public void startAfterPostActivity(){
@@ -163,16 +181,17 @@ public class StoryModeActivity extends Activity {
         length = mEditStoryField.getText().length();
 
         if (!isReady){
+            mButton.setVisibility(View.INVISIBLE);
             int lengthLeft = MIN_POST_LENGTH - length;
             lengthLabel.setText("You need " + lengthLeft + " more characters" );
         }
         else {
             lengthLabel.setText("");
+            mButton.setVisibility(View.VISIBLE);
 
         }
         mButton.setEnabled(isReady);
     }
-
 
     // Loads all the stories as objects into storyList and unfinishedStoryList.
     // This should only be loaded in conjunction with an AsyncTask
@@ -224,7 +243,7 @@ public class StoryModeActivity extends Activity {
             public void done(ParseObject storyTextServer, com.parse.ParseException e) {
                 if (e == null) {
                     storyText.append(storyTextServer.getString("story")); //load the story from the database and save it in local variable storyText
-                    setStoryView(storyText); //set the "story view", which is the text field containing the last 60 characters of the story, checks if whole word
+                    setStoryView(storyText); //set the "story view", which is the text field containing the last characters of the story, checks if whole word
                     setStoryNameView(storyTextServer.getString("storyName"));
 
 
@@ -374,7 +393,7 @@ public class StoryModeActivity extends Activity {
 
         if (storyText.length() < MAX_LENGTH_VISIBLE) { //if the story is shorter than the max number of characters we want to show, show entire story
             mEndOfStory.setText(lastCharsOfStory);
-        } else { //if the story is longer than 60 characters, we want to only show the last 60 characters
+        } else { //if the story is longer than MAX_LENGHT_VISIBLE characters, we want to only show the last characters
             String lastWordsOfStory = fixOnlyWords(lastCharsOfStory); // if we "break" a word, we will need to fix the text so its only words, so we call the fixOnlyWords method
             mEndOfStory.setText(lastWordsOfStory);
         }
@@ -439,7 +458,6 @@ public class StoryModeActivity extends Activity {
     }
 
     private void prepareNewStory(){
-
 
 
         d = new Dialog(StoryModeActivity.this);

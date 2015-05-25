@@ -35,29 +35,6 @@ public class StoryShowcaseActivity extends Activity {
         ListAdapter storyAdapter = new StoryShowcaseAdapter(this, storyList);
         storyListView.setAdapter(storyAdapter);
 
-      /*  listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-
-                //Removes item. Used for testing purposes.
-                final String item = (String) parent.getItemAtPosition(position);
-                view.animate().setDuration(500).alpha(0)
-                        .withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                list.remove(item);
-                                adapter.notifyDataSetChanged();
-                                view.setAlpha(1);
-
-
-                            }
-                        });
-            }
-
-        });*/
     }
 
     public void loadAllStories() {
