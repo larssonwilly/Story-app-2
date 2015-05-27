@@ -72,6 +72,7 @@ public class StoryShowcaseActivity extends Activity {
     public void loadAllStories() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
         try {
+            query.whereEqualTo("isCompleted", true);
             storyList = query.find();
         } catch (com.parse.ParseException e) {
             e.printStackTrace();

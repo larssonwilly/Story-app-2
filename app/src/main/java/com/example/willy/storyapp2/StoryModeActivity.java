@@ -25,8 +25,12 @@ import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.Parse;
+import com.parse.ParsePush;
+import com.parse.SaveCallback;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -52,17 +56,18 @@ public class StoryModeActivity extends Activity {
     //Stringbuilder is a tool for handling strings, we use it for the append method
     private StringBuilder storyText = new StringBuilder("");
     public static int MAX_LENGTH_VISIBLE = 40;
-    public static int MAX_NUM_POSTS_IN_STORY = 10;
+    public static int MAX_NUM_POSTS_IN_STORY = 10; //Since it starts from 0, it will be one more.
     public static int MIN_POST_LENGTH = 15;
 
     //storyLists
     private List<ParseObject> storyList;
     private List<ParseObject> unfinishedStoryList;
-
+    private List<ParseObject> writesList;
 
     //story Variables
     private String currentStoryID;
     private boolean creatingNewStory;
+    private boolean lastPoster;
 
     private String storyName;
     private Dialog d;
@@ -72,6 +77,7 @@ public class StoryModeActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         //Standard Oncreate stuff
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_mode);
@@ -212,6 +218,9 @@ public class StoryModeActivity extends Activity {
 
         }
 
+
+
+
         //Adds all non-completed stories in "unfinishedStoryList"
         for (ParseObject story : storyList) {
             if (!story.getBoolean("isCompleted")){
@@ -304,19 +313,24 @@ public class StoryModeActivity extends Activity {
         newPost.put("author", ParseUser.getCurrentUser().getUsername());
         newPost.put("inStory", currentStoryID);
 
+        try {
+            newPost.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
 
         //Queries "Writes" for the current story
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("Writes");
         query.whereEqualTo("inStory", currentStoryID);
 
-        //Creates a super awesome query!
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> retrievedList, com.parse.ParseException e) {
 
                 if (e == null) {
 
                     // Set the story completed if the posts are too many
-                    if (retrievedList.size() >= MAX_NUM_POSTS_IN_STORY-1) {
+                    if (lastPoster) {
                         setCurrentStoryComplete();
                     }
 
@@ -327,6 +341,8 @@ public class StoryModeActivity extends Activity {
                     else {
                         newPost.put("numberInStory", 0);
                     }
+
+                    //Saves
                     try {
                         newPost.save();
                     } catch (ParseException e1) {
@@ -514,6 +530,16 @@ public class StoryModeActivity extends Activity {
             if (unfinishedStoryList.size() > 0){
                 getRandomUnfinishedStory();
             }
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Writes");
+            query.whereEqualTo("inStory", currentStoryID);
+
+            try {
+                writesList = query.find();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
             return null;
         }
 
@@ -531,14 +557,14 @@ public class StoryModeActivity extends Activity {
 
             }
 
-
             else {
+
 
                 String currentUser = ParseUser.getCurrentUser().getUsername();
                 String lastUser = currentStory.getString("lastUser");
 
 
-                if (currentStory.getString("lastUser").equals(currentUser)){
+                if (lastUser.equals(currentUser)){
                     creatingNewStory = true;
                     Toast.makeText(StoryModeActivity.this,
                             "Can't continue own story - creating new!",
@@ -547,6 +573,14 @@ public class StoryModeActivity extends Activity {
                 }
 
                 else {
+
+                    if (writesList.size() >= MAX_NUM_POSTS_IN_STORY-1){
+                        Toast.makeText(StoryModeActivity.this,
+                                "You're the last poster! Finish up the story!",
+                                Toast.LENGTH_LONG).show();
+                        lastPoster = true;
+                    };
+
                     displayStoryText();
                     creatingNewStory = false;
 
