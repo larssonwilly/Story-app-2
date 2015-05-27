@@ -58,7 +58,7 @@ public class AfterPostActivity extends Activity {
 
     }
 
-
+    // ToDo: Skriva javadoc om detta, det är en publik metod.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -67,7 +67,7 @@ public class AfterPostActivity extends Activity {
     }
 
 
-
+    // ToDo: Skriva javadoc om detta, det är en publik metod.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
