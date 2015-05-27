@@ -1,11 +1,13 @@
 package com.example.willy.storyapp2;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -30,6 +32,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import utils.ColorPalette;
 
 public class StoryModeActivity extends Activity {
 
@@ -457,25 +461,31 @@ public class StoryModeActivity extends Activity {
         }
     }
 
+
     private void prepareNewStory(){
 
 
         d = new Dialog(StoryModeActivity.this);
 
-        //Creating dialog for creating new story
-        //TODO make this in XML instead
-        editStoryName = new EditText(StoryModeActivity.this);
+        //Send button
         Button send = new Button(StoryModeActivity.this);
         send.setText("Start new story!");
-        send.setTextColor(Color.BLACK);
-        TextView textView = new TextView(StoryModeActivity.this);
+        send.setTextColor(ColorPalette.getBlack());
+        send.setBackgroundColor(ColorPalette.getGreen());
+        send.setElevation(5);
+
+        //Editstoryname
+        editStoryName = new EditText(StoryModeActivity.this);
         editStoryName.setHint("What's the name of your story?");
         editStoryName.setPadding(50, 0, 50, 50);
+        editStoryName.setTextColor(ColorPalette.getBlack());
+
+        //Layout stuff
         LinearLayout layout = new LinearLayout(StoryModeActivity.this);
         layout.setOrientation(LinearLayout.VERTICAL);
-        layout.addView(textView);
         layout.addView(editStoryName);
         layout.addView(send);
+
         d.setContentView(layout);
         d.show();
 

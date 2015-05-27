@@ -28,43 +28,22 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
 
     TextView storyIdTextView;
     TextView storyContentTextView;
-    List<ParseObject> storyList;
+    List<ParseObject> postList;
     ParseUser currentUser;
 
 
-
-
-    public StoryShowcaseAdapter(Context context, List storyObjects) {
+    public StoryShowcaseAdapter(Context context, List storyObjects, List postObjects) {
 
         super(context, R.layout.story_showcase_list_layout, storyObjects);
-        final ParseQuery<ParseObject> query = ParseQuery.getQuery("Writes");
 
+        this.postList = postObjects;
         currentUser = ParseUser.getCurrentUser();
-
-        if (currentUser != null){
-
-            //queries all the users stories so we can check them later against existing stories.
-            query.whereEqualTo("author", ParseUser.getCurrentUser().getUsername());
-            query.findInBackground(new FindCallback<ParseObject>() {
-                public void done(List<ParseObject> retrievedList, com.parse.ParseException e) {
-
-                    if (e == null) {
-                        storyList = retrievedList;
-                    } else {
-                        e.printStackTrace();
-
-                    }
-                }
-            });
-
-        }
-
-
 
     }
 
+
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent){
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View customView = inflater.inflate(R.layout.story_showcase_list_layout, parent, false);
 
@@ -73,16 +52,16 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
 
         storyIdTextView = (TextView) customView.findViewById(R.id.storyIdTextView);
         storyContentTextView = (TextView) customView.findViewById(R.id.storyContentTextView);
-
         storyIdTextView.setText(parseObject.getString("storyName"));
         storyContentTextView.setText(parseObject.getString("story"));
 
         // If the current user is logged in - invert the text of all the stories the user has contributed to
         if (currentUser != null){
-            if (storyList != null) {
-                for (ParseObject object : storyList) {
+            if (postList != null) {
+                for (ParseObject object : postList) {
                     if (object.getString("inStory").equals(parseObject.getObjectId())) {
                         invertText();
+                        System.out.println();
                     }
                 }
             }

@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -19,6 +20,8 @@ import java.util.List;
 public class StoryShowcaseActivity extends Activity {
 
     private List<ParseObject> storyList = new ArrayList<ParseObject>();
+    ParseUser currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +32,40 @@ public class StoryShowcaseActivity extends Activity {
         actionBar.setTitle(ParseUser.getCurrentUser().getUsername());
 
 
+
+
         loadAllStories();
 
-        ListView storyListView = (ListView) findViewById(R.id.storyListView);
-        ListAdapter storyAdapter = new StoryShowcaseAdapter(this, storyList);
-        storyListView.setAdapter(storyAdapter);
+
+
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery("Writes");
+
+        currentUser = ParseUser.getCurrentUser();
+
+        if (currentUser != null){
+
+            //queries all the users stories so we can check them later against existing stories.
+            query.whereEqualTo("author", ParseUser.getCurrentUser().getUsername());
+            query.findInBackground(new FindCallback<ParseObject>() {
+                public void done(List<ParseObject> retrievedList, com.parse.ParseException e) {
+
+                    if (e == null) {
+                        System.out.println();
+                        ListView storyListView = (ListView) findViewById(R.id.storyListView);
+                        ListAdapter storyAdapter = new StoryShowcaseAdapter(StoryShowcaseActivity.this, storyList, retrievedList);
+                        storyListView.setAdapter(storyAdapter);
+
+
+                    } else {
+                        e.printStackTrace();
+
+                    }
+                }
+            });
+        }
+
+
+
 
     }
 
@@ -43,8 +75,7 @@ public class StoryShowcaseActivity extends Activity {
             storyList = query.find();
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
-        } //TODO AsyncTask this. This code is ineffective and may slow down application.
-
+        }
     }
 
     @Override
