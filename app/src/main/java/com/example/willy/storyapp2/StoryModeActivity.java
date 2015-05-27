@@ -52,7 +52,7 @@ public class StoryModeActivity extends Activity {
     public static final int MAX_NUM_POSTS_IN_STORY = 10; //Since it starts from 0, it will be one more.
     public static final int MIN_POST_LENGTH = 15;
 
-    //Lists
+    //Lists ToDo: ska dessa förklaras?
     private List<ParseObject> storyList;
     private List<ParseObject> unfinishedStoryList;
     private List<ParseObject> writesList;
@@ -62,11 +62,9 @@ public class StoryModeActivity extends Activity {
     private String currentStoryID;
     private String storyName;
 
-
     //State variables
     private boolean isCreatingNewStory;
     private boolean isLastPoster;
-
 
     /**
      * Handles logic setting up the Story Mode for the user.
@@ -163,7 +161,7 @@ public class StoryModeActivity extends Activity {
     }
 
     /**
-     * Starts the easter egg
+     * Starts the easter egg ToDO: Förklara vad som menas med EasterEgg kanske
      */
     public void startEasterEgg(){
 
@@ -326,7 +324,7 @@ public class StoryModeActivity extends Activity {
     }
 
     /**
-     * Handles logic for pushing the story to the database ToDo: tror ej private metoder kommenteras enligt javadoc
+     * Handles logic for pushing the story to the database ToDo: tror ej private metoder kommenteras enligt javadoc, de ska nog ha "//" istället för / **
      *
      */
     private void pushStory(final String inputText) {
