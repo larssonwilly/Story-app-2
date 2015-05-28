@@ -31,7 +31,7 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
     List<ParseObject> postList;
     ParseUser currentUser;
 
-
+    //ToDo: javadoc, public method
     public StoryShowcaseAdapter(Context context, List storyObjects, List postObjects) {
 
         super(context, R.layout.story_showcase_list_layout, storyObjects);
@@ -41,7 +41,7 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
 
     }
 
-
+    //ToDo: javadoc, public method
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -71,7 +71,7 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
 
 
     }
-
+    //ToDo: javadoc, public method
     public void invertText() {
         storyContentTextView.setBackgroundColor(Color.argb(255, 18, 149, 209));
         storyContentTextView.setTextColor(Color.WHITE);

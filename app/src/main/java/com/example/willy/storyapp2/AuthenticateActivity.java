@@ -17,7 +17,7 @@ import com.parse.ParseException;
 
 /**
  * The MainActivity is the start screen of the app that shows 3 buttons: log in, sign up, and
- * start storyshowcase and also a picture
+ * start storyshowcase and also a picture, ToDo: change this description, it is not the main activity.
  *
  * @author  Willy Larsson
  * @version 1.0?

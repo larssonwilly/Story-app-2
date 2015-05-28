@@ -33,6 +33,7 @@ import java.util.Random;
 
 import utils.ColorPalette;
 
+//ToDo: Short description of the class
 public class StoryModeActivity extends Activity {
 
     //The elements of the activity

@@ -68,7 +68,7 @@ public class StoryShowcaseActivity extends Activity {
 
 
     }
-
+    //ToDo: javadoc, public method
     public void loadAllStories() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
         try {
@@ -79,13 +79,14 @@ public class StoryShowcaseActivity extends Activity {
         }
     }
 
+    //ToDo: javadoc, public method
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_activity_actions, menu);
         return true;
     }
-
+    //ToDo: javadoc, public method
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

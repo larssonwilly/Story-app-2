@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 
-
+//ToDo: javadoc, describe the class
 public class EasterEggActivity extends Activity {
     RotateAnimation rA;
     MediaPlayer mediaPlayer;
@@ -51,7 +51,7 @@ public class EasterEggActivity extends Activity {
     }
 
 
-
+    //ToDo: javadoc, public method
     public void ChangeBackground() {
 
         //Blinka blinka
@@ -74,7 +74,7 @@ public class EasterEggActivity extends Activity {
 
 
     }
-
+    //ToDo: delete text below
     /*
     CountDownTimer timer = new CountDownTimer(5000, 5000) {
 
@@ -93,7 +93,7 @@ public class EasterEggActivity extends Activity {
     };*/
 
 
-
+    //ToDo: javadoc, public method
     public void spin(){
 
         img.startAnimation(rA);
@@ -105,7 +105,7 @@ public class EasterEggActivity extends Activity {
     }
 
 
-
+    //ToDo: javadoc, public method
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -113,6 +113,7 @@ public class EasterEggActivity extends Activity {
         return true;
     }
 
+    //ToDo: javadoc, public method
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

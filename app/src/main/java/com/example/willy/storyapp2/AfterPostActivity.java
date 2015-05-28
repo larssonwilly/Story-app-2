@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import com.parse.ParseUser;
 
+//ToDo: javadoc, public method
 public class AfterPostActivity extends Activity {
 
     private Button createNewStoryButton;
