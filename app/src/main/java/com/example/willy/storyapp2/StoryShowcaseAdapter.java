@@ -24,7 +24,11 @@ import java.util.List;
 import utils.ColorPalette;
 
 
-class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
+/**
+ * Adapter used by StoryShowCase activity.
+ * Lists Stories along with the story name.
+ */
+public class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
 
     TextView storyIdTextView;
     TextView storyContentTextView;
@@ -51,12 +55,13 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
     public View getView(int position, View convertView, ViewGroup parent){
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View customView = inflater.inflate(R.layout.story_showcase_list_layout, parent, false);
-
-
         final ParseObject parseObject = getItem(position);
 
+        // Initializing variables
         storyIdTextView = (TextView) customView.findViewById(R.id.storyIdTextView);
         storyContentTextView = (TextView) customView.findViewById(R.id.storyContentTextView);
+
+        // Setting text for the story name and story content
         storyIdTextView.setText(parseObject.getString("storyName"));
         storyContentTextView.setText(parseObject.getString("story"));
 

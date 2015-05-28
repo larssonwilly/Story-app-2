@@ -17,6 +17,10 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles all actions related to the Story Showcase mode.
+ *
+ */
 public class StoryShowcaseActivity extends Activity {
 
     private List<ParseObject> storyList = new ArrayList<ParseObject>();
@@ -28,18 +32,15 @@ public class StoryShowcaseActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_showcase);
 
+
+        //Sets the user name as the action bar text
         ActionBar actionBar = getActionBar();
         actionBar.setTitle(ParseUser.getCurrentUser().getUsername());
 
-
-
-
+        //Loads all the necessary data
         loadAllStories();
 
-
-
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("Writes");
-
         currentUser = ParseUser.getCurrentUser();
 
         if (currentUser != null){
