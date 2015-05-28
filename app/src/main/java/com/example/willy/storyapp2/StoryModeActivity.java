@@ -33,7 +33,9 @@ import java.util.Random;
 
 import utils.ColorPalette;
 
-//ToDo: Short description of the class
+/**
+ * Handles all actions related to the Story Mode
+ */
 public class StoryModeActivity extends Activity {
 
     //The elements of the activity
@@ -48,12 +50,17 @@ public class StoryModeActivity extends Activity {
     //Stringbuilder is a tool for handling strings, we use it for the append method
     private StringBuilder storyText = new StringBuilder("");
 
-    //Final variables ToDo: Ska inte public vara enligt javadoc?
+    /**
+     * Public final variables
+     * MAX_LENGTH_VISIBLE is the max number of characters the user can see from the loaded story
+     * MAX_NUM_POSTS_IN_STORY is the max number of posts each story can contain
+     * MIN_POST_LENGTH is the minimum number of characters each post can contain
+     */
     public static final int MAX_LENGTH_VISIBLE = 40;
     public static final int MAX_NUM_POSTS_IN_STORY = 10; //Since it starts from 0, it will be one more.
     public static final int MIN_POST_LENGTH = 15;
 
-    //Lists ToDo: ska dessa förklaras?
+    //Lists that stores stories, unfinished stories, and posts respectively.
     private List<ParseObject> storyList;
     private List<ParseObject> unfinishedStoryList;
     private List<ParseObject> writesList;
@@ -117,19 +124,18 @@ public class StoryModeActivity extends Activity {
 
         // Adds a TextChangedListener to the the text field editStoryField that enables or disables the Send-button using the method updateSendAvailability().
         editStoryField.addTextChangedListener(new TextWatcher() {
-            @Override // ToDo: Återigen osäker, skall inte public kommenterat enligt javadoc?
+            @Override
             public void afterTextChanged(Editable arg0) {
                 updateSendAvailability();
 
             }
 
-            @Override // ToDo: Återigen osäker, skall inte public kommenterat enligt javadoc?
+            @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 updateSendAvailability();
             }
 
-
-            @Override // ToDo: Återigen osäker, skall inte public kommenterat enligt javadoc?
+            @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
         });
@@ -150,8 +156,6 @@ public class StoryModeActivity extends Activity {
                     pushStory(inputText); // updates story and sends to the database
                     addTextToView(inputText);
                     clearText(); //clears the text for new input
-
-                    //Starts afterpostactivity //ToDo: lite överflödigt kanske?
                     startAfterPostActivity();
 
                 }
@@ -162,7 +166,7 @@ public class StoryModeActivity extends Activity {
     }
 
     /**
-     * Starts the easter egg ToDO: Förklara vad som menas med EasterEgg kanske
+     * Starts the EasterEggActitity
      */
     public void startEasterEgg(){
 
@@ -173,7 +177,7 @@ public class StoryModeActivity extends Activity {
     }
 
     /**
-     * Starts AfterPostActivity // ToDo: Kanske kan lägga till en beskrivning av vad metoden gör?
+     * Starts AfterPostActivity
      */
     public void startAfterPostActivity(){
         Intent intent = new Intent(this, AfterPostActivity.class);
@@ -274,7 +278,7 @@ public class StoryModeActivity extends Activity {
     }
 
     /**
-     * Sets and displays the story name based upon input ToDo: tror ej private metoder kommenteras enligt javadoc
+     * Sets and displays the story name based upon input
      */
     private void setStoryNameView(String input){
 
@@ -284,7 +288,7 @@ public class StoryModeActivity extends Activity {
     }
 
     /**
-     * Displays the input in the StoryText view. ToDo: tror ej private metoder kommenteras enligt javadoc
+     * Displays the input in the StoryText view.
      * Uses fixOnlyWords to trim the words if needed.
      */
     private void setStoryContentView(StringBuilder theStory) {
@@ -302,7 +306,7 @@ public class StoryModeActivity extends Activity {
     }
 
     /**
-     * Adds the users post to the full story and publishes it to the database ToDo: tror ej private metoder kommenteras enligt javadoc
+     * Adds the users post to the full story and publishes it to the database
      */
     private void updateStory(final String inputText) {
 
@@ -325,8 +329,7 @@ public class StoryModeActivity extends Activity {
     }
 
     /**
-     * Handles logic for pushing the story to the database ToDo: tror ej private metoder kommenteras enligt javadoc, de ska nog ha "//" istället för / **
-     *
+     * Handles logic for pushing the story to the database
      */
     private void pushStory(final String inputText) {
 
@@ -389,7 +392,7 @@ public class StoryModeActivity extends Activity {
     }
 
     /**
-     * Sets the current active story as "Complete" in the database. ToDo: tror ej private metoder kommenteras enligt javadoc
+     * Sets the current active story as "Complete" in the database.
      */
     private void setCurrentStoryComplete(){
 
@@ -410,7 +413,7 @@ public class StoryModeActivity extends Activity {
     }
 
     /**
-     * Adds input to the story text display. ToDo: tror ej private metoder kommenteras enligt javadoc
+     * Adds input to the story text display.
      * Does not remove previous content.
      */
     private void addTextToView(final String inputText) {
@@ -425,7 +428,7 @@ public class StoryModeActivity extends Activity {
     }
 
     /**
-     * Removes the first characters of the string if this is not a word and returns the string ToDo: tror ej private metoder kommenteras enligt javadoc
+     * Removes the first characters of the string if this is not a word and returns the string
      */
     private String fixOnlyWords(String lastCharsOfStory) {
         if (lastCharsOfStory.charAt(0) != ' ') {
@@ -441,7 +444,7 @@ public class StoryModeActivity extends Activity {
 
 
     /**
-     * Empties the edit field ToDo: tror ej private metoder kommenteras enligt javadoc
+     * Empties the edit field
      */
     private void clearText() {
         editStoryField.setText("");
@@ -455,7 +458,7 @@ public class StoryModeActivity extends Activity {
     }
 
     /**
-     * Displays dialog for creating a new story. ToDo: tror ej private metoder kommenteras enligt javadoc
+     * Displays dialog for creating a new story.
      */
     private void displayCreateNewStoryDialog(){
 
@@ -501,9 +504,13 @@ public class StoryModeActivity extends Activity {
 
     }
 
+
     /**
-     * Creates necessary database variables for the new story. ToDo: tror ej private metoder kommenteras enligt javadoc
-     * Adds the new story to the current story. ToDo: Metoden har inparametrar, borde inte dessa också tas med i kommentarerna?
+     * Creates necessary database variables for the new story.
+     * Adds the new story to the current story.
+     *
+     * @param inputText represents user input for new post
+     * @param storyName the name of the story.
      */
     private void createNewStory(String inputText, String storyName) {
 
@@ -524,7 +531,7 @@ public class StoryModeActivity extends Activity {
 
     }
 
-    @Override // ToDo: Denna behöver kanske kommenteras?
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
@@ -555,7 +562,7 @@ public class StoryModeActivity extends Activity {
 
 
     /**
-     * Class that handles downloading stories in the background, to avoid clogging UI thread. ToDo: tror ej private metoder kommenteras enligt javadoc
+     * Class that handles downloading stories in the background, to avoid clogging UI thread.
      */
     private class DownloadStoriesTask extends AsyncTask<URL, Integer, Long> {
 
@@ -586,7 +593,10 @@ public class StoryModeActivity extends Activity {
         protected void onProgressUpdate(Integer... progress) {
             //ProgressBar progressBar = new ProgressBar(this.getClass().);
         }
-        // ToDo: Saknas kommentar
+
+        /**
+         * Actions after the stories are loaded.
+         */
         protected void onPostExecute(Long result) {
 
             if (currentStoryID == null){

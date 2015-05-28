@@ -21,7 +21,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import utils.ColorPalette;
 
 
 class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
@@ -31,7 +31,13 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
     List<ParseObject> postList;
     ParseUser currentUser;
 
-    //ToDo: javadoc, public method
+    /**
+     * Constructor that takes a context and a list for Stories and Posts.
+     *
+     * @param context Current application context.
+     * @param storyObjects List of stories as objects
+     * @param postObjects List of posts as objects. Used to check which stories user has contributed to
+     */
     public StoryShowcaseAdapter(Context context, List storyObjects, List postObjects) {
 
         super(context, R.layout.story_showcase_list_layout, storyObjects);
@@ -41,7 +47,6 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
 
     }
 
-    //ToDo: javadoc, public method
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -55,7 +60,7 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
         storyIdTextView.setText(parseObject.getString("storyName"));
         storyContentTextView.setText(parseObject.getString("story"));
 
-        // If the current user is logged in - invert the text of all the stories the user has contributed to
+        // If the current user is logged in - use invertText() for all the stories the user has contributed to
         if (currentUser != null){
             if (postList != null) {
                 for (ParseObject object : postList) {
@@ -71,9 +76,12 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
 
 
     }
-    //ToDo: javadoc, public method
-    public void invertText() {
-        storyContentTextView.setBackgroundColor(Color.argb(255, 18, 149, 209));
+
+    /**
+     * Changes the background and text color
+     */
+    private void invertText() {
+        storyContentTextView.setBackgroundColor(ColorPalette.getBlue());
         storyContentTextView.setTextColor(Color.WHITE);
 
     }
