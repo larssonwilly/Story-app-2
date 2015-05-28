@@ -16,8 +16,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 
-
+/**
+ * Easter egg activity that displays a rotating image of Johan Rebner together
+ * with playing the song "Dr Jones"
+ */
 public class EasterEggActivity extends Activity {
+
     RotateAnimation rA;
     MediaPlayer mediaPlayer;
     private Button randomButton;
@@ -26,12 +30,8 @@ public class EasterEggActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_easter_egg);
-
-
 
 
         img =  (ImageView) findViewById(R.id.image2);
@@ -51,10 +51,12 @@ public class EasterEggActivity extends Activity {
     }
 
 
+    /**
+     * Flashes the background in sync with the music
+     */
+    private void ChangeBackground() {
 
-    public void ChangeBackground() {
 
-        //Blinka blinka
         final RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout1);
         final AnimationDrawable drawable = new AnimationDrawable();
         final Handler handler = new Handler();
@@ -75,36 +77,16 @@ public class EasterEggActivity extends Activity {
 
     }
 
-    /*
-    CountDownTimer timer = new CountDownTimer(5000, 5000) {
-
-        @Override
-        public void onTick(long millisUntilFinished) {
-            // Nothing to do
-        }
-
-        @Override
-        public void onFinish() {
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-                mediaPlayer.release();
-            }
-        }
-    };*/
-
-
-
-    public void spin(){
+    /**
+     * Method that starts the spinning animation and the music
+     */
+    private void spin(){
 
         img.startAnimation(rA);
         mediaPlayer.start();
         ChangeBackground();
-        // timer.start();
-
 
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -12,6 +12,11 @@ import android.widget.Button;
 
 import com.parse.ParseUser;
 
+
+/**
+ * Displays two buttons, allowing the user to choose between continuing storytelling, or
+ * viewing the finished stories.
+ */
 public class AfterPostActivity extends Activity {
 
     private Button createNewStoryButton;
@@ -45,12 +50,18 @@ public class AfterPostActivity extends Activity {
 
     }
 
+    /**
+     * Starts the StoryShowcaseActivity
+     */
     private void startNewStoryshowcase() {
 
         Intent intent = new Intent(this, StoryShowcaseActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Starts a new story
+     */
     private void createNewStory() {
 
         Intent intent = new Intent(this, StoryModeActivity.class);
@@ -58,15 +69,12 @@ public class AfterPostActivity extends Activity {
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_activity_actions, menu);
         return true;
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

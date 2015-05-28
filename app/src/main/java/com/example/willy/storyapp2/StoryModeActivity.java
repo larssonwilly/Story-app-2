@@ -375,7 +375,7 @@ public class StoryModeActivity extends Activity {
                         newPost.save();
                     } catch (ParseException e1) {
                         e1.printStackTrace();
-                    }//TODO ASyncTask
+                    }
 
                 } else {
                     e.printStackTrace();
