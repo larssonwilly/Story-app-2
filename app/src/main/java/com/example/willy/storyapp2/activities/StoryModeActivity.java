@@ -1,4 +1,4 @@
-package com.example.willy.storyapp2;
+package com.example.willy.storyapp2.activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.willy.storyapp2.R;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -31,11 +32,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import utils.ColorPalette;
+import com.example.willy.storyapp2.utils.ColorPalette;
 
 /**
  * Handles all actions related to the Story Mode
  */
+
+
 public class StoryModeActivity extends Activity {
 
     //The elements of the activity
@@ -91,12 +94,12 @@ public class StoryModeActivity extends Activity {
 
         //Sets actionbar title to current users name.
         ActionBar actionBar = getActionBar();
-        actionBar.setTitle(ParseUser.getCurrentUser().getUsername());
-
+        if (actionBar != null) {
+            actionBar.setTitle(ParseUser.getCurrentUser().getUsername());
+        }
 
         //Downloads lists with stories and posts on background thread
         new DownloadStoriesTask().execute();
-
 
         // Listener for the textEdit field
         editStoryField.setOnTouchListener(new View.OnTouchListener() {
@@ -122,7 +125,7 @@ public class StoryModeActivity extends Activity {
         // Initially the Send-button can't be pressed because there is no text to send
         sendButton.setEnabled(false);
 
-        // Adds a TextChangedListener to the the text field editStoryField that enables or disables the Send-button using the method updateSendAvailability().
+        // Adds a TextChangedListener to the the text field editStoryField that enables or disables the Send-button using the method ().
         editStoryField.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable arg0) {
@@ -294,6 +297,8 @@ public class StoryModeActivity extends Activity {
     private void setStoryContentView(StringBuilder theStory) {
         String lastCharsOfStory = theStory.substring(Math.max(0, storyText.length() - (MAX_LENGTH_VISIBLE + 1)));
 
+
+
         if (storyText.length() < MAX_LENGTH_VISIBLE) {
             endOfStoryView.setText(lastCharsOfStory);
         }
@@ -450,13 +455,6 @@ public class StoryModeActivity extends Activity {
         editStoryField.setText("");
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_activity_actions, menu);
-        return true;
-    }
-
     /**
      * Displays dialog for creating a new story.
      */
@@ -494,9 +492,7 @@ public class StoryModeActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                storyName = editStoryName.getText().toString();
-                setStoryNameView(storyName);
-                d.dismiss();
+
             }
         });
 
@@ -529,6 +525,14 @@ public class StoryModeActivity extends Activity {
         currentStory = newStory;
         currentStoryID = newStory.getObjectId();
 
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_activity_actions, menu);
+        return true;
     }
 
     @Override

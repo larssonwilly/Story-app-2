@@ -1,4 +1,4 @@
-package com.example.willy.storyapp2;
+package com.example.willy.storyapp2.activities;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -14,6 +14,8 @@ import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import com.example.willy.storyapp2.R;
 
 
 /**

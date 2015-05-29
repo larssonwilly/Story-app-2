@@ -1,20 +1,12 @@
-package com.example.willy.storyapp2;
+package com.example.willy.storyapp2.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.text.Layout;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
+import com.example.willy.storyapp2.R;
 import com.parse.Parse;
 import com.parse.ParseUser;
 
@@ -54,7 +46,7 @@ public class MainActivity extends Activity {
 
         //if the user is already signed in, go directly to StoryModeActivity
         if (ParseUser.getCurrentUser() != null) {
-            Intent intent = new Intent(this, StoryModeActivity.class);
+            Intent intent = new Intent(this, StoryModeView.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }

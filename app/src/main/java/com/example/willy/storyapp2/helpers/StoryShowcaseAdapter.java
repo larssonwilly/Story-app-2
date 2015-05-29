@@ -1,27 +1,20 @@
-package com.example.willy.storyapp2;
+package com.example.willy.storyapp2.helpers;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.parse.FindCallback;
-import com.parse.Parse;
-import com.parse.ParseException;
+import com.example.willy.storyapp2.R;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import utils.ColorPalette;
+import com.example.willy.storyapp2.utils.ColorPalette;
 
 
 /**

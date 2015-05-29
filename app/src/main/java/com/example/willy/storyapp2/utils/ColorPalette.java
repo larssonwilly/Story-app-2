@@ -1,4 +1,4 @@
-package utils;
+package com.example.willy.storyapp2.utils;
 
 import android.graphics.Color;
 
@@ -42,7 +42,6 @@ public class ColorPalette {
      * @return Color.argb(255, 162, 174, 187)
      */
     public static int getGrey(){
-
         return Color.argb(255, 162, 174, 187);
 
     }
@@ -51,7 +50,6 @@ public class ColorPalette {
      * @return Color.argb(255, 223, 224, 226)
      */
     public static int getWhite(){
-
         return Color.argb(255, 223, 224, 226);
 
     }
