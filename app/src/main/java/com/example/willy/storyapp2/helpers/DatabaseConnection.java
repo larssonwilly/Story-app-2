@@ -77,6 +77,15 @@ public class DatabaseConnection {
 
     }
 
+
+    public List<ParseObject> getPostsFromStory(String story) throws com.parse.ParseException {
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Writes");
+        query.whereEqualTo("inStory", story);
+        return query.find();
+
+    }
+
 }
 
 

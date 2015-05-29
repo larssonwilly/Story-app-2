@@ -3,7 +3,6 @@ package com.example.willy.storyapp2.helpers;
 import android.os.AsyncTask;
 
 import com.example.willy.storyapp2.activities.StoryModePresenter;
-import com.example.willy.storyapp2.activities.StoryModeView;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -22,34 +21,33 @@ import java.util.Random;
 public class StorylistHandler {
 
     private List<ParseObject> storyList;
-    private List<ParseObject> unfinishedStoryList;
+    private List<ParseObject> availableStoryList;
     private List<ParseObject> postList;
     private DatabaseConnection dbconn;
     private StoryModePresenter presenter;
 
+    public static final int MAX_NUM_POSTS_IN_STORY = 10;
 
-    public StorylistHandler(boolean loadStories, StoryModePresenter presenter) {
+
+    public StorylistHandler(StoryModePresenter presenter) {
         this.presenter = presenter;
-
         dbconn = new DatabaseConnection();
-        if (loadStories){
-            loadAllInBackground();
-        }
     }
 
     public void putPost(String key, Object value){
         dbconn.putPost(key, value);
     }
 
-    public void addNewPost(String post, String author, String story){
+    public void addNewPost(String post, String author, String story, boolean isLastPoster) {
 
         dbconn.createNewPost();
         dbconn.putPost("storyPart", post);
         dbconn.putPost("author", author);
         dbconn.putPost("inStory", story);
         dbconn.savePost();
-        updateNumbering(story, dbconn.getNewPost());
+        updateNumbering(story, dbconn.getNewPost(), isLastPoster);
         dbconn.savePost();
+        addPostToStory(post, dbconn.getNewPost());
 
 
     }
@@ -68,52 +66,66 @@ public class StorylistHandler {
 
     }
 
-    public ParseObject getRandomUnfinishedStory() {
+    public ParseObject getRandomAvailableStory() {
 
         ParseObject currentStory;
 
         Random rng = new Random();
-        if (unfinishedStoryList.size() > 1) {
-            int thisRng = rng.nextInt(unfinishedStoryList.size() - 1);
-            currentStory = unfinishedStoryList.get(thisRng);
+        if (availableStoryList.size() > 1) {
+            int thisRng = rng.nextInt(availableStoryList.size() - 1);
+            currentStory = availableStoryList.get(thisRng);
         }
         else{
-            currentStory = unfinishedStoryList.get(0);
+            currentStory = availableStoryList.get(0);
         }
 
         return currentStory;
 
     }
 
+
     public List<ParseObject> getStoryList() {
         return storyList;
     }
 
-    public List<ParseObject> getUnfinishedStoryList() {
-        return unfinishedStoryList;
+    public List<ParseObject> getAvailableStoryList() {
+        return availableStoryList;
     }
 
     public List<ParseObject> getPostList() {
         return postList;
     }
 
-    private void filterUnfinishedStories(){
+    public void filterAvailableStories(){
 
-        unfinishedStoryList = new ArrayList<>();
+        availableStoryList = new ArrayList<>();
 
         for (ParseObject story : storyList) {
-            if (!story.getBoolean("isCompleted")){
-                unfinishedStoryList.add(story);
+            if (!story.getBoolean("isCompleted") && !story.getString("lastUser").equals(ParseUser.getCurrentUser().getUsername())){
+                availableStoryList.add(story);
                 System.out.println();
             }
         }
     }
 
-    public void setCurrentStoryComplete(){
+    public void setCurrentStoryComplete(String currentStoryID){
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
+
+        query.getInBackground(currentStoryID, new GetCallback<ParseObject>() {
+            public void done(ParseObject storyTextServer, com.parse.ParseException e) {
+                if (e == null) {
+                    storyTextServer.put("isCompleted", true);
+                    storyTextServer.saveInBackground();
+
+                }
+            }
+
+        });
 
     }
 
-    private void updateNumbering(String story, final ParseObject post){
+    private void updateNumbering(final String story, final ParseObject post, final boolean isLastPoster){
 
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("Writes");
 
@@ -124,15 +136,14 @@ public class StorylistHandler {
                 if (e == null) {
 
                     // Set the story completed if the posts are too many
-                    /*if (isLastPoster) {
-                        setCurrentStoryComplete();
-                    }*/ //TODO make this shit work!
+                    if (isLastPoster) {
+                        setCurrentStoryComplete(story);
+                    }
 
                     // Sets the story's number in the queue
                     if (retrievedList.size() > 0) {
                         post.put("numberInStory", retrievedList.size());
-                    }
-                    else {
+                    } else {
                         post.put("numberInStory", 0);
                     }
 
@@ -155,7 +166,7 @@ public class StorylistHandler {
     /**
      * Adds the users post to the full story and publishes it to the database
      */
-    public void updateStory(final String inputText, final ParseObject currentStory) {
+    public void addPostToStory(final String inputText, final ParseObject currentStory) {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
 
@@ -163,7 +174,11 @@ public class StorylistHandler {
         query.getInBackground(currentStory.getObjectId(), new GetCallback<ParseObject>() {
             public void done(ParseObject storyTextServer, com.parse.ParseException e) {
                 if (e == null) {
-                    storyTextServer.put("story", currentStory.getString("story") + inputText);
+                    if (currentStory.getString("story") == null) {
+                        storyTextServer.put("story", inputText + " ");
+                    } else {
+                        storyTextServer.put("story", currentStory.getString("story") + inputText + " ");
+                    }
                     storyTextServer.put("lastUser", ParseUser.getCurrentUser().getUsername());
                     storyTextServer.saveInBackground();
 
@@ -178,9 +193,6 @@ public class StorylistHandler {
         this.storyList = storyList;
     }
 
-    public void setUnfinishedStoryList(List<ParseObject> unfinishedStoryList) {
-        this.unfinishedStoryList = unfinishedStoryList;
-    }
 
     public void setPostList(List<ParseObject> postList) {
         this.postList = postList;
@@ -203,12 +215,19 @@ public class StorylistHandler {
             e.printStackTrace();
         }
 
-        filterUnfinishedStories();
     }
 
     public void loadPostsInForeground(){
         try {
             setPostList(dbconn.getPosts());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadPostsFromStoryInForeGround(String story){
+        try {
+            setPostList(dbconn.getPostsFromStory(story));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -221,6 +240,20 @@ public class StorylistHandler {
             }
         }
         return true;
+    }
+
+
+
+    public boolean checkIfLastPoster(){
+        return postList.size() >= MAX_NUM_POSTS_IN_STORY-1;
+    }
+
+    public void loadStoriesInForeGround() {
+        try {
+            setStoryList(dbconn.getStories());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -245,7 +278,8 @@ public class StorylistHandler {
 
         @Override
         protected void onPostExecute(Long aLong) {
-            filterUnfinishedStories();
+            checkIfLastPoster();
+            filterAvailableStories();
         }
     }
 }

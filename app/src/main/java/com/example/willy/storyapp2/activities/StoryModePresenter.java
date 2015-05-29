@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.willy.storyapp2.R;
 import com.example.willy.storyapp2.helpers.StorylistHandler;
@@ -27,10 +28,10 @@ public class StoryModePresenter implements View.OnClickListener, View.OnTouchLis
 
     //Final variables
     public static final int MAX_LENGTH_VISIBLE = 40;
-    public static final int MAX_NUM_POSTS_IN_STORY = 10;
     public static final int MIN_POST_LENGTH = 15;
 
     private boolean isCreatingNewStory;
+    private boolean isLastPoster;
 
     public StoryModePresenter(StoryModeView view) {
         this.view = view;
@@ -38,12 +39,18 @@ public class StoryModePresenter implements View.OnClickListener, View.OnTouchLis
     }
 
     private void startStoryMode() {
-        lh = new StorylistHandler(false, this);
+        lh = new StorylistHandler(this);
         new LoadStoryTask().execute();
     }
 
     private void continueStory() {
-        currentStory = lh.getRandomUnfinishedStory();
+        currentStory = lh.getRandomAvailableStory();
+        lh.loadPostsFromStoryInForeGround(currentStory.getObjectId());
+        // User is the last poster
+        if (lh.checkIfLastPoster()){
+            view.makeToast("You're the last poster, finish up the story!", Toast.LENGTH_LONG);
+            isLastPoster = true;
+        }
         displayStory();
 
     }
@@ -67,7 +74,9 @@ public class StoryModePresenter implements View.OnClickListener, View.OnTouchLis
         TextHelper th = new TextHelper();
 
         view.setStoryName(currentStory.getString("storyName"));
-        view.setStoryText(th.trimStory(currentStory.getString("story"), MAX_LENGTH_VISIBLE));
+        StringBuilder storyText = new StringBuilder();
+        storyText.append(currentStory.getString("story"));
+        view.setStoryText(th.trimStory(storyText, MAX_LENGTH_VISIBLE));
     }
 
     private void publish(String inputText, boolean isNewStory){
@@ -75,8 +84,8 @@ public class StoryModePresenter implements View.OnClickListener, View.OnTouchLis
         if (isCreatingNewStory){
             lh.addNewStory(view.getShownStoryName(), ParseUser.getCurrentUser().getUsername());
         }
-        lh.addNewPost(inputText, ParseUser.getCurrentUser().getUsername(), currentStory.getObjectId());
-        lh.updateStory(inputText, currentStory);
+        lh.addNewPost(inputText, ParseUser.getCurrentUser().getUsername(), currentStory.getObjectId(), isLastPoster);
+        lh.addPostToStory(inputText, currentStory);
 
     }
 
@@ -128,6 +137,7 @@ public class StoryModePresenter implements View.OnClickListener, View.OnTouchLis
         return false;
     }
 
+
     private void updateSendAvailability() {
 
         boolean isReady = view.getInputTextLength()>=MIN_POST_LENGTH;
@@ -164,7 +174,8 @@ public class StoryModePresenter implements View.OnClickListener, View.OnTouchLis
 
 
         protected Long doInBackground(URL... urls) {
-            lh.loadAllInForeground();
+            lh.loadStoriesInForeGround();
+            lh.filterAvailableStories();
             return null;
         }
 
@@ -175,14 +186,21 @@ public class StoryModePresenter implements View.OnClickListener, View.OnTouchLis
 
         protected void onPostExecute(Long result) {
 
-            if (lh.allStoriesCompleted()){
+
+            // User finds no available stories and thus creates a new one
+            if (lh.getAvailableStoryList().size() == 0) {
                 createNewStoryDialog();
                 isCreatingNewStory = true;
             }
+
             else{
+
+                // User continues a story
                 continueStory();
                 isCreatingNewStory = false;
+
             }
+
         }
 
     }

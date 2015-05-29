@@ -96,7 +96,7 @@ public class AuthenticateActivity extends Activity {
 
                                 startActivity(new Intent(
                                         AuthenticateActivity.this,
-                                        StoryModeActivity.class));
+                                        StoryModeView.class));
                             } else { //Sign up didn't succeed. Look at the ParseException to figure out what went wrong
                                 Toast.makeText(AuthenticateActivity.this,
                                         "Sign up failed! Try again.",
@@ -134,7 +134,7 @@ public class AuthenticateActivity extends Activity {
                                         // The log in was successful
                                         startActivity(new Intent(
                                                 AuthenticateActivity.this,
-                                                StoryModeActivity.class));
+                                                StoryModeView.class));
                                     } else {
                                         // Shows progressbar
                                         progressBar.setVisibility(View.VISIBLE);

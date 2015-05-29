@@ -15,6 +15,7 @@ public class TextHelper {
                 iterator++;
             }
             returnString = lastCharsOfStory.substring(iterator + 1, lastCharsOfStory.length());
+
         } else {
             returnString = lastCharsOfStory;
         }
@@ -22,16 +23,16 @@ public class TextHelper {
         return returnString;
     }
 
-    public String trimStory(String storyText, int max_length){
+    public String trimStory(StringBuilder storyText, int max_length){
 
-        String returnText = storyText.substring(0, Math.min(storyText.length(), max_length));
+        String lastCharsOfStory = storyText.substring(Math.max(0, storyText.length() - (max_length + 1)));
 
-        if (returnText.length() < max_length) {
-            return returnText;
+        if (lastCharsOfStory.length() < max_length) {
+            return lastCharsOfStory;
         }
 
         else {
-            return fixOnlyWords(returnText);
+            return fixOnlyWords(lastCharsOfStory);
         }
 
     }
