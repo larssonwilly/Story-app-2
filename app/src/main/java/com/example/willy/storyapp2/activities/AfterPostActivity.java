@@ -19,9 +19,6 @@ import com.parse.ParseUser;
  */
 public class AfterPostActivity extends Activity {
 
-    private Button createNewStoryButton;
-    private Button storyShowcaseButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,8 +29,8 @@ public class AfterPostActivity extends Activity {
 
 
         //Initialize buttons
-        createNewStoryButton = (Button) findViewById(R.id.createNewStoryButton_ID);
-        storyShowcaseButton = (Button) findViewById(R.id.storyShowcaseAP_ID);
+        Button createNewStoryButton = (Button) findViewById(R.id.createNewStoryButton_ID);
+        Button storyShowcaseButton = (Button) findViewById(R.id.storyShowcaseAP_ID);
 
 
         createNewStoryButton.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +61,7 @@ public class AfterPostActivity extends Activity {
      */
     private void createNewStory() {
 
-        Intent intent = new Intent(this, StoryModeView.class);
+        Intent intent = new Intent(this, StoryModeViewActivity.class);
         startActivity(intent);
 
     }
@@ -78,7 +75,6 @@ public class AfterPostActivity extends Activity {
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -89,13 +85,13 @@ public class AfterPostActivity extends Activity {
                 return true;
 
             case R.id.create_story:
-                Intent intentStory = new Intent(this, StoryModeView.class);
+                Intent intentStory = new Intent(this, StoryModeViewActivity.class);
                 startActivity(intentStory);
                 return true;
 
             case R.id.logoutButton:
             /*
-			 * Log current user out using ParseUser.logOut()
+             * Log current user out using ParseUser.logOut()
 			 */
                 ParseUser.logOut();
                 Intent intent = new Intent(this, MainActivity.class);

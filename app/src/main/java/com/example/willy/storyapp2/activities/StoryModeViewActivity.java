@@ -4,14 +4,13 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +19,7 @@ import com.example.willy.storyapp2.utils.ColorPalette;
 import com.parse.ParseUser;
 
 
-public class StoryModeView extends Activity {
+public class StoryModeViewActivity extends Activity {
 
 
     private EditText editStoryField;
@@ -30,6 +29,7 @@ public class StoryModeView extends Activity {
     private TextView endOfStoryView;
 
     private TextView minLengthHintText;
+    private ProgressBar progressBar;
 
     private Button sendButton;
     private Dialog d;
@@ -40,10 +40,6 @@ public class StoryModeView extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_mode);
 
-
-        //Referencing the presenter
-        presenter = new StoryModePresenter(this);
-
         //Initializing elements
         endOfStoryView = (TextView) findViewById(R.id.theStory);
         minLengthHintText = (TextView) findViewById(R.id.textMinLength_ID);
@@ -51,7 +47,10 @@ public class StoryModeView extends Activity {
         editStoryField = (EditText) findViewById(R.id.storyEditText);
         sendButton = (Button) findViewById(R.id.sendStoryButton);
         sendButton.setEnabled(false);
+        progressBar = (ProgressBar) findViewById(R.id.sendProgressBar);
 
+        //Referencing presenter
+        presenter = new StoryModePresenter(this);
 
         //Setting listeners
         sendButton.setOnClickListener(presenter);
@@ -64,9 +63,12 @@ public class StoryModeView extends Activity {
             actionBar.setTitle(ParseUser.getCurrentUser().getUsername());
         }
 
+        //Referencing the presenter
+
+
     }
 
-    public void createNewStoryDialog(){
+    public void createNewStoryDialog() {
 
         d = new Dialog(this);
 
@@ -97,52 +99,52 @@ public class StoryModeView extends Activity {
         d.show();
     }
 
-    public String getDialogStoryName(){
+    public String getDialogStoryName() {
         return editStoryName.getText().toString();
 
     }
 
-    public String getShownStoryName(){
+    public String getShownStoryName() {
         return storyNameView.getText().toString();
     }
 
-    public void dismissDialog(){
+    public void dismissDialog() {
         d.dismiss();
     }
 
-    public void setStoryName(String storyName){
+    public void setStoryName(String storyName) {
         storyNameView.setText(storyName);
     }
 
-    public void setSendButtonVisibility(int visibility){
+    public void setSendButtonVisibility(int visibility) {
         sendButton.setVisibility(visibility);
     }
 
-    public String getInputText(){
+    public String getInputText() {
         return editStoryField.getText().toString();
     }
 
-    public void setStoryText(String storyText){
+    public void setStoryText(String storyText) {
         endOfStoryView.setText(storyText);
     }
 
-    public void setMinLengthHintText(String hintText){
+    public void setMinLengthHintText(String hintText) {
         minLengthHintText.setText(hintText);
     }
 
-    public void makeToast(String toastText, int length){
+    public void makeToast(String toastText, int length) {
         Toast.makeText(this, toastText, length).show();
     }
 
-    public void setEditHintTextColor(int color){
+    public void setEditHintTextColor(int color) {
         editStoryField.setHintTextColor(color);
     }
 
-    public void setSendButtonEnabled(boolean isEnabled){
+    public void setSendButtonEnabled(boolean isEnabled) {
         sendButton.setEnabled(isEnabled);
     }
 
-    public int getInputTextLength(){
+    public int getInputTextLength() {
         return editStoryField.getText().length();
     }
 
@@ -151,6 +153,11 @@ public class StoryModeView extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_activity_actions, menu);
         return true;
+    }
+
+    public void setProgressBarVisible(int visibility) {
+        progressBar.setVisibility(visibility);
+
     }
 
     @Override
@@ -163,13 +170,13 @@ public class StoryModeView extends Activity {
                 return true;
 
             case R.id.create_story:
-                Intent intentStory = new Intent(this, StoryModeView.class);
+                Intent intentStory = new Intent(this, StoryModeViewActivity.class);
                 startActivity(intentStory);
                 return true;
 
             case R.id.logoutButton:
             /*
-			 * Log current user out using ParseUser.logOut()
+             * Log current user out using ParseUser.logOut()
 			 */
                 ParseUser.logOut();
                 Intent intent = new Intent(this, MainActivity.class);
@@ -181,7 +188,6 @@ public class StoryModeView extends Activity {
 
         }
     }
-
 
 
 }

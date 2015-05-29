@@ -16,28 +16,47 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by Quaxi on 15-05-29.
+ * Handles necessary lists and useful list methods.
+ * Connected to the database via a reference to DatabaseConnection.
+ * Formats the data for easy use and access by the presenter.
  */
 public class StorylistHandler {
 
+    //Lists
     private List<ParseObject> storyList;
     private List<ParseObject> availableStoryList;
+    private List<ParseObject> finishedStoryList;
     private List<ParseObject> postList;
+
+    //References
     private DatabaseConnection dbconn;
     private StoryModePresenter presenter;
 
     public static final int MAX_NUM_POSTS_IN_STORY = 10;
 
+    /**
+     * Constructor without a presenter, initializes the database
+     */
+    public StorylistHandler(){
+        dbconn = new DatabaseConnection();
+    }
 
+    /**
+     * Constructor with a presenter
+     * @param presenter the connected presenter
+     */
     public StorylistHandler(StoryModePresenter presenter) {
         this.presenter = presenter;
         dbconn = new DatabaseConnection();
     }
 
-    public void putPost(String key, Object value){
-        dbconn.putPost(key, value);
-    }
-
+    /**
+     * Adds a new post
+     * @param post the content of the post
+     * @param author the username of the author
+     * @param story which story the post is related to
+     * @param isLastPoster wheter the user is the last poster until the story is finished
+     */
     public void addNewPost(String post, String author, String story, boolean isLastPoster) {
 
         dbconn.createNewPost();
@@ -52,6 +71,11 @@ public class StorylistHandler {
 
     }
 
+    /**
+     * Adds a new story
+     * @param storyName the name of the story
+     * @param user the user that creates the story
+     */
     public void addNewStory(String storyName, String user) {
 
         dbconn.createNewStory();
@@ -66,6 +90,9 @@ public class StorylistHandler {
 
     }
 
+    /**
+     * @return a random available story
+     */
     public ParseObject getRandomAvailableStory() {
 
         ParseObject currentStory;
@@ -74,8 +101,7 @@ public class StorylistHandler {
         if (availableStoryList.size() > 1) {
             int thisRng = rng.nextInt(availableStoryList.size() - 1);
             currentStory = availableStoryList.get(thisRng);
-        }
-        else{
+        } else {
             currentStory = availableStoryList.get(0);
         }
 
@@ -83,32 +109,48 @@ public class StorylistHandler {
 
     }
 
-
-    public List<ParseObject> getStoryList() {
-        return storyList;
+    public List<ParseObject> getFinishedStories() {
+        return finishedStoryList;
     }
 
-    public List<ParseObject> getAvailableStoryList() {
-        return availableStoryList;
-    }
 
+    /**
+     * @return a list of the posts stored in the current postList
+     */
     public List<ParseObject> getPostList() {
         return postList;
     }
 
-    public void filterAvailableStories(){
+    /**
+     * Filters stories into available stories
+     *
+     * @return if the method found any available stories
+     */
+    public boolean filterAvailableStories() {
 
         availableStoryList = new ArrayList<>();
+        boolean hasAvailable = false;
 
         for (ParseObject story : storyList) {
-            if (!story.getBoolean("isCompleted") && !story.getString("lastUser").equals(ParseUser.getCurrentUser().getUsername())){
-                availableStoryList.add(story);
-                System.out.println();
+            if (!story.getBoolean("isCompleted")) {
+                if (!story.getString("lastUser").equals(ParseUser.getCurrentUser().getUsername())){
+                    availableStoryList.add(story);
+                    hasAvailable = true;
+                }
+                else {
+                    hasAvailable = false;
+                }
             }
         }
+
+        return hasAvailable;
     }
 
-    public void setCurrentStoryComplete(String currentStoryID){
+    /**
+     * Sets the current story as complete
+     * @param currentStoryID the ObjectID of the story to set as complete
+     */
+    public void setCurrentStoryComplete(String currentStoryID) {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
 
@@ -125,7 +167,13 @@ public class StorylistHandler {
 
     }
 
-    private void updateNumbering(final String story, final ParseObject post, final boolean isLastPoster){
+    /**
+     * Updates the numbering of a post
+     * @param story the related story for the post
+     * @param post the post as a ParseObject
+     * @param isLastPoster if the user is the last poster before story finishes
+     */
+    private void updateNumbering(final String story, final ParseObject post, final boolean isLastPoster) {
 
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("Writes");
 
@@ -189,43 +237,60 @@ public class StorylistHandler {
 
     }
 
+    /**
+     * Sets the current storylist
+     * @param storyList a list of stories as ParseObjects
+     */
     public void setStoryList(List<ParseObject> storyList) {
         this.storyList = storyList;
     }
 
-
+    /**
+     * Sets the current postList
+     * @param postList a list of posts as ParseObjects
+     */
     public void setPostList(List<ParseObject> postList) {
         this.postList = postList;
     }
-
-    private void loadAllInBackground(){
-        new DownloadFilesTask().execute();
-    }
     
-    public void loadAllInForeground(){
+    /**
+     * Sets the finished story
+     * @param finishedStoryList list of finished stories
+     */
+    public void setFinishedStoryList(List<ParseObject> finishedStoryList) {
+        this.finishedStoryList = finishedStoryList;
+    }
+
+    /**
+     * Loads posts from a specific author
+     * @param author the authors username
+     */
+    public void loadPostsFromAuthor(String author) {
         try {
-            setStoryList(dbconn.getStories());
-            System.out.println();
+            setPostList(dbconn.getPostsFromAuthor(author));
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+
+    /**
+     * Loads all finished stories into storyList
+     */
+    public void loadFinishedStories() {
         try {
-            setPostList(dbconn.getPosts());
+            setFinishedStoryList(dbconn.getFinishedStories());
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
     }
 
-    public void loadPostsInForeground(){
-        try {
-            setPostList(dbconn.getPosts());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void loadPostsFromStoryInForeGround(String story){
+    /**
+     * Loads all posts from a specific story
+     * @param story ObjectID string of the story
+     */
+    public void loadPostsFromStory(String story) {
         try {
             setPostList(dbconn.getPostsFromStory(story));
         } catch (ParseException e) {
@@ -233,22 +298,18 @@ public class StorylistHandler {
         }
     }
 
-    public boolean allStoriesCompleted(){
-        for (ParseObject parseObject : storyList) {
-            if (parseObject.getBoolean("isCompleted") == false){
-                return false;
-            }
-        }
-        return true;
+    /**
+     * Checks if the user was the last poster
+     * @return true if the user was the last poster
+     */
+    public boolean checkIfLastPoster() {
+        return postList.size() >= MAX_NUM_POSTS_IN_STORY - 1;
     }
 
-
-
-    public boolean checkIfLastPoster(){
-        return postList.size() >= MAX_NUM_POSTS_IN_STORY-1;
-    }
-
-    public void loadStoriesInForeGround() {
+    /**
+     * Loads all stories into storyList
+     */
+    public void loadStories() {
         try {
             setStoryList(dbconn.getStories());
         } catch (ParseException e) {
@@ -256,33 +317,8 @@ public class StorylistHandler {
         }
     }
 
-
-    private class DownloadFilesTask extends AsyncTask<URL, Integer, Long> {
-
-        @Override
-        protected Long doInBackground(URL... params) {
-            try {
-                setStoryList(dbconn.getStories());
-                System.out.println();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            try {
-                setPostList(dbconn.getPosts());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Long aLong) {
-            checkIfLastPoster();
-            filterAvailableStories();
-        }
-    }
 }
+
 
 
 

@@ -28,7 +28,6 @@ public class EasterEggActivity extends Activity {
     MediaPlayer mediaPlayer;
     private Button randomButton;
     private ImageView img;
-    private EasterEggActivity view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class EasterEggActivity extends Activity {
         setContentView(R.layout.activity_easter_egg);
 
 
-        img =  (ImageView) findViewById(R.id.image2);
+        img = (ImageView) findViewById(R.id.image2);
         rA = new RotateAnimation(0, 11520, Animation.RELATIVE_TO_SELF,
                 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rA.setDuration(20000);
@@ -47,7 +46,6 @@ public class EasterEggActivity extends Activity {
         // no need to call prepare(); create() does that for you
 
         spin();
-
 
 
     }
@@ -67,6 +65,7 @@ public class EasterEggActivity extends Activity {
         drawable.addFrame(new ColorDrawable(Color.GREEN), 428);
         drawable.setOneShot(false);
 
+        //noinspection deprecation
         layout.setBackgroundDrawable(drawable);
         handler.postDelayed(new Runnable() {
             @Override
@@ -76,13 +75,12 @@ public class EasterEggActivity extends Activity {
         }, 100);
 
 
-
     }
 
     /**
      * Method that starts the spinning animation and the music
      */
-    private void spin(){
+    private void spin() {
 
         img.startAnimation(rA);
         mediaPlayer.start();

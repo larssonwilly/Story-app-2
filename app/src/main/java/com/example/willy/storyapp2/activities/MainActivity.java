@@ -14,9 +14,9 @@ import com.parse.ParseUser;
  * The MainActivity is the start screen of the app that shows 3 buttons: log in, sign up, and
  * start storyshowcase and also a picture
  *
- * @author  Willy Larsson
+ * @author Willy Larsson
  * @version 1.0?
- * @since   2015-03-15
+ * @since 2015-03-15
  */
 public class MainActivity extends Activity {
 
@@ -46,11 +46,10 @@ public class MainActivity extends Activity {
 
         //if the user is already signed in, go directly to StoryModeActivity
         if (ParseUser.getCurrentUser() != null) {
-            Intent intent = new Intent(this, StoryModeView.class);
+            Intent intent = new Intent(this, StoryModeViewActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-        }
-        else { //if the user is not logged in stay in the MainActivity
+        } else { //if the user is not logged in stay in the MainActivity
             loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 /**
@@ -79,7 +78,6 @@ public class MainActivity extends Activity {
         }
 
     }
-
 
 
 }
