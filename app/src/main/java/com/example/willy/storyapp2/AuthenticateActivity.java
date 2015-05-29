@@ -16,12 +16,7 @@ import com.parse.SignUpCallback;
 import com.parse.ParseException;
 
 /**
- * The MainActivity is the start screen of the app that shows 3 buttons: log in, sign up, and
- * start storyshowcase and also a picture
- *
- * @author  Willy Larsson
- * @version 1.0?
- * @since   2015-03-15
+ * Activity that allows the user to either sign in or sign up
  */
 public class AuthenticateActivity extends Activity {
 

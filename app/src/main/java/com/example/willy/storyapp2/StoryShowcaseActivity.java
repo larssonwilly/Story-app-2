@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -16,58 +17,70 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles all actions related to the Story Showcase mode.
+ *
+ */
 public class StoryShowcaseActivity extends Activity {
 
     private List<ParseObject> storyList = new ArrayList<ParseObject>();
+    ParseUser currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_showcase);
 
+
+        //Sets the user name as the action bar text
         ActionBar actionBar = getActionBar();
         actionBar.setTitle(ParseUser.getCurrentUser().getUsername());
 
-
+        //Loads all the necessary data
         loadAllStories();
 
-        ListView storyListView = (ListView) findViewById(R.id.storyListView);
-        ListAdapter storyAdapter = new StoryShowcaseAdapter(this, storyList);
-        storyListView.setAdapter(storyAdapter);
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery("Writes");
+        currentUser = ParseUser.getCurrentUser();
 
-      /*  listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        if (currentUser != null){
 
-            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
+            //queries all the users stories so we can check them later against existing stories.
+            query.whereEqualTo("author", ParseUser.getCurrentUser().getUsername());
+            query.findInBackground(new FindCallback<ParseObject>() {
+                public void done(List<ParseObject> retrievedList, com.parse.ParseException e) {
 
-                //Removes item. Used for testing purposes.
-                final String item = (String) parent.getItemAtPosition(position);
-                view.animate().setDuration(500).alpha(0)
-                        .withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                list.remove(item);
-                                adapter.notifyDataSetChanged();
-                                view.setAlpha(1);
+                    if (e == null) {
+                        System.out.println();
+                        ListView storyListView = (ListView) findViewById(R.id.storyListView);
+                        ListAdapter storyAdapter = new StoryShowcaseAdapter(StoryShowcaseActivity.this, storyList, retrievedList);
+                        storyListView.setAdapter(storyAdapter);
 
 
-                            }
-                        });
-            }
+                    } else {
+                        e.printStackTrace();
 
-        });*/
+                    }
+                }
+            });
+        }
+
+
+
+
     }
 
-    public void loadAllStories() {
+    /**
+     * Loads all completed stories into storyList
+     */
+    private void loadAllStories() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
         try {
+            query.whereEqualTo("isCompleted", true);
             storyList = query.find();
         } catch (com.parse.ParseException e) {
             e.printStackTrace();
-        } //TODO AsyncTask this. This code is ineffective and may slow down application.
-
+        }
     }
 
     @Override

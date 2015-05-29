@@ -12,6 +12,11 @@ import android.widget.Button;
 
 import com.parse.ParseUser;
 
+
+/**
+ * Displays two buttons, allowing the user to choose between continuing storytelling, or
+ * viewing the finished stories.
+ */
 public class AfterPostActivity extends Activity {
 
     private Button createNewStoryButton;
@@ -45,12 +50,18 @@ public class AfterPostActivity extends Activity {
 
     }
 
+    /**
+     * Starts the StoryShowcaseActivity
+     */
     private void startNewStoryshowcase() {
 
         Intent intent = new Intent(this, StoryShowcaseActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Starts a new story
+     */
     private void createNewStory() {
 
         Intent intent = new Intent(this, StoryModeActivity.class);

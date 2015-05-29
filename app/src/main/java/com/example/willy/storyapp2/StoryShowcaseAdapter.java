@@ -21,68 +21,57 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.ColorPalette;
 
 
-
-class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
+/**
+ * Adapter used by StoryShowCase activity.
+ * Lists Stories along with the story name.
+ */
+public class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
 
     TextView storyIdTextView;
     TextView storyContentTextView;
-    List<ParseObject> storyList;
+    List<ParseObject> postList;
     ParseUser currentUser;
 
-
-
-
-    public StoryShowcaseAdapter(Context context, List storyObjects) {
+    /**
+     * Constructor that takes a context and a list for Stories and Posts.
+     *
+     * @param context Current application context.
+     * @param storyObjects List of stories as objects
+     * @param postObjects List of posts as objects. Used to check which stories user has contributed to
+     */
+    public StoryShowcaseAdapter(Context context, List storyObjects, List postObjects) {
 
         super(context, R.layout.story_showcase_list_layout, storyObjects);
-        final ParseQuery<ParseObject> query = ParseQuery.getQuery("Writes");
 
+        this.postList = postObjects;
         currentUser = ParseUser.getCurrentUser();
-
-        if (currentUser != null){
-
-            //queries all the users stories so we can check them later against existing stories.
-            query.whereEqualTo("author", ParseUser.getCurrentUser().getUsername());
-            query.findInBackground(new FindCallback<ParseObject>() {
-                public void done(List<ParseObject> retrievedList, com.parse.ParseException e) {
-
-                    if (e == null) {
-                        storyList = retrievedList;
-                    } else {
-                        e.printStackTrace();
-
-                    }
-                }
-            });
-
-        }
-
-
 
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent){
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View customView = inflater.inflate(R.layout.story_showcase_list_layout, parent, false);
-
-
         final ParseObject parseObject = getItem(position);
 
+        // Initializing variables
         storyIdTextView = (TextView) customView.findViewById(R.id.storyIdTextView);
         storyContentTextView = (TextView) customView.findViewById(R.id.storyContentTextView);
 
+        // Setting text for the story name and story content
         storyIdTextView.setText(parseObject.getString("storyName"));
         storyContentTextView.setText(parseObject.getString("story"));
 
-        // If the current user is logged in - invert the text of all the stories the user has contributed to
+        // If the current user is logged in - use invertText() for all the stories the user has contributed to
         if (currentUser != null){
-            if (storyList != null) {
-                for (ParseObject object : storyList) {
+            if (postList != null) {
+                for (ParseObject object : postList) {
                     if (object.getString("inStory").equals(parseObject.getObjectId())) {
                         invertText();
+                        System.out.println();
                     }
                 }
             }
@@ -93,8 +82,11 @@ class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
 
     }
 
-    public void invertText() {
-        storyContentTextView.setBackgroundColor(Color.argb(255, 18, 149, 209));
+    /**
+     * Changes the background and text color
+     */
+    private void invertText() {
+        storyContentTextView.setBackgroundColor(ColorPalette.getBlue());
         storyContentTextView.setTextColor(Color.WHITE);
 
     }
