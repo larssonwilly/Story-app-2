@@ -23,5 +23,6 @@
         android:layout_alignTop="@+id/storyListView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="90dp"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:indeterminate="true" />
 </RelativeLayout>
