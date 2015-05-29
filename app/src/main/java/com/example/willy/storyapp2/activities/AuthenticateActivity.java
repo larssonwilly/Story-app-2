@@ -11,9 +11,9 @@ import android.widget.Toast;
 
 import com.example.willy.storyapp2.R;
 import com.parse.LogInCallback;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
-import com.parse.ParseException;
 
 /**
  * Activity that allows the user to either sign in or sign up
@@ -91,12 +91,12 @@ public class AuthenticateActivity extends Activity {
                             if (e == null) { //Sign up succeeded
 
                                 Toast.makeText(AuthenticateActivity.this, "Welcome, " +
-                                        ParseUser.getCurrentUser().getUsername(),
+                                                ParseUser.getCurrentUser().getUsername(),
                                         Toast.LENGTH_SHORT).show();
 
                                 startActivity(new Intent(
                                         AuthenticateActivity.this,
-                                        StoryModeView.class));
+                                        StoryModeViewActivity.class));
                             } else { //Sign up didn't succeed. Look at the ParseException to figure out what went wrong
                                 Toast.makeText(AuthenticateActivity.this,
                                         "Sign up failed! Try again.",
@@ -111,7 +111,7 @@ public class AuthenticateActivity extends Activity {
                 } else { // If the value of action is "log in" the user should instead log in
 
 					/*
-					 * A LogInCallback is used to run code after logging in a user.
+                     * A LogInCallback is used to run code after logging in a user.
 					 * <p>
 					 *     The easiest way to use a LogInCallback is through an anonymous inner class. Override the done
 					 *     function to specify what the callback should do after the login is complete. The done function
@@ -134,7 +134,7 @@ public class AuthenticateActivity extends Activity {
                                         // The log in was successful
                                         startActivity(new Intent(
                                                 AuthenticateActivity.this,
-                                                StoryModeView.class));
+                                                StoryModeViewActivity.class));
                                     } else {
                                         // Shows progressbar
                                         progressBar.setVisibility(View.VISIBLE);

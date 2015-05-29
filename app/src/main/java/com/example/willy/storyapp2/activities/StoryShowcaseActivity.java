@@ -3,30 +3,33 @@ package com.example.willy.storyapp2.activities;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.example.willy.storyapp2.R;
 import com.example.willy.storyapp2.helpers.StoryShowcaseAdapter;
-import com.parse.FindCallback;
+import com.example.willy.storyapp2.helpers.StorylistHandler;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.net.URL;
 
 /**
  * Handles all actions related to the Story Showcase mode.
- *
  */
 public class StoryShowcaseActivity extends Activity {
 
-    private List<ParseObject> storyList = new ArrayList<ParseObject>();
+
     ParseUser currentUser;
+    StorylistHandler lh;
+    ProgressBar progressBar;
 
 
     @Override
@@ -34,56 +37,25 @@ public class StoryShowcaseActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_showcase);
 
+        lh = new StorylistHandler();
 
         //Sets the user name as the action bar text
         ActionBar actionBar = getActionBar();
         actionBar.setTitle(ParseUser.getCurrentUser().getUsername());
+        progressBar = (ProgressBar) findViewById(R.id.showCaseProgress);
 
         //Loads all the necessary data
-        loadAllStories();
-
-        final ParseQuery<ParseObject> query = ParseQuery.getQuery("Writes");
-        currentUser = ParseUser.getCurrentUser();
-
-        if (currentUser != null){
-
-            //queries all the users stories so we can check them later against existing stories.
-            query.whereEqualTo("author", ParseUser.getCurrentUser().getUsername());
-            query.findInBackground(new FindCallback<ParseObject>() {
-                public void done(List<ParseObject> retrievedList, com.parse.ParseException e) {
-
-                    if (e == null) {
-                        System.out.println();
-                        ListView storyListView = (ListView) findViewById(R.id.storyListView);
-                        ListAdapter storyAdapter = new StoryShowcaseAdapter(StoryShowcaseActivity.this, storyList, retrievedList);
-                        storyListView.setAdapter(storyAdapter);
-
-
-                    } else {
-                        e.printStackTrace();
-
-                    }
-                }
-            });
-        }
-
+        new LoadStoriesTask().execute();
 
 
 
     }
 
-    /**
-     * Loads all completed stories into storyList
-     */
-    private void loadAllStories() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Story");
-        try {
-            query.whereEqualTo("isCompleted", true);
-            storyList = query.find();
-        } catch (com.parse.ParseException e) {
-            e.printStackTrace();
-        }
+    private void loadData(){
+        lh.loadFinishedStories();
+        lh.loadPostsFromAuthor(ParseUser.getCurrentUser().getUsername());
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -102,13 +74,13 @@ public class StoryShowcaseActivity extends Activity {
                 return true;
 
             case R.id.create_story:
-                Intent intentStory = new Intent(this, StoryModeView.class);
+                Intent intentStory = new Intent(this, StoryModeViewActivity.class);
                 startActivity(intentStory);
                 return true;
 
             case R.id.logoutButton:
             /*
-			 * Log current user out using ParseUser.logOut()
+             * Log current user out using ParseUser.logOut()
 			 */
                 ParseUser.logOut();
                 Intent intent = new Intent(this, MainActivity.class);
@@ -120,5 +92,37 @@ public class StoryShowcaseActivity extends Activity {
 
         }
     }
+
+    private class LoadStoriesTask extends AsyncTask<URL, Integer, Long> {
+
+        protected Long doInBackground(URL... urls) {
+            loadData();
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+
+        }
+
+        protected void onPostExecute(Long result) {
+
+            //Creates adapter
+            ListAdapter storyAdapter = new StoryShowcaseAdapter(StoryShowcaseActivity.this, lh.getFinishedStories(), lh.getPostList());
+            ListView storyListView = (ListView) findViewById(R.id.storyListView);
+            storyListView.setAdapter(storyAdapter);
+
+            //Sets the progress bar to invisible
+            progressBar.setVisibility(View.INVISIBLE);
+
+
+
+        }
+
+    }
+
+
+
 }
 

@@ -14,4 +14,14 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:dividerHeight="10dp" />
+
+    <ProgressBar
+        style="@style/Animation.AppCompat.DropDownUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/showCaseProgress"
+        android:layout_alignTop="@+id/storyListView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="90dp"
+        android:visibility="visible" />
 </RelativeLayout>

@@ -65,5 +65,14 @@
         android:textSize="10dp"
         android:layout_margin="3dp" />
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sendProgressBar"
+        android:layout_below="@+id/theStory"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible"
+        style="@style/Base.TextAppearance.AppCompat.Large" />
+
 
 </RelativeLayout>

@@ -9,12 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.willy.storyapp2.R;
+import com.example.willy.storyapp2.utils.ColorPalette;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.List;
-
-import com.example.willy.storyapp2.utils.ColorPalette;
 
 
 /**
@@ -31,9 +30,9 @@ public class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
     /**
      * Constructor that takes a context and a list for Stories and Posts.
      *
-     * @param context Current application context.
+     * @param context      Current application context.
      * @param storyObjects List of stories as objects
-     * @param postObjects List of posts as objects. Used to check which stories user has contributed to
+     * @param postObjects  List of posts as objects. Used to check which stories user has contributed to
      */
     public StoryShowcaseAdapter(Context context, List storyObjects, List postObjects) {
 
@@ -45,7 +44,7 @@ public class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View customView = inflater.inflate(R.layout.story_showcase_list_layout, parent, false);
         final ParseObject parseObject = getItem(position);
@@ -59,7 +58,7 @@ public class StoryShowcaseAdapter extends ArrayAdapter<ParseObject> {
         storyContentTextView.setText(parseObject.getString("story"));
 
         // If the current user is logged in - use invertText() for all the stories the user has contributed to
-        if (currentUser != null){
+        if (currentUser != null) {
             if (postList != null) {
                 for (ParseObject object : postList) {
                     if (object.getString("inStory").equals(parseObject.getObjectId())) {
