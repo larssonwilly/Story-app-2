@@ -21,7 +21,7 @@
 
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,23 +31,27 @@
         </activity>
 
         <activity
-            android:name=".EasterEggActivity"
+            android:name=".activities.EasterEggActivity"
             android:label="Fest i Hammarö!" />
 
         <activity
-            android:name=".StoryModeActivity"
+            android:name=".activities.StoryModeActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".AuthenticateActivity"
+            android:name=".activities.AuthenticateActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".StoryShowcaseActivity"
+            android:name=".activities.StoryShowcaseActivity"
             android:label="@string/title_activity_story_showcase" >
         </activity>
         <activity
-            android:name=".AfterPostActivity"
+            android:name=".activities.AfterPostActivity"
             android:label="@string/title_activity_after_post" >
+        </activity>
+
+        <activity android:name=".activities.StoryModeView"
+            android:label="StoryMode" >
         </activity>
 
     </application>

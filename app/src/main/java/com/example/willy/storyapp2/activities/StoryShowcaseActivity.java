@@ -1,4 +1,4 @@
-package com.example.willy.storyapp2;
+package com.example.willy.storyapp2.activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.example.willy.storyapp2.R;
+import com.example.willy.storyapp2.helpers.StoryShowcaseAdapter;
 import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
