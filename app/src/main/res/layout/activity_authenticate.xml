@@ -28,7 +28,7 @@
         android:layout_below="@+id/userEdit"
         android:layout_centerHorizontal="true"
         android:hint="Password"
-        android:textColor="@color/abc_background_cache_hint_selector_material_light" />
+        android:textColor="@color/abc_primary_text_material_light" />
 
     <Button
         android:layout_width="match_parent"
