@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.willy.storyapp2.R;
-import com.example.willy.storyapp2.activities.StoryModeActivity;
-import com.example.willy.storyapp2.activities.StoryShowcaseActivity;
 import com.parse.ParseUser;
 
 
@@ -66,7 +64,7 @@ public class AfterPostActivity extends Activity {
      */
     private void createNewStory() {
 
-        Intent intent = new Intent(this, StoryModeActivity.class);
+        Intent intent = new Intent(this, StoryModeView.class);
         startActivity(intent);
 
     }

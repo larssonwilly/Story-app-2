@@ -297,8 +297,6 @@ public class StoryModeActivity extends Activity {
     private void setStoryContentView(StringBuilder theStory) {
         String lastCharsOfStory = theStory.substring(Math.max(0, storyText.length() - (MAX_LENGTH_VISIBLE + 1)));
 
-
-
         if (storyText.length() < MAX_LENGTH_VISIBLE) {
             endOfStoryView.setText(lastCharsOfStory);
         }

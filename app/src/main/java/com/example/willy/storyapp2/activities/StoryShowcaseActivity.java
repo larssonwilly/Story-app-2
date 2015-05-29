@@ -102,7 +102,7 @@ public class StoryShowcaseActivity extends Activity {
                 return true;
 
             case R.id.create_story:
-                Intent intentStory = new Intent(this, StoryModeActivity.class);
+                Intent intentStory = new Intent(this, StoryModeView.class);
                 startActivity(intentStory);
                 return true;
 
